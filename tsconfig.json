@@ -8,5 +8,8 @@
     "outDir": "./dist/",                              
     "esModuleInterop": true,                  
     "strict": true,                                      
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+  ],
 }

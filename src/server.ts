@@ -6,7 +6,6 @@ import { errorHandler } from './libraries/error-handling';
 import { corsMiddleware, customHeadersMiddleware} from './middlewares/cors-middleware';
 import { requestLogger } from './middlewares/request-logger';
 
-
 let connection: Server;
 
 const createExpressApp = (): Application => {

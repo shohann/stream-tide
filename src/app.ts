@@ -1,17 +1,22 @@
-import express, { Application, NextFunction, Request, Response } from 'express';
-import userRouter from './route/user.route';
+import express, { Application, Request, Response } from 'express';
+import domainRoutes from './domains';
 
-const app: Application = express();
-const port = 8000;
+function defineRoutes(expressApp: Application) {
+  console.log('Defining routes...');
+  const router = express.Router();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
-app.use('/users', userRouter);
+  domainRoutes(router);
 
-app.get('/health', async (req: Request, res: Response, next: NextFunction) => {
+  expressApp.use('/api/v1', router);
+  // Health check
+  expressApp.get('/health', (req: Request, res: Response) => {
     res.status(200).send('OK');
-});
+  });
+  // 404
+  expressApp.use((req, res) => {
+    res.status(404).send('Not Found');
+  })
+  console.log('Routes defined');
+};
 
-app.listen(port, () => {
-    console.log(`Server started on port: ${port}`);
-});
+export default defineRoutes;

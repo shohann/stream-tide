@@ -1,10 +1,10 @@
 import { pgTable, serial } from "drizzle-orm/pg-core";
 
-const product = pgTable(
-  "product",
+const {{tableNameCamel}} = pgTable(
+  "{{tableNameSnake}}",
   {
     id: serial("id").primaryKey(),
   }
 );
 
-export default product;
+export default {{tableNameCamel}};

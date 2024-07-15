@@ -1,10 +1,9 @@
-import { pgTable, serial } from "drizzle-orm/pg-core";
+import { pgTable, serial, varchar } from "drizzle-orm/pg-core";
 
-const product = pgTable(
-  "product",
-  {
-    id: serial("id").primaryKey(),
-  }
-);
+const user = pgTable("user", {
+  id: serial("id").primaryKey(),
+  firstName: varchar("first_name", { length: 255 }).notNull(),
+  lastName: varchar("last_name", { length: 255 }).notNull(),
+});
 
-export default product;
+export default user;

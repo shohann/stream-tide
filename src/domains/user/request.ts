@@ -1,9 +1,7 @@
-import { z } from 'zod';
+import { z } from "zod";
 
-const schema = z.object({
+const schema = z.object({});
 
-});
-
-export type requestSchema = z.infer<typeof schema>;
+export type createUserDTO = z.infer<typeof schema>;
 
 export default schema;

@@ -1,10 +1,13 @@
-import express, { Application, Request, Response, NextFunction } from 'express';
-import config from './configs';
-import { Server } from 'http';
-import defineRoutes from './app';
-import { errorHandler } from './libraries/error-handling';
-import { corsMiddleware, customHeadersMiddleware} from './middlewares/cors-middleware';
-import { requestLogger } from './middlewares/request-logger';
+import express, { Application, Request, Response, NextFunction } from "express";
+import config from "./configs";
+import { Server } from "http";
+import defineRoutes from "./app";
+import { errorHandler } from "./libraries/error-handling";
+import {
+  corsMiddleware,
+  customHeadersMiddleware,
+} from "./middlewares/cors-middleware";
+import { requestLogger } from "./middlewares/request-logger";
 
 let connection: Server;
 
@@ -25,10 +28,10 @@ const createExpressApp = (): Application => {
 };
 
 async function startWebServer(): Promise<Application> {
-  console.log("Starting web server...")
+  console.log("Starting web server...");
   const expressApp = createExpressApp();
   const APIAddress = await openConnection(expressApp);
-  console.log(`Server is running on ${APIAddress.address}:${APIAddress.port}`)
+  console.log(`Server is running on ${APIAddress.address}:${APIAddress.port}`);
 
   return expressApp;
 }
@@ -43,7 +46,9 @@ async function stopWebServer(): Promise<void> {
   });
 }
 
-async function openConnection(expressApp: Application): Promise<{ address: string; port: number }> {
+async function openConnection(
+  expressApp: Application,
+): Promise<{ address: string; port: number }> {
   return new Promise((resolve) => {
     const webServerPort = config.PORT;
     console.log(`Server is about to listen to port ${webServerPort}`);
@@ -56,17 +61,19 @@ async function openConnection(expressApp: Application): Promise<{ address: strin
 }
 
 function defineErrorHandlingMiddleware(expressApp: Application): void {
-  expressApp.use(async (error: any, req: Request, res: Response, next: NextFunction) => {
-    // Note: next is required for Express error handlers
-    if (error && typeof error === "object") {
-      if (error.isTrusted === undefined || error.isTrusted === null) {
-        error.isTrusted = true;
+  expressApp.use(
+    async (error: any, req: Request, res: Response, next: NextFunction) => {
+      // Note: next is required for Express error handlers
+      if (error && typeof error === "object") {
+        if (error.isTrusted === undefined || error.isTrusted === null) {
+          error.isTrusted = true;
+        }
       }
-    }
 
-    await errorHandler.handleError(error);
-    res.status(error?.HTTPStatus || 500).end();
-  });
+      await errorHandler.handleError(error);
+      res.status(error?.HTTPStatus || 500).end();
+    },
+  );
 }
 
 export { createExpressApp, startWebServer, stopWebServer };

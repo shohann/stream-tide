@@ -16,9 +16,10 @@ const createExpressApp = (): Application => {
 
   expressApp.use(corsMiddleware);
   expressApp.use(customHeadersMiddleware);
+  expressApp.use(express.json());
   expressApp.use(express.urlencoded({ extended: true }));
   expressApp.use("/uploads", express.static("uploads"));
-  expressApp.use(express.json());
+
   expressApp.use(requestLogger);
 
   console.log("Express middlewares are set up");
@@ -47,7 +48,7 @@ async function stopWebServer(): Promise<void> {
 }
 
 async function openConnection(
-  expressApp: Application,
+  expressApp: Application
 ): Promise<{ address: string; port: number }> {
   return new Promise((resolve) => {
     const webServerPort = config.PORT;
@@ -72,7 +73,7 @@ function defineErrorHandlingMiddleware(expressApp: Application): void {
 
       await errorHandler.handleError(error);
       res.status(error?.HTTPStatus || 500).end();
-    },
+    }
   );
 }
 

@@ -1,10 +1,9 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "./schemas";
+import configs from "../../configs";
 
-const URL = "postgresql://stream-tide:postgres@localhost:5454/stream-tide-db";
-
-export const connection = postgres(URL, {
+export const connection = postgres(configs.DB_URL, {
   max: 1,
 });
 

@@ -9,7 +9,9 @@
     "dev": "nodemon ./src/start.ts",
     "all": "ts-node-dev --respawn --transpile-only ./src/start.ts",
     "create-domain": "zx scripts/dev/domain-generator.mjs",
-    "db:generate": "drizzle-kit migrate"
+    "db:generate": "drizzle-kit migrate",
+    "db:push": "npx drizzle-kit push",
+    "db:studio": "npx drizzle-kit studio"
   },
   "keywords": [],
   "author": "",

@@ -1,7 +1,14 @@
 import express, { Request, Response, NextFunction } from "express";
 import * as service from "./service";
-import { registerUserBody, userRegister, userDetailsParams } from "./request";
+import {
+  registerUserBody,
+  userRegister,
+  userDetailsParams,
+  userLogin,
+  loginUserBody,
+} from "./request";
 import validate from "../../middlewares/validateResource";
+import { AppError } from "../../libraries/error-handling/AppError";
 
 const model = "User";
 
@@ -28,7 +35,7 @@ const routes = () => {
     ) => {
       try {
         const { firstName, lastName, email, userName, password } = req.body;
-        const newUser = await service.create({
+        const newUser = await service.register({
           firstName,
           lastName,
           email,
@@ -37,7 +44,37 @@ const routes = () => {
         });
 
         res.status(200).json(newUser);
-      } catch (error) {
+      } catch (error: any) {
+        // console.log(error.HTTPStatus);
+        // next(error);
+
+        if (error instanceof AppError) {
+          res.status(error.HTTPStatus).json({ message: error.message });
+        } else {
+          next(error);
+        }
+      }
+    }
+  );
+
+  router.post(
+    "/login",
+    validate(userLogin),
+    async (
+      req: Request<{}, {}, loginUserBody>,
+      res: Response,
+      next: NextFunction
+    ) => {
+      try {
+        const { email, password } = req.body;
+
+        const result = await service.login({
+          email,
+          password,
+        });
+
+        res.status(200).send(result);
+      } catch (error: any) {
         next(error);
       }
     }
@@ -53,7 +90,7 @@ const routes = () => {
         const userDetails = await service.details(userId);
 
         res.status(200).send(userDetails);
-      } catch (error) {
+      } catch (error: any) {
         next(error);
       }
     }

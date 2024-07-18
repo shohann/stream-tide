@@ -5,7 +5,6 @@ import {
   ListedUser,
   UserSelectedFields,
   UserDetail,
-  UserDetailsResponseDTO,
 } from "./type";
 import { eq, sql } from "drizzle-orm";
 import postgres from "postgres";
@@ -68,6 +67,18 @@ export const getUserDetails = async (
   return details[0];
 };
 
+// Selection field is required here
+export const getUserDetailsByEmail = async (
+  email: string
+): Promise<UserDetail | null> => {
+  const details = await db
+    .select()
+    .from(userSchema)
+    .where(eq(userSchema.email, email));
+
+  return details[0];
+};
+
 export const checkUserExistanceById = async (id: number) => {
   const isUserExist =
     await sql`select exists (select 1 from ${userSchema} where ${userSchema.id} = ${id})`;
@@ -76,4 +87,27 @@ export const checkUserExistanceById = async (id: number) => {
   );
 
   return result[0].exists;
+};
+
+export const checkUserExistanceByEmail = async (email: string) => {
+  const isUserExist =
+    await sql`select exists (select 1 from ${userSchema} where ${userSchema.email} = ${email})`;
+  const result: postgres.RowList<Record<string, unknown>[]> = await db.execute(
+    isUserExist
+  );
+
+  return result[0].exists;
+};
+
+export const checkUserExistanceByUseName = async (userName: string) => {
+  try {
+    const isUserExist =
+      await sql`select exists (select 1 from ${userSchema} where ${userSchema.userName} = ${userName})`;
+    const result: postgres.RowList<Record<string, unknown>[]> =
+      await db.execute(isUserExist);
+
+    return result[0].exists;
+  } catch (error) {
+    throw error;
+  }
 };

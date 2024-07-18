@@ -3,7 +3,9 @@ import configs from "../../configs";
 
 const salt = configs.SALT;
 
-export const hashPassword = async (plainPassword: string): Promise<string> => {
+export const generateHashedPassword = async (
+  plainPassword: string
+): Promise<string> => {
   try {
     const hashedPassword = await bcrypt.hash(plainPassword, salt);
     return hashedPassword;

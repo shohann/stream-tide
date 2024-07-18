@@ -1,5 +1,15 @@
 import { User, SelectUser } from "./schema";
 
+export interface loginRequestDTO {
+  email: string;
+  password: string;
+}
+
+export interface loginResponseDTO {
+  id: number;
+  accessToken: string;
+}
+
 export interface CreateRequestDTO {
   firstName: string;
   lastName: string;
@@ -14,6 +24,7 @@ export interface CreateResponseDTO {
   lastName: string;
   email: string;
   userName: string;
+  accessToken: string;
 }
 
 export interface UserDetailsResponseDTO {

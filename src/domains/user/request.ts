@@ -6,6 +6,28 @@ export const userDetailsParams = z.object({
   }),
 });
 
+export const userLogin = z.object({
+  body: object({
+    email: z.string().email({ message: "Invalid email address" }),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long" })
+      .max(100, { message: "Password must be 100 characters or less" })
+      .regex(/[A-Z]/, {
+        message: "Password must contain at least one uppercase letter",
+      })
+      .regex(/[a-z]/, {
+        message: "Password must contain at least one lowercase letter",
+      })
+      .regex(/[0-9]/, { message: "Password must contain at least one number" })
+      .regex(/[^A-Za-z0-9]/, {
+        message: "Password must contain at least one special character",
+      }),
+  }),
+});
+
+export type loginUserBody = z.infer<typeof userLogin>["body"];
+
 export const userRegister = z.object({
   body: object({
     firstName: z

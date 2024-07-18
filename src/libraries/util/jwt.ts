@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import configs from "../../configs";
 
 const jwtSecret = configs.JWT_SECRET;
+const jwtExpiration = configs.JWT_EXPIRATION;
 
 interface TokenPayload {
   id: number;
@@ -9,15 +10,15 @@ interface TokenPayload {
   role: string;
 }
 
-export const generateAccessToken = ({
-  id,
-  email,
-  role,
-}: TokenPayload): string => {
+export const generateAccessToken = (data: TokenPayload): string => {
   try {
-    const authToken = jwt.sign({ id, email, role }, jwtSecret, {
-      expiresIn: "30d",
-    });
+    const authToken = jwt.sign(
+      { id: data.id, email: data.email, role: data.role },
+      jwtSecret,
+      {
+        expiresIn: jwtExpiration,
+      }
+    );
     return authToken;
   } catch (error) {
     throw new Error((error as Error).message);

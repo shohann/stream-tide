@@ -65,6 +65,7 @@ function defineErrorHandlingMiddleware(expressApp: Application): void {
   expressApp.use(
     async (error: any, req: Request, res: Response, next: NextFunction) => {
       // Note: next is required for Express error handlers
+
       if (error && typeof error === "object") {
         if (error.isTrusted === undefined || error.isTrusted === null) {
           error.isTrusted = true;
@@ -72,7 +73,10 @@ function defineErrorHandlingMiddleware(expressApp: Application): void {
       }
 
       await errorHandler.handleError(error);
-      res.status(error?.HTTPStatus || 500).end();
+      // res.status(error?.HTTPStatus || 500).end();
+      res.status(error?.HTTPStatus || 500).json({
+        message: error?.message ? error?.message : "Internal Server Error",
+      });
     }
   );
 }

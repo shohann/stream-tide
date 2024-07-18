@@ -1,27 +1,27 @@
-import util from 'util';
-import { AppError } from './AppError';
-import { Server } from 'http';
+import util from "util";
+import { AppError } from "./AppError";
+import { Server } from "http";
 
 let httpServerRef: Server | undefined;
 
 const errorHandler = {
   listenToErrorEvents: (httpServer: Server): void => {
     httpServerRef = httpServer;
-    process.on('uncaughtException', async (error: Error) => {
+    process.on("uncaughtException", async (error: Error) => {
       await errorHandler.handleError(error);
     });
-    process.on('unhandledRejection', async (reason: any) => {
+    process.on("unhandledRejection", async (reason: any) => {
       await errorHandler.handleError(reason);
     });
-    process.on('SIGTERM', async () => {
+    process.on("SIGTERM", async () => {
       console.error(
-        'App received SIGTERM event, try to gracefully close the server'
+        "App received SIGTERM event, try to gracefully close the server"
       );
       await terminateHttpServerAndExit();
     });
-    process.on('SIGINT', async () => {
+    process.on("SIGINT", async () => {
       console.error(
-        'App received SIGINT event, try to gracefully close the server'
+        "App received SIGINT event, try to gracefully close the server"
       );
       await terminateHttpServerAndExit();
     });
@@ -36,7 +36,7 @@ const errorHandler = {
     } catch (handlingError) {
       // No logger here since it might have failed
       process.stdout.write(
-        'The error handler failed. Here are the handler failure and then the origin error that it tried to handle: '
+        "The error handler failed. Here are the handler failure and then the origin error that it tried to handle: "
       );
       process.stdout.write(JSON.stringify(handlingError));
       process.stdout.write(JSON.stringify(errorToHandle));
@@ -63,7 +63,7 @@ const normalizeError = (errorToHandle: any): AppError => {
   }
   const inputType = typeof errorToHandle;
   return new AppError(
-    'general-error',
+    "general-error",
     `Error Handler received a none error instance with type - ${inputType}, value - ${util.inspect(
       errorToHandle
     )}`

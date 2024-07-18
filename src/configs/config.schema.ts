@@ -5,6 +5,7 @@ const schema = z.object({
     .enum(["development", "production", "test"])
     .default("development"),
   DB_URL: z.string().min(1),
+  JWT_EXPIRATION: z.string().min(1),
   JWT_SECRET: z.string().min(1),
   SALT: z.number().min(1),
   RATE: z.number().min(0),
@@ -18,7 +19,3 @@ const schema = z.object({
 export type ConfigSchema = z.infer<typeof schema>;
 
 export default schema;
-
-// z.string().min(1)
-
-// https://mirror.xyz/grabbou.eth/O3tHDWXl5v35RtXLl26rLN-bn-vWQF8gSoLj_bCz4DU

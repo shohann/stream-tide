@@ -88,7 +88,16 @@ const createDomain = async (domainName) => {
   cd(`src/domains`);
   await $`mkdir ${domainName}`;
 
-  const files = ["api", "event", "index", "request", "schema", "service"];
+  const files = [
+    "api",
+    "event",
+    "index",
+    "request",
+    "schema",
+    "service",
+    "repository",
+    "type",
+  ];
 
   for (const file of files) {
     const template = await getTemplate(file);

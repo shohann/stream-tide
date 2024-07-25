@@ -6,9 +6,14 @@ import {
   userDetailsParams,
   userLogin,
   loginUserBody,
+  userUpdateParams,
+  userUpdate,
+  userUpdateType,
 } from "./request";
-import validate from "../../middlewares/validateResource";
-import { AppError } from "../../libraries/error-handling/AppError";
+import validate, { validateAndParse } from "../../middlewares/validateResource";
+import upload from "../../libraries/util/upload";
+import { uploadToCloudnary } from "../../middlewares/cloudinary";
+import { authorize } from "../../middlewares/auth";
 
 const model = "User";
 
@@ -45,14 +50,7 @@ const routes = () => {
 
         res.status(200).json(newUser);
       } catch (error: any) {
-        // console.log(error.HTTPStatus);
-        // next(error);
-
-        if (error instanceof AppError) {
-          res.status(error.HTTPStatus).json({ message: error.message });
-        } else {
-          next(error);
-        }
+        next(error);
       }
     }
   );
@@ -91,6 +89,29 @@ const routes = () => {
 
         res.status(200).send(userDetails);
       } catch (error: any) {
+        next(error);
+      }
+    }
+  );
+
+  router.put(
+    "/:userId",
+    authorize,
+    validate(userUpdateParams),
+    upload.single("file"),
+    uploadToCloudnary,
+    validateAndParse(userUpdate),
+    async (
+      req: Request<{}, {}, userUpdateType>,
+      res: Response,
+      next: NextFunction
+    ) => {
+      try {
+        console.log(req.user);
+        const { age, isMale } = req.body;
+
+        res.status(201).send("OK");
+      } catch (error) {
         next(error);
       }
     }

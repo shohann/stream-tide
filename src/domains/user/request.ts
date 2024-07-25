@@ -1,10 +1,34 @@
-import { object, z } from "zod";
+import { number, object, z } from "zod";
 
 export const userDetailsParams = z.object({
   params: object({
     userId: z.string().regex(/^\d+$/),
   }),
 });
+
+export const userUpdateParams = z.object({
+  params: object({
+    userId: z.string().regex(/^\d+$/),
+  }),
+});
+
+export const userUpdate = z.object({
+  body: z.object({
+    age: z
+      .string()
+      .regex(/^\d+$/, { message: "Age must be a valid number" })
+      .transform(Number),
+    firstName: z.string(),
+    isMale: z
+      .string()
+      .refine((val) => val === "true" || val === "false", {
+        message: "isMale must be either 'true' or 'false'",
+      })
+      .transform((val) => val === "true"),
+  }),
+});
+
+export type userUpdateType = z.infer<typeof userUpdate>["body"];
 
 export const userLogin = z.object({
   body: object({

@@ -23,6 +23,20 @@ export const validateAndParse =
     }
   };
 
+export const validateParams =
+  (schema: z.ZodSchema<any>) =>
+  (req: Request, res: Response, next: NextFunction) => {
+    try {
+      schema.parse({
+        params: req.params,
+      });
+
+      next();
+    } catch (e: any) {
+      return res.status(400).send(e.errors);
+    }
+  };
+
 const validate =
   (schema: AnyZodObject) =>
   (req: Request, res: Response, next: NextFunction) => {

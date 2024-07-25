@@ -1,4 +1,5 @@
 import { User, SelectUser } from "./schema";
+import { Express } from "express";
 
 export interface loginRequestDTO {
   email: string;
@@ -46,3 +47,37 @@ export type UserSelectedFields = {
 };
 
 export type ListedUser = Partial<User>;
+
+export type UpdatedUser = User & { id: number };
+
+export interface ProfleUpdateRequestDTO {
+  userId: number;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  userName?: string;
+  imageFile?: Express.Multer.File;
+}
+
+export interface ProfleUpdateResponseDTO {
+  id?: number;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  userName?: string;
+  imageUrl?: string | null | undefined;
+}
+
+export interface UserWithRequiredId {
+  id: number;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  userName?: string;
+  password?: string;
+  imagePublicId?: string | null;
+  imageUrl?: string | null;
+  role?: "user" | "admin";
+  createdAt?: Date;
+  updatedAt?: Date;
+}

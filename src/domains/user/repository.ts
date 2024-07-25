@@ -5,6 +5,8 @@ import {
   ListedUser,
   UserSelectedFields,
   UserDetail,
+  UpdatedUser,
+  UserWithRequiredId,
 } from "./type";
 import { eq, sql } from "drizzle-orm";
 import postgres from "postgres";
@@ -22,6 +24,23 @@ export const createUser = async (data: User): Promise<CreatedUser> => {
     .returning();
 
   return user;
+};
+
+export const updateUser = async (data: UserWithRequiredId): Promise<User> => {
+  const [updatedUser] = await db
+    .update(userSchema)
+    .set({
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      userName: data.userName,
+      imagePublicId: data.imagePublicId,
+      imageUrl: data.imageUrl,
+    })
+    .where(eq(userSchema.id, data.id))
+    .returning();
+
+  return updatedUser;
 };
 
 const getUserSelectedFields = (select?: Partial<UserSelectedFields>) => {

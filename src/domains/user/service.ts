@@ -5,6 +5,8 @@ import {
   loginRequestDTO,
   loginResponseDTO,
   UserDetailsResponseDTO,
+  ProfleUpdateRequestDTO,
+  ProfleUpdateResponseDTO,
 } from "./type";
 import * as repository from "./repository";
 import { UserSelectedFields } from "./type";
@@ -13,6 +15,9 @@ import {
   generateHashedPassword,
   compareHashedPassword,
 } from "../../libraries/util/hash";
+import uploadSingleImage, {
+  singleFileResult,
+} from "../../libraries/cloudinary/upload-single-file";
 
 const model = "User";
 
@@ -148,4 +153,46 @@ export const details = async (id: number): Promise<UserDetailsResponseDTO> => {
   };
 
   return finalDetails;
+};
+
+export const updateUserProfile = async (
+  data: ProfleUpdateRequestDTO
+): Promise<ProfleUpdateResponseDTO> => {
+  try {
+    const validUser = await repository.checkUserExistanceById(data.userId);
+    if (validUser === false) {
+      throw new AppError(
+        `${model} does not exist`,
+        `${model} does not exist`,
+        404
+      );
+    }
+
+    let uploadedImage: singleFileResult | null = null;
+    if (data.imageFile) {
+      const imagePath = data.imageFile?.path;
+      uploadedImage = await uploadSingleImage(imagePath);
+    }
+
+    const updatedUser = await repository.updateUser({
+      id: data.userId,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      userName: data.userName,
+      imagePublicId: uploadedImage ? uploadedImage.publicId : undefined,
+      imageUrl: uploadedImage ? uploadedImage.imageURL : undefined,
+    });
+
+    return {
+      id: updatedUser.id,
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
+      email: updatedUser.email,
+      userName: updatedUser.userName,
+      imageUrl: updatedUser.imageUrl,
+    };
+  } catch (error) {
+    throw error;
+  }
 };

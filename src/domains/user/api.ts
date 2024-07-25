@@ -9,11 +9,14 @@ import {
   userUpdateParams,
   userUpdate,
   userUpdateType,
+  userUpdateParamsType,
 } from "./request";
-import validate, { validateAndParse } from "../../middlewares/validateResource";
+import validate, {
+  validateAndParse,
+  validateParams,
+} from "../../middlewares/validateResource";
 import upload from "../../libraries/util/upload";
 import { authorize } from "../../middlewares/auth";
-import uploadSingleImage from "../../libraries/cloudinary/upload-single-image";
 
 const model = "User";
 
@@ -97,29 +100,29 @@ const routes = () => {
   router.put(
     "/:userId",
     authorize,
-    validate(userUpdateParams),
+    validateParams(userUpdateParams),
     upload.single("file"),
     validateAndParse(userUpdate),
     async (
-      req: Request<{}, {}, userUpdateType>,
+      req: Request<userUpdateParamsType, {}, userUpdateType>,
       res: Response,
       next: NextFunction
     ) => {
       try {
-        const { age, isMale } = req.body;
-
+        const { firstName, lastName, email, userName } = req.body;
+        const userId = parseInt(req.params.userId, 10);
         const imageFile = req.file;
 
-        const imagePath = imageFile?.path;
+        const updatedUser = await service.updateUserProfile({
+          userId: userId,
+          firstName,
+          lastName,
+          email,
+          userName,
+          imageFile: imageFile,
+        });
 
-        let result;
-        if (imagePath) {
-          result = await uploadSingleImage(imagePath);
-        }
-
-        // console.log(result);
-
-        res.status(201).send("OK");
+        res.status(201).send(updatedUser);
       } catch (error) {
         next(error);
       }

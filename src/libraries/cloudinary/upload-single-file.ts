@@ -1,13 +1,13 @@
 import cloudinary from "./cloudinary-config";
 
-interface singleImageResult {
+export interface singleFileResult {
   publicId: string;
   imageURL: string;
 }
 
-const uploadSingleImage = async (
+const uploadSingleFile = async (
   imagePath: string
-): Promise<void | singleImageResult> => {
+): Promise<singleFileResult> => {
   try {
     const result: any = await cloudinary.uploader
       .upload(imagePath)
@@ -24,4 +24,4 @@ const uploadSingleImage = async (
   }
 };
 
-export default uploadSingleImage;
+export default uploadSingleFile;

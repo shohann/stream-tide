@@ -13,20 +13,17 @@ export const userUpdateParams = z.object({
 });
 
 export const userUpdate = z.object({
-  body: z.object({
-    age: z
-      .string()
-      .regex(/^\d+$/, { message: "Age must be a valid number" })
-      .transform(Number),
-    firstName: z.string(),
-    isMale: z
-      .string()
-      .refine((val) => val === "true" || val === "false", {
-        message: "isMale must be either 'true' or 'false'",
-      })
-      .transform((val) => val === "true"),
-  }),
+  body: z
+    .object({
+      firstName: z.string().optional(),
+      lastName: z.string().optional(),
+      email: z.string().optional(),
+      userName: z.string().optional(),
+    })
+    .strict(),
 });
+
+export type userUpdateParamsType = z.infer<typeof userUpdateParams>["params"];
 
 export type userUpdateType = z.infer<typeof userUpdate>["body"];
 

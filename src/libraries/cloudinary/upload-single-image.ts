@@ -1,4 +1,3 @@
-import { UploadApiResponse } from "cloudinary";
 import cloudinary from "./cloudinary-config";
 
 interface singleImageResult {

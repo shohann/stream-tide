@@ -12,8 +12,8 @@ import {
 } from "./request";
 import validate, { validateAndParse } from "../../middlewares/validateResource";
 import upload from "../../libraries/util/upload";
-import { uploadToCloudnary } from "../../middlewares/cloudinary";
 import { authorize } from "../../middlewares/auth";
+import uploadSingleImage from "../../libraries/cloudinary/upload-single-image";
 
 const model = "User";
 
@@ -99,7 +99,6 @@ const routes = () => {
     authorize,
     validate(userUpdateParams),
     upload.single("file"),
-    uploadToCloudnary,
     validateAndParse(userUpdate),
     async (
       req: Request<{}, {}, userUpdateType>,
@@ -107,8 +106,18 @@ const routes = () => {
       next: NextFunction
     ) => {
       try {
-        console.log(req.user);
         const { age, isMale } = req.body;
+
+        const imageFile = req.file;
+
+        const imagePath = imageFile?.path;
+
+        let result;
+        if (imagePath) {
+          result = await uploadSingleImage(imagePath);
+        }
+
+        // console.log(result);
 
         res.status(201).send("OK");
       } catch (error) {

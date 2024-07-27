@@ -8,6 +8,7 @@
     "build": "npx tsc -p .",
     "dev": "nodemon ./src/start.ts",
     "all": "ts-node-dev --respawn --transpile-only ./src/start.ts",
+    "queue": "ts-node-dev --respawn --transpile-only ./src/domains/video/temp/producer.ts",
     "create-domain": "zx scripts/dev/domain-generator.mjs",
     "db:generate": "drizzle-kit migrate",
     "db:push": "npx drizzle-kit push",
@@ -35,6 +36,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "bullmq": "^5.10.4",
     "cloudinary": "^2.3.0",
     "connect-timeout": "^1.9.0",
     "cors": "^2.8.5",
@@ -46,6 +48,7 @@
     "multer": "^1.4.5-lts.1",
     "pg": "^8.12.0",
     "postgres": "^3.4.4",
+    "socket.io": "^4.7.5",
     "uuid": "^10.0.0",
     "zod": "^3.23.8"
   }

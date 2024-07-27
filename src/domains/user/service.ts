@@ -18,6 +18,7 @@ import {
 import uploadSingleImage, {
   singleFileResult,
 } from "../../libraries/cloudinary/upload-single-file";
+import fs from "fs/promises";
 
 const model = "User";
 
@@ -168,10 +169,13 @@ export const updateUserProfile = async (
       );
     }
 
+    // TODO: Handle old image deletion
+
     let uploadedImage: singleFileResult | null = null;
     if (data.imageFile) {
       const imagePath = data.imageFile?.path;
       uploadedImage = await uploadSingleImage(imagePath);
+      await fs.unlink(imagePath);
     }
 
     const updatedUser = await repository.updateUser({

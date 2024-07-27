@@ -9,6 +9,23 @@ import {
 } from "./middlewares/cors-middleware";
 import { requestLogger } from "./middlewares/request-logger";
 
+///
+// Testing
+import { listenQueueEvent } from "./domains/video/temp/worker";
+import { NOTIFY_EVENTS } from "./domains/video/temp/constants";
+import EventManager from "./domains/video/temp/event-manager";
+const eventEmitter = EventManager.getInstance();
+
+const setup = async () => {
+  listenQueueEvent(NOTIFY_EVENTS.NOTIFY_VIDEO_HLS_CONVERTED);
+
+  eventEmitter.on(NOTIFY_EVENTS.NOTIFY_VIDEO_HLS_CONVERTED, (data: any) => {
+    console.log("NOTIFY_EVENTS.NOTIFY_VIDEO_HLS_CONVERTED Event handler", data);
+    // io.emit("hello", data);
+  });
+};
+///
+
 let connection: Server;
 
 const createExpressApp = (): Application => {
@@ -30,6 +47,9 @@ const createExpressApp = (): Application => {
 
 async function startWebServer(): Promise<Application> {
   console.log("Starting web server...");
+  ///
+  await setup();
+  ///
   const expressApp = createExpressApp();
   const APIAddress = await openConnection(expressApp);
   console.log(`Server is running on ${APIAddress.address}:${APIAddress.port}`);

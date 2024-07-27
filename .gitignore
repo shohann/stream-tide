@@ -11,3 +11,5 @@ uploads/
 dist/
 
 db-data/
+
+redis-data/

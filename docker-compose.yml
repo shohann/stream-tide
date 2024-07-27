@@ -1,3 +1,22 @@
+# services:
+#   db:
+#     image: postgres:16.2
+#     environment:
+#       - POSTGRES_PASSWORD=postgres
+#       - POSTGRES_USER=stream-tide
+#       - POSTGRES_DB=stream-tide-db
+#     ports:
+#       - 5454:5432
+#     volumes:
+#       - ./db-data:/var/lib/postgresql/data
+
+# NODE_ENV=development
+# DB_HOST=localhost
+# DB_USER=bytedash
+# DB_PASSWORD=supersecret
+# DB_NAME=bytedash
+# DB_PORT=5432
+
 services:
   db:
     image: postgres:16.2
@@ -10,11 +29,10 @@ services:
     volumes:
       - ./db-data:/var/lib/postgresql/data
 
-# NODE_ENV=development
-# DB_HOST=localhost
-# DB_USER=bytedash
-# DB_PASSWORD=supersecret
-# DB_NAME=bytedash
-# DB_PORT=5432
-
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis-data:/data
 

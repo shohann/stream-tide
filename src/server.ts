@@ -10,10 +10,9 @@ import {
 import { requestLogger } from "./middlewares/request-logger";
 
 ///
-// Testing
-import { listenQueueEvent } from "./domains/video/temp/worker";
-import { NOTIFY_EVENTS } from "./domains/video/temp/constants";
-import EventManager from "./domains/video/temp/event-manager";
+import { listenQueueEvent } from "./services/queue-service/worker";
+import { NOTIFY_EVENTS } from "./domains/video/constant";
+import EventManager from "./libraries/util/event-manager";
 const eventEmitter = EventManager.getInstance();
 
 const setup = async () => {
@@ -47,9 +46,9 @@ const createExpressApp = (): Application => {
 
 async function startWebServer(): Promise<Application> {
   console.log("Starting web server...");
-  ///
-  await setup();
-  ///
+
+  await setup(); // Queue setup
+
   const expressApp = createExpressApp();
   const APIAddress = await openConnection(expressApp);
   console.log(`Server is running on ${APIAddress.address}:${APIAddress.port}`);

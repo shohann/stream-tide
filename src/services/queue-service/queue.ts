@@ -1,6 +1,6 @@
 import { Queue } from "bullmq";
-import { ALL_EVENTS as QUEUE_EVENTS } from "./constants";
-import EventManager from "./event-manager";
+import { ALL_EVENTS as QUEUE_EVENTS } from "../../domains/video/constant";
+import EventManager from "../../libraries/util/event-manager";
 
 const eventEmitter = EventManager.getInstance();
 

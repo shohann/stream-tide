@@ -3,9 +3,8 @@ import upload from "../../libraries/util/upload";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
 import cloudinary, { UploadApiOptions } from "cloudinary";
-import { promisify } from "util";
-import { addQueueItem } from "./temp/queues";
-import { VIDEO_QUEUE_EVENTS as QUEUE_EVENTS } from "./temp/constants";
+import { addQueueItem } from "../../services/queue-service/queue";
+import { VIDEO_QUEUE_EVENTS as QUEUE_EVENTS } from "./constant";
 
 const ffmpeg = require("fluent-ffmpeg");
 const path = require("path");
@@ -300,11 +299,7 @@ const routes = () => {
     upload.single("file"),
     async (req: Request, res: Response, next: NextFunction) => {
       let rawVideoPath: string | undefined;
-      let mp4Path: string | undefined;
-      let thumbnailFilePath: string | undefined;
-      let outputPath: string | undefined;
-      let cloudinaryM3U8Url: string | undefined;
-      let cloudinaryThumbnailUrl: string | undefined;
+
       try {
         if (!req.file) {
           return next(new Error("No file data"));

@@ -1,7 +1,7 @@
-import { VIDEO_QUEUE_EVENTS as QUEUE_EVENTS, NOTIFY_EVENTS } from "./constants";
+import { VIDEO_QUEUE_EVENTS as QUEUE_EVENTS, NOTIFY_EVENTS } from "./constant";
 import { processRawFileToMp4, processMp4ToHls } from "./video-processor";
-import { addQueueItem } from "./queues";
-import EventManager from "./event-manager";
+import { addQueueItem } from "../../services/queue-service/queue";
+import EventManager from "../../libraries/util/event-manager";
 
 const eventEmitter = EventManager.getInstance();
 

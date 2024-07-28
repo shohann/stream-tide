@@ -1,7 +1,7 @@
 import ffmpeg from "fluent-ffmpeg";
 import path from "path";
-import { addQueueItem } from "./queues";
-import { VIDEO_QUEUE_EVENTS as QUEUE_EVENTS } from "./constants";
+import { addQueueItem } from "../../services/queue-service/queue";
+import { VIDEO_QUEUE_EVENTS as QUEUE_EVENTS } from "./constant";
 
 const configureFFMPEG = async () => {
   ffmpeg.setFfmpegPath(`/usr/bin/ffmpeg`);

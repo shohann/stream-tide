@@ -1,6 +1,6 @@
 import { Worker, QueueEvents, Job } from "bullmq";
-import { VIDEO_QUEUE_EVENTS } from "./constants";
-import { QUEUE_EVENT_HANDLERS } from "./handlers";
+import { VIDEO_QUEUE_EVENTS } from "../../domains/video/constant";
+import { QUEUE_EVENT_HANDLERS } from "../../domains/video/job";
 
 interface RedisConnection {
   host: string;
@@ -45,7 +45,6 @@ export const listenQueueEvent = (queueName: string) => {
 };
 
 export const setupAllQueueEvents = () => {
-  console.log("I am here");
   Object.values(VIDEO_QUEUE_EVENTS).map((queueName: string) =>
     listenQueueEvent(queueName)
   );

@@ -8,7 +8,7 @@
     "build": "npx tsc -p .",
     "dev": "nodemon ./src/start.ts",
     "all": "ts-node-dev --respawn --transpile-only ./src/start.ts",
-    "queue": "ts-node-dev --respawn --transpile-only ./src/domains/video/temp/producer.ts",
+    "queue": "ts-node-dev --respawn --transpile-only ./src/services/queue-service/queue-initializer.ts",
     "create-domain": "zx scripts/dev/domain-generator.mjs",
     "db:generate": "drizzle-kit migrate",
     "db:push": "npx drizzle-kit push",

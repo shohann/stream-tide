@@ -52,29 +52,6 @@ export const generateThumbnail = async (
   outputFolder: string,
   jobData: any
 ): Promise<string> => {
-  // const fileExt = path.extname(filePath);
-  // const fileNameWithoutExt = path.basename(filePath, fileExt);
-  // const outputFileName = `${outputFolder}/${fileNameWithoutExt}.png`;
-
-  // ffmpeg(filePath)
-  //   .screenshots({
-  //     timestamps: ["00:01"],
-  //     filename: `${fileNameWithoutExt}.png`,
-  //     folder: outputFolder,
-  //   })
-  //   .on("end", async () => {
-  //     await addQueueItem(QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATED, {
-  //       ...jobData,
-  //       completed: true,
-  //       path: outputFileName,
-  //     });
-  //   })
-  //   .on("error", (err: Error) => {
-  //     console.log("An error occurred: " + err.message);
-  //   });
-
-  // return outputFileName;
-
   return new Promise((resolve, reject) => {
     const fileExt = path.extname(filePath);
     const fileNameWithoutExt = path.basename(filePath, fileExt);
@@ -103,46 +80,6 @@ export const generateThumbnail = async (
   });
 };
 
-// export const processMp4ToHls = async (
-//   filePath: string,
-//   outputFolder: string,
-//   jobData: any
-// ): Promise<string> => {
-//   const fileExt = path.extname(filePath);
-//   const fileNameWithoutExt = path.basename(filePath, fileExt);
-//   const outputFileName = `${outputFolder}/${fileNameWithoutExt}.m3u8`;
-
-//   ffmpeg(filePath)
-//     .output(outputFileName)
-//     .outputOptions([
-//       "-hls_time 10",
-//       "-hls_list_size 0",
-//       "-hls_flags delete_segments",
-//       "-hls_segment_filename",
-//       `${outputFolder}/${fileNameWithoutExt}_%03d.ts`,
-//     ])
-//     .on("start", async (commandLine: string) => {
-//       console.log("Spawned Ffmpeg with command: " + commandLine);
-//     })
-//     .on("progress", async (progress: any) => {
-//       if (parseInt(progress.percent) % 20 === 0) {
-//         console.log("Processing: " + progress.percent + "% done");
-//       }
-//     })
-//     .on("end", async () => {
-//       console.log("Finished processing", outputFileName);
-//       await addQueueItem(QUEUE_EVENTS.VIDEO_HLS_CONVERTED, {
-//         ...jobData,
-//         path: outputFileName,
-//       });
-//     })
-//     .on("error", (err: Error) => {
-//       console.log("An error occurred: " + err.message);
-//     })
-//     .run();
-
-//   return outputFileName;
-// };
 export const processMp4ToHls = (
   filePath: string,
   outputFolder: string,

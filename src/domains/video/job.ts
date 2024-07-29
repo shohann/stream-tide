@@ -101,25 +101,52 @@ const uploadThumbnail = async (
 
 const uploadedHandler = async (job: any) => {
   console.log("uploaded handler!", job.data.path);
-  await addQueueItem(QUEUE_EVENTS.VIDEO_PROCESSING, {
+
+  const hlsId = uuidv4();
+  fs.mkdirSync(`./uploads/hls/${hlsId}`, { recursive: true });
+
+  await addQueueItem(QUEUE_EVENTS.UPLOADING_RAW_VIDEO, {
     ...job.data,
+    hlsId,
     completed: true,
   });
   return;
 };
 
+const rawVideoUploadingHandler = async (job: any) => {
+  const hlsFolderId = job.data.hlsId;
+  console.log("raw video uploading");
+
+  // upload logic
+  const rawVideoURL = await uploadThumbnail(job.data.path, job.data.hlsId);
+
+  // call next job
+
+  await addQueueItem(QUEUE_EVENTS.UPLOADED_RAW_VIDEO, {
+    ...job.data,
+    rawVideoURL,
+    completed: true,
+  });
+};
+
+const rawVideoUploadedHandler = async (job: any) => {
+  const hlsFolderId = job.data.hlsId;
+  console.log("raw video uploading");
+
+  // called the the event for db
+  await addQueueItem(QUEUE_EVENTS.VIDEO_PROCESSING, {
+    ...job.data,
+    completed: true,
+  });
+};
+
 const processingHandler = async (job: any) => {
   console.log("processing handler!", job.data.path);
-
-  const hlsId = uuidv4();
-  fs.mkdirSync(`./uploads/hls/${hlsId}`, { recursive: true });
-
   const result = await processRawFileToMp4(
     `./${job.data.path}`,
     `./uploads/processed`,
     {
       ...job.data,
-      hlsId,
       completed: true,
       next: QUEUE_EVENTS.VIDEO_PROCESSED,
     }
@@ -131,13 +158,89 @@ const processingHandler = async (job: any) => {
 const processedHandler = async (job: any) => {
   console.log("processed handler!", job.data.path);
 
-  await addQueueItem(QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATING, {
+  await addQueueItem(QUEUE_EVENTS.UPLOADING_PROCESSED_VIDEO, {
     ...job.data,
     completed: true,
     next: QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATING,
   });
 
   return;
+};
+
+const processedVideoUploadingHandler = async (job: any) => {
+  console.log("processed video uploading");
+
+  const processedPath = job.data.processedPath;
+  const hlsFolderId = job.data.hlsId;
+  const processedVideoURL = await uploadThumbnail(processedPath, hlsFolderId);
+
+  await addQueueItem(QUEUE_EVENTS.UPLOADED_PROCESSED_VIDEO, {
+    ...job.data,
+    processedVideoURL,
+    completed: true,
+    next: QUEUE_EVENTS.UPLOADED_PROCESSED_VIDEO,
+  });
+};
+
+const processedVideoUploadedHandler = async (job: any) => {
+  console.log("processed video uploading");
+  const hlsFolderId = job.data.hlsId;
+
+  await addQueueItem(QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATING, {
+    ...job.data,
+    completed: true,
+    next: QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATING,
+  });
+};
+
+const thumbnailGeneratingHandler = async (job: any) => {
+  const thumbnailPath = await generateThumbnail(
+    job.data.path,
+    "./uploads/thumbnails",
+    {
+      ...job.data,
+      completed: true,
+    }
+  );
+
+  return;
+};
+
+const thumbnailGeneratedHandler = async (job: any) => {
+  await addQueueItem(QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATED_UPLOADING, {
+    ...job.data,
+
+    completed: true,
+    next: QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATED_UPLOADING,
+  });
+
+  return;
+};
+
+const thumbnailGeneratedUploadingHandler = async (job: any) => {
+  console.log("thumbnail generated uploading handler!", job.data.path);
+
+  const thumbnailURL = await uploadThumbnail(
+    job.data.thumbnailPath,
+    job.data.hlsId
+  );
+
+  await addQueueItem(QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATED_UPLOADED, {
+    ...job.data,
+    thumbnailURL,
+    completed: true,
+    next: QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATED_UPLOADED,
+  });
+};
+
+const thumbnailGeneratedUploadedHandler = async (job: any) => {
+  console.log("thumbnail generated uploaded handler!", job.data.path);
+
+  await addQueueItem(QUEUE_EVENTS.VIDEO_HLS_CONVERTING, {
+    ...job.data,
+    completed: true,
+    next: QUEUE_EVENTS.VIDEO_HLS_CONVERTING,
+  });
 };
 
 const hlsConvertingHandler = async (job: any) => {
@@ -159,13 +262,19 @@ const hlsConvertingHandler = async (job: any) => {
 
 const hlsConvertedHandler = async (job: any) => {
   console.log("hls converted handler!", job.data.path);
-  const hlsFolderId = job.data.hlsId;
 
-  ///
-  // const m3u8Path = path.join(
-  //   `./uploads/hls/${hlsFolderId}`,
-  //   `${path.basename(job.data.path, path.extname(job.data.path))}.m3u8`
-  // );
+  await addQueueItem(QUEUE_EVENTS.VIDEO_HLS_CONVERTED_UPLOADING, {
+    ...job.data,
+    completed: true,
+    next: QUEUE_EVENTS.VIDEO_HLS_CONVERTED_UPLOADING,
+  });
+  return;
+};
+
+const hlsConvertedUploadingHandler = async (job: any) => {
+  console.log("hls converted uploading handler!", job.data.path);
+
+  const hlsFolderId = job.data.hlsId;
 
   const m3u8Path =
     "./" +
@@ -191,46 +300,26 @@ const hlsConvertedHandler = async (job: any) => {
     cloudinaryM3U8Url = m3u8Path;
   }
 
+  await addQueueItem(QUEUE_EVENTS.VIDEO_HLS_CONVERTED_UPLOADED, {
+    ...job.data,
+    cloudinaryM3U8Url,
+    completed: true,
+    next: QUEUE_EVENTS.VIDEO_HLS_CONVERTED_UPLOADED,
+  });
+};
+
+const hlsConvertedUploadedHandler = async (job: any) => {
+  console.log("hls converted uploaded handler!", job.data.path);
+
   await addQueueItem(NOTIFY_EVENTS.NOTIFY_VIDEO_HLS_CONVERTED, {
     ...job.data,
-    cloudinaryM3U8Url, //: "ishdshdh", // Testing
     completed: true,
     next: NOTIFY_EVENTS.NOTIFY_VIDEO_HLS_CONVERTED,
   });
-  return;
-};
-
-const thumbnailGeneratingHandler = async (job: any) => {
-  const thumbnailPath = await generateThumbnail(
-    job.data.path,
-    "./uploads/thumbnails",
-    {
-      ...job.data,
-      completed: true,
-    }
-  );
-
-  return;
-};
-
-const thumbnailGeneratedHandler = async (job: any) => {
-  const thumbnailURL = await uploadThumbnail(
-    job.data.thumbnailPath,
-    job.data.hlsId
-  );
-
-  await addQueueItem(QUEUE_EVENTS.VIDEO_HLS_CONVERTING, {
-    ...job.data,
-    thumbnailURL,
-    completed: true,
-    next: QUEUE_EVENTS.VIDEO_HLS_CONVERTING,
-  });
-
-  return;
 };
 
 const notifyVideoHlsConvertedHandler = async (job: any) => {
-  console.log("VIDEO_THUMBNAIL_GENERATED handler!", job.data.hlsFolderId);
+  console.log("VIDEO_THUMBNAIL_GENERATED handler!", job.data.hlsId);
 
   eventEmitter.emit(`${NOTIFY_EVENTS.NOTIFY_VIDEO_HLS_CONVERTED}`, job.data);
   return { ...job.data, completed: true, next: null };
@@ -245,6 +334,18 @@ const QUEUE_EVENT_HANDLERS = {
   [NOTIFY_EVENTS.NOTIFY_VIDEO_HLS_CONVERTED]: notifyVideoHlsConvertedHandler,
   [QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATED]: thumbnailGeneratedHandler,
   [QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATING]: thumbnailGeneratingHandler,
+  [QUEUE_EVENTS.VIDEO_HLS_CONVERTED_UPLOADING]: hlsConvertedUploadingHandler,
+  [QUEUE_EVENTS.VIDEO_HLS_CONVERTED_UPLOADED]: hlsConvertedUploadedHandler,
+  [QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATED_UPLOADING]:
+    thumbnailGeneratedUploadingHandler,
+  [QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATED_UPLOADED]:
+    thumbnailGeneratedUploadedHandler,
+
+  [QUEUE_EVENTS.UPLOADING_RAW_VIDEO]: rawVideoUploadingHandler,
+  [QUEUE_EVENTS.UPLOADED_RAW_VIDEO]: rawVideoUploadedHandler,
+
+  [QUEUE_EVENTS.UPLOADING_PROCESSED_VIDEO]: processedVideoUploadingHandler,
+  [QUEUE_EVENTS.UPLOADED_PROCESSED_VIDEO]: processedVideoUploadedHandler,
 };
 
 export { QUEUE_EVENT_HANDLERS };

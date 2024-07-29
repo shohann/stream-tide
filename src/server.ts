@@ -8,8 +8,6 @@ import {
   customHeadersMiddleware,
 } from "./middlewares/cors-middleware";
 import { requestLogger } from "./middlewares/request-logger";
-
-///
 import { listenQueueEvent } from "./services/queue-service/worker";
 import { NOTIFY_EVENTS } from "./domains/video/constant";
 import EventManager from "./libraries/util/event-manager";
@@ -23,7 +21,6 @@ const setup = async () => {
     // io.emit("hello", data);
   });
 };
-///
 
 let connection: Server;
 

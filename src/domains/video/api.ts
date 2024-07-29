@@ -137,9 +137,13 @@ const getVideoDurationAndResolution = async (
   });
 };
 
-const uploadToCloudinary = async (filePath: string): Promise<string> => {
+const uploadToCloudinary = async (
+  filePath: string,
+  folderId: string
+): Promise<string> => {
   try {
     const options: UploadApiOptions = {
+      folder: folderId,
       resource_type:
         path.extname(filePath).toLowerCase() === ".m3u8" ? "raw" : "auto",
       use_filename: true,
@@ -156,14 +160,15 @@ const uploadToCloudinary = async (filePath: string): Promise<string> => {
 
 const updateM3U8File = async (
   m3u8Path: string,
-  tsFiles: string[]
+  tsFiles: string[],
+  folderId: string
 ): Promise<string> => {
   try {
     let content = await fs.promises.readFile(m3u8Path, "utf8");
 
     for (const tsFile of tsFiles) {
       try {
-        const cloudinaryUrl = await uploadToCloudinary(tsFile);
+        const cloudinaryUrl = await uploadToCloudinary(tsFile, folderId);
         content = content.replace(path.basename(tsFile), cloudinaryUrl);
         await fs.promises.unlink(tsFile);
       } catch (error) {
@@ -177,7 +182,7 @@ const updateM3U8File = async (
 
     let cloudinaryM3U8Url;
     try {
-      cloudinaryM3U8Url = await uploadToCloudinary(updatedM3U8Path);
+      cloudinaryM3U8Url = await uploadToCloudinary(updatedM3U8Path, folderId);
     } catch (error) {
       console.error("Error uploading M3U8 file to Cloudinary:", error);
       // If Cloudinary upload fails, return the local path
@@ -249,15 +254,20 @@ const routes = () => {
           .map((file) => path.join(outputPath, file));
 
         try {
-          cloudinaryM3U8Url = await updateM3U8File(m3u8Path, tsFiles);
+          cloudinaryM3U8Url = await updateM3U8File(m3u8Path, tsFiles, lessonId);
         } catch (error) {
           console.error("Error updating and uploading M3U8 file:", error);
           cloudinaryM3U8Url = m3u8Path;
         }
 
+        console.log(`its thumbnail ${thumbnailFilePath}`);
+
         // Upload thumbnail to Cloudinary
         try {
-          cloudinaryThumbnailUrl = await uploadToCloudinary(thumbnailFilePath);
+          cloudinaryThumbnailUrl = await uploadToCloudinary(
+            thumbnailFilePath,
+            lessonId
+          );
         } catch (error) {
           console.error("Error uploading thumbnail to Cloudinary:", error);
           cloudinaryThumbnailUrl = thumbnailFilePath;
@@ -299,6 +309,7 @@ const routes = () => {
     upload.single("file"),
     async (req: Request, res: Response, next: NextFunction) => {
       let rawVideoPath: string | undefined;
+      const folderId = uuidv4();
 
       try {
         if (!req.file) {
@@ -309,6 +320,7 @@ const routes = () => {
 
         await addQueueItem(QUEUE_EVENTS.VIDEO_UPLOADED, {
           path: rawVideoPath,
+          // folderId,
         });
 
         res.status(201).send("Video has been uploaded successfully");

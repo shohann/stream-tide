@@ -1,6 +1,7 @@
 import { Worker, QueueEvents, Job } from "bullmq";
 import { VIDEO_QUEUE_EVENTS } from "../../domains/video/constant";
 import { QUEUE_EVENT_HANDLERS } from "../../domains/video/job";
+import { setup as setupVideoHandler } from "../../domains/video/event";
 
 interface RedisConnection {
   host: string;
@@ -49,7 +50,6 @@ export const setupAllQueueEvents = () => {
     listenQueueEvent(queueName)
   );
 
-  // const { setup: setupVideoHandler } = require('../models/video/handler'); // DB calls
-  // setupVideoHandler();
+  setupVideoHandler();
   return true;
 };

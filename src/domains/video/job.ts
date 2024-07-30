@@ -336,16 +336,14 @@ const QUEUE_EVENT_HANDLERS = {
   [QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATING]: thumbnailGeneratingHandler,
   [QUEUE_EVENTS.VIDEO_HLS_CONVERTED_UPLOADING]: hlsConvertedUploadingHandler,
   [QUEUE_EVENTS.VIDEO_HLS_CONVERTED_UPLOADED]: hlsConvertedUploadedHandler,
+  [QUEUE_EVENTS.UPLOADING_RAW_VIDEO]: rawVideoUploadingHandler,
+  [QUEUE_EVENTS.UPLOADED_RAW_VIDEO]: rawVideoUploadedHandler,
+  [QUEUE_EVENTS.UPLOADING_PROCESSED_VIDEO]: processedVideoUploadingHandler,
+  [QUEUE_EVENTS.UPLOADED_PROCESSED_VIDEO]: processedVideoUploadedHandler,
   [QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATED_UPLOADING]:
     thumbnailGeneratedUploadingHandler,
   [QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATED_UPLOADED]:
     thumbnailGeneratedUploadedHandler,
-
-  [QUEUE_EVENTS.UPLOADING_RAW_VIDEO]: rawVideoUploadingHandler,
-  [QUEUE_EVENTS.UPLOADED_RAW_VIDEO]: rawVideoUploadedHandler,
-
-  [QUEUE_EVENTS.UPLOADING_PROCESSED_VIDEO]: processedVideoUploadingHandler,
-  [QUEUE_EVENTS.UPLOADED_PROCESSED_VIDEO]: processedVideoUploadedHandler,
 };
 
 export { QUEUE_EVENT_HANDLERS };

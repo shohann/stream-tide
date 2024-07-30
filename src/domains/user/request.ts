@@ -1,4 +1,4 @@
-import { number, object, z } from "zod";
+import { object, z } from "zod";
 
 export const userDetailsParams = z.object({
   params: object({

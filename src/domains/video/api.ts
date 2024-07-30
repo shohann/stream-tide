@@ -3,8 +3,13 @@ import upload from "../../libraries/util/upload";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
 import cloudinary, { UploadApiOptions } from "cloudinary";
-import { addQueueItem } from "../../services/queue-service/queue";
-import { VIDEO_QUEUE_EVENTS as QUEUE_EVENTS } from "./constant";
+import { createVideo, createVideoBody } from "./request";
+import * as service from "./service";
+import validate, {
+  validateAndParse,
+  validateParams,
+} from "../../middlewares/validateResource";
+import { authorize } from "../../middlewares/auth";
 
 const ffmpeg = require("fluent-ffmpeg");
 const path = require("path");
@@ -307,20 +312,23 @@ const routes = () => {
   router.post(
     "/upload",
     upload.single("file"),
-    async (req: Request, res: Response, next: NextFunction) => {
-      let rawVideoPath: string | undefined;
-      const folderId = uuidv4();
+    validateAndParse(createVideo),
+    async (
+      req: Request<{}, {}, createVideoBody>,
+      res: Response,
+      next: NextFunction
+    ) => {
+      const { title, description } = req.body;
 
       try {
         if (!req.file) {
           return next(new Error("No file data"));
         }
 
-        rawVideoPath = req.file?.path;
-
-        await addQueueItem(QUEUE_EVENTS.VIDEO_UPLOADED, {
-          path: rawVideoPath,
-          // folderId,
+        const createdVideo = await service.createVideo({
+          title,
+          description,
+          videoFile: req.file,
         });
 
         res.status(201).send("Video has been uploaded successfully");

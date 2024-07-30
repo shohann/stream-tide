@@ -1,48 +1,61 @@
 import { AppError } from "../../libraries/error-handling/AppError";
+import { CreateVideoRequestDTO, UpdateVideoFromEvent } from "./type";
+import { v4 as uuidv4 } from "uuid";
+import { addQueueItem } from "../../services/queue-service/queue";
+import { VIDEO_QUEUE_EVENTS as QUEUE_EVENTS } from "./constant";
+import * as repository from "./repository";
+const model = "Video";
 
-const model = 'Video';
-
-export const create = async () => {
-    try {
-
-    } catch (error: any) {
-      console.error(`create(): Failed to create ${model}`, error);
-      throw new AppError(`Failed to create ${model}`, error.message);
-    }
-};
-
-export const search = async () => {
+export const createVideo = async (data: CreateVideoRequestDTO) => {
   try {
+    const hlsId = uuidv4();
+    const rawVideoPath = data.videoFile.path;
 
+    const createdVideo = await repository.createVideo({
+      title: data.title,
+      description: data.description,
+    });
+
+    await addQueueItem(QUEUE_EVENTS.VIDEO_UPLOADED, {
+      hlsId,
+      videoId: createdVideo.id,
+      path: rawVideoPath,
+    });
+
+    return "success";
   } catch (error: any) {
-      console.error(`search(): Failed to create ${model}`, error);
-      throw new AppError(`Failed to create ${model}`, error.message);
+    console.error(`create(): Failed to create ${model}`, error);
+    throw error;
   }
 };
 
-export const getById = async () => {
+export const updateVideoById = async () => {
   try {
-
   } catch (error: any) {
-      console.error(`getById(): Failed to create ${model}`, error);
-      throw new AppError(`Failed to create ${model}`, error.message);
+    console.error(`updateById(): Failed to create ${model}`, error);
+    throw error;
   }
 };
 
-export const updateById = async () => {
+// TODO: Error handling from event
+// TODO: Returning data or not returning
+// TODO: What about visiblity
+export const updateVideoFromEvent = async (data: UpdateVideoFromEvent) => {
   try {
+    await repository.updateVideo({
+      id: data.id,
+      status: data.status,
+      rawVideoUrl: data.rawVideoUrl,
+      mp4VideoUrl: data.mp4VideoUrl,
+      hlsVideoUrl: data.hlsVideoUrl,
+      thumbnailUrl: data.thumbnailUrl,
+      cloudFolderId: data.cloudFolderId,
+    });
+  } catch (error) {
+    console.log(error);
 
-  } catch (error: any) {
-      console.error(`updateById(): Failed to create ${model}`, error);
-      throw new AppError(`Failed to create ${model}`, error.message);
+    throw error;
   }
 };
 
-export const deleteById = async () => {
-  try {
-
-  } catch (error: any) {
-      console.error(`deleteById(): Failed to create ${model}`, error);
-      throw new AppError(`Failed to create ${model}`, error.message);
-  }
-};
+// Only a publish video can be deleted

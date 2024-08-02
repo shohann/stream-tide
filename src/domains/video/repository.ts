@@ -8,15 +8,18 @@ export const createVideo = async (data: Video): Promise<CreatedVideo> => {
   const [video] = await db
     .insert(videoSchema)
     .values({
+      ownerId: data.ownerId,
       title: data.title,
       description: data.description,
+      rawVideoUrl: data.rawVideoUrl,
+      cloudFolderId: data.cloudFolderId,
     })
     .returning();
 
   return video;
 };
 
-// Need a select. if select is null we will not return the updated data
+// TODO: Need a select. if select is null we will not return the updated data
 export const updateVideo = async (data: UpdateVideo) => {
   const [updatedVideo] = await db
     .update(videoSchema)
@@ -37,7 +40,7 @@ export const updateVideo = async (data: UpdateVideo) => {
   return updatedVideo;
 };
 
-export const checkUserExistanceById = async (id: number) => {
+export const checkVideoExistanceById = async (id: number) => {
   const isVideoExist =
     await sql`select exists (select 1 from ${videoSchema} where ${videoSchema.id} = ${id})`;
   const result: postgres.RowList<Record<string, unknown>[]> = await db.execute(
@@ -45,4 +48,18 @@ export const checkUserExistanceById = async (id: number) => {
   );
 
   return result[0].exists;
+};
+
+export const checkPublishedVideoById = async (id: number): Promise<unknown> => {
+  const isVideoExist =
+    await sql`select exists (select 1 from ${videoSchema} where ${videoSchema.id} = ${id} and ${videoSchema.status} = 'published')`;
+  const result: postgres.RowList<Record<string, unknown>[]> = await db.execute(
+    isVideoExist
+  );
+
+  return result[0].exists;
+};
+
+export const deleteVideoById = async (id: number): Promise<void> => {
+  await db.delete(videoSchema).where(eq(videoSchema.id, id));
 };

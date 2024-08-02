@@ -2,6 +2,8 @@ import ffmpeg from "fluent-ffmpeg";
 import path from "path";
 import { addQueueItem } from "../../services/queue-service/queue";
 import { VIDEO_QUEUE_EVENTS as QUEUE_EVENTS } from "./constant";
+import { uploadToCloudinary } from "../../libraries/cloudinary/upload-file";
+import fsPromise from "fs/promises";
 
 const configureFFMPEG = async () => {
   ffmpeg.setFfmpegPath(`/usr/bin/ffmpeg`);
@@ -31,11 +33,14 @@ export const processRawFileToMp4 = async (
     })
     .on("end", async () => {
       console.log("Finished processing", outputFileName);
+      const hlsId = jobData.hlsId;
+      const processedCloudURL = await uploadToCloudinary(outputFileName, hlsId);
 
+      await fsPromise.unlink(outputFileName);
       await addQueueItem(QUEUE_EVENTS.VIDEO_PROCESSED, {
         ...jobData,
         completed: true,
-        processedPath: outputFileName,
+        processedCloudURL,
       });
     })
     .on("error", (err: Error) => {
@@ -47,7 +52,8 @@ export const processRawFileToMp4 = async (
   return processedFilePath;
 };
 
-export const generateThumbnail = async (
+export const generateThumbnail = (
+  processedCloudURL: string,
   filePath: string,
   outputFolder: string,
   jobData: any
@@ -64,14 +70,25 @@ export const generateThumbnail = async (
         folder: outputFolder,
       })
       .on("end", () => {
-        addQueueItem(QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATED, {
-          ...jobData,
-          thumbnailPath: outputFileName,
-          completed: true,
-          path: outputFileName,
-        });
+        const hlsId = jobData.hlsId;
 
-        resolve(outputFileName);
+        uploadToCloudinary(outputFileName, hlsId)
+          .then((url) => {
+            console.log("File uploaded successfully. URL:", url);
+            return fsPromise.unlink(outputFileName).then(() => {
+              addQueueItem(QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATED, {
+                ...jobData,
+                thumbnailCloudURL: url, // Use the cloud URL here
+                completed: true,
+              });
+
+              resolve(url); // Resolve with the cloud URL
+            });
+          })
+          .catch((error) => {
+            console.error("Error uploading file:", error);
+            reject(error);
+          });
       })
       .on("error", (err: Error) => {
         console.log("An error occurred: " + err.message);
@@ -109,10 +126,6 @@ export const processMp4ToHls = (
       })
       .on("end", async () => {
         console.log("Finished processing", outputFileName);
-        await addQueueItem(QUEUE_EVENTS.VIDEO_HLS_CONVERTED, {
-          ...jobData,
-          path: outputFileName,
-        });
         resolve(outputFileName);
       })
       .on("error", (err: Error) => {

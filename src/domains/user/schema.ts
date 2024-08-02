@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   pgTable,
   serial,
@@ -5,6 +6,7 @@ import {
   timestamp,
   pgEnum,
 } from "drizzle-orm/pg-core";
+import video from "../video/schema";
 
 export const role = pgEnum("role", ["user", "admin"]);
 
@@ -21,6 +23,10 @@ const user = pgTable("users", {
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
+
+export const userRelations = relations(user, ({ many }) => ({
+  videos: many(video),
+}));
 
 export default user;
 

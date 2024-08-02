@@ -1,4 +1,5 @@
 export interface CreateVideoRequestDTO {
+  ownerId: number;
   title: string;
   description: string;
   videoFile: Express.Multer.File;

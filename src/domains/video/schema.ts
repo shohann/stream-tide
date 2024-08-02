@@ -6,6 +6,8 @@ import {
   pgEnum,
   timestamp,
 } from "drizzle-orm/pg-core";
+import user from "../user/schema";
+import { relations } from "drizzle-orm";
 
 export const visibility = pgEnum("visibility", [
   "Public",
@@ -29,7 +31,18 @@ const video = pgTable("video", {
   cloudFolderId: varchar("cloud_folder_id", { length: 255 }),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
+
+  ownerId: integer("owner_id")
+    .notNull()
+    .references(() => user.id),
 });
+
+export const videoRelations = relations(video, ({ one }) => ({
+  owner: one(user, {
+    fields: [video.ownerId],
+    references: [user.id],
+  }),
+}));
 
 export default video;
 

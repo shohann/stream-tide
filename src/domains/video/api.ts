@@ -309,8 +309,25 @@ const routes = () => {
     }
   );
 
+  router.delete(
+    "/:videoId",
+    authorize,
+    async (req: Request, res: Response, next: NextFunction) => {
+      const videoId = parseInt(req.params.videoId);
+
+      try {
+        await service.deleteVideoById(videoId);
+        res.status(200).send("Success");
+      } catch (error) {
+        console.error("Error in video deleting:", error);
+        next(error);
+      }
+    }
+  );
+
   router.post(
     "/upload",
+    authorize,
     upload.single("file"),
     validateAndParse(createVideo),
     async (
@@ -319,13 +336,15 @@ const routes = () => {
       next: NextFunction
     ) => {
       const { title, description } = req.body;
+      const userId = req.user.id;
 
       try {
         if (!req.file) {
-          return next(new Error("No file data"));
+          return next(new Error("Video file required"));
         }
 
-        const createdVideo = await service.createVideo({
+        await service.createVideo({
+          ownerId: userId,
           title,
           description,
           videoFile: req.file,

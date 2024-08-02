@@ -17,58 +17,37 @@ enum VIDEO_STATUS {
 }
 
 export const setup = () => {
-  //   const SERVER_URL = "localhost:4000/api/v1/";
-
   Object.values(VIDEO_QUEUE_EVENTS).forEach((eventName: string) => {
     eventEmitter.on(eventName, async (data: any) => {
-      if (eventName === VIDEO_QUEUE_EVENTS.UPLOADED_RAW_VIDEO) {
+      if (eventName === VIDEO_QUEUE_EVENTS.VIDEO_PROCESSED) {
         const videoId = data.videoId;
-        const rawVideoURL = data.rawVideoURL;
-        const hlsId = data.hlsId;
-
+        const processedCloudURL = data.processedCloudURL;
         await updateVideoFromEvent({
           id: videoId,
-          rawVideoUrl: rawVideoURL,
-          cloudFolderId: hlsId,
+          mp4VideoUrl: processedCloudURL,
         });
         return;
       }
 
-      if (eventName === VIDEO_QUEUE_EVENTS.UPLOADED_PROCESSED_VIDEO) {
+      if (eventName === VIDEO_QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATED) {
         const videoId = data.videoId;
-        const processedVideoURL = data.processedVideoURL;
-
-        await updateVideoFromEvent({
-          id: videoId,
-          mp4VideoUrl: processedVideoURL,
-        });
-
-        return;
-      }
-
-      if (eventName === VIDEO_QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATED_UPLOADED) {
-        const videoId = data.videoId;
-        const thumbnailURL = data.thumbnailURL;
-
+        const thumbnailURL = data.thumbnailCloudURL;
         await updateVideoFromEvent({
           id: videoId,
           thumbnailUrl: thumbnailURL,
           status: VIDEO_STATUS.PROCESSED,
         });
-
         return;
       }
 
-      if (eventName === VIDEO_QUEUE_EVENTS.VIDEO_HLS_CONVERTED_UPLOADED) {
+      if (eventName === VIDEO_QUEUE_EVENTS.VIDEO_HLS_CONVERTED) {
         const videoId = data.videoId;
         const cloudinaryM3U8Url = data.cloudinaryM3U8Url;
-
         await updateVideoFromEvent({
           id: videoId,
           hlsVideoUrl: cloudinaryM3U8Url,
           status: VIDEO_STATUS.PUBLISHED,
         });
-
         return;
       }
     });

@@ -4,6 +4,7 @@ import { updateVideoFromEvent } from "./service";
 
 const eventEmitter = EventManager.getInstance();
 
+// TODO: VIDEO_VISIBILITIES is unused
 const VIDEO_VISIBILITIES = {
   PUBLIC: "Public",
   PRIVATE: "Private",

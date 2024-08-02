@@ -166,7 +166,6 @@ const thumbnailGeneratingHandler = async (job: any) => {
   );
 
   const thumbnailPath = await generateThumbnail(
-    job.data.processedCloudURL,
     processedLocalPath,
     "./uploads/thumbnails",
     {

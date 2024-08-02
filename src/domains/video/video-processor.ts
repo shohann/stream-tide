@@ -53,7 +53,6 @@ export const processRawFileToMp4 = async (
 };
 
 export const generateThumbnail = (
-  processedCloudURL: string,
   filePath: string,
   outputFolder: string,
   jobData: any

@@ -1,5 +1,9 @@
 import { AppError } from "../../libraries/error-handling/AppError";
-import { CreateVideoRequestDTO, UpdateVideoFromEvent } from "./type";
+import {
+  CreateVideoLikeRequestDTO,
+  CreateVideoRequestDTO,
+  UpdateVideoFromEvent,
+} from "./type";
 import { v4 as uuidv4 } from "uuid";
 import { addQueueItem } from "../../services/queue-service/queue";
 import { VIDEO_QUEUE_EVENTS as QUEUE_EVENTS } from "./constant";

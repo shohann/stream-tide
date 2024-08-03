@@ -1,3 +1,8 @@
+export interface CreateVideoLikeRequestDTO {
+  userId: number;
+  videoId: number;
+}
+
 export interface CreateVideoRequestDTO {
   ownerId: number;
   title: string;

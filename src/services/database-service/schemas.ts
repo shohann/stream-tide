@@ -12,3 +12,11 @@ export {
   Video,
   SelectVideo,
 } from "../../domains/video/schema";
+
+export { default as like, SelectLike, Like } from "../../domains/like/schema";
+
+export {
+  default as comment,
+  SelectComment,
+  Comment,
+} from "../../domains/comment/schema";

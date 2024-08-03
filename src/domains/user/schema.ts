@@ -7,6 +7,8 @@ import {
   pgEnum,
 } from "drizzle-orm/pg-core";
 import video from "../video/schema";
+import like from "../like/schema";
+import comment from "../comment/schema";
 
 export const role = pgEnum("role", ["user", "admin"]);
 
@@ -26,6 +28,8 @@ const user = pgTable("users", {
 
 export const userRelations = relations(user, ({ many }) => ({
   videos: many(video),
+  likes: many(like),
+  comments: many(comment),
 }));
 
 export default user;

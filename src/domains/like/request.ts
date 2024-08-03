@@ -1,9 +1,9 @@
-import { z } from 'zod';
+import { z, object } from "zod";
 
-const schema = z.object({
-
+export const createLike = z.object({
+  body: object({
+    videoId: z.number(),
+  }),
 });
 
-export type requestSchema = z.infer<typeof schema>;
-
-export default schema;
+export type createLikeType = z.infer<typeof createLike>["body"];

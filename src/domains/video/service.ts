@@ -5,7 +5,7 @@ import {
   GetPublishedVideoDetailsDTO,
   PublishedVideoListResponseDTO,
   PublishedVideosRequestDTO,
-  UpdateVideo,
+  UpdateOwnVideoRequestDTO,
   UpdateVideoFromEvent,
 } from "./type";
 import { v4 as uuidv4 } from "uuid";
@@ -26,6 +26,11 @@ enum VIDEO_VISIBILITIES {
 }
 
 const model = "Video";
+
+// Get video details - Urls, view count, total comments, total likes,
+// Search video
+// video duration and resulation
+// Internal server error in production
 
 export const getPublishedVideos = async (
   data: PublishedVideosRequestDTO
@@ -170,7 +175,6 @@ export const getPublishedVideoDetails = async (
 export const createVideo = async (
   data: CreateVideoRequestDTO
 ): Promise<void> => {
-  // Need to update the response message
   try {
     const cloudFolderId = uuidv4();
     const rawVideoPath = data.videoFile.path;
@@ -234,16 +238,13 @@ export const deleteVideoById = async (
 
     await repository.deleteVideoById(id);
   } catch (error) {
-    // console.error(`deleteVideoById(): Failed to create ${model}`, error);
     throw error;
   }
 };
 
-// TODO: Error handling from event
-// TODO: Returning data or not returning
 export const updateVideoFromEvent = async (data: UpdateVideoFromEvent) => {
   try {
-    await repository.updateVideo({
+    await repository.updateVideoAndReturn({
       id: data.id,
       status: data.status,
       rawVideoUrl: data.rawVideoUrl,
@@ -260,23 +261,45 @@ export const updateVideoFromEvent = async (data: UpdateVideoFromEvent) => {
   }
 };
 
-export const updateOwnVideo = async (data: UpdateVideo) => {
+export const updateOwnVideo = async (
+  data: UpdateOwnVideoRequestDTO
+): Promise<void> => {
   try {
-    // If the current user is not the owner of the video then we will return 401
-    // If the video is not processed or the video is not exist in the database we will return 404
+    const validVideo = await repository.checkVideoExistanceAndOwnership(
+      data.id,
+      data.userId
+    );
 
-    console.log("Update own video");
+    if (validVideo.exists === false) {
+      throw new AppError(
+        `${model}: Video unavailable`,
+        `${model}: Video unavailable`,
+        404
+      );
+    }
 
-    // await repository.updateVideo({
-    //   id: data.id,
-    //   status: data.status,
-    //   rawVideoUrl: data.rawVideoUrl,
-    //   mp4VideoUrl: data.mp4VideoUrl,
-    //   hlsVideoUrl: data.hlsVideoUrl,
-    //   thumbnailUrl: data.thumbnailUrl,
-    //   cloudFolderId: data.cloudFolderId,
-    //   visibility: data.visibility,
-    // });
+    if (!validVideo.status) {
+      throw new AppError(
+        `${model}: You do not have permission to access this resource`,
+        `${model}: You do not have permission to access this resource`,
+        401
+      );
+    }
+
+    if (data.visibility && validVideo.status === data.visibility) {
+      throw new AppError(
+        `${model}: is already ${data.visibility}`,
+        `${model}: is already ${data.visibility}`,
+        400
+      );
+    }
+
+    await repository.updateVideoAndReturn({
+      id: data.id,
+      title: data.title,
+      description: data.description,
+      visibility: data.visibility,
+    });
   } catch (error) {
     throw error;
   }

@@ -1,4 +1,4 @@
-import videoSchema, { Video, SelectVideo, visibility } from "./schema";
+import videoSchema, { Video } from "./schema";
 import db from "../../services/database-service";
 import {
   CreatedVideo,
@@ -158,7 +158,7 @@ export const updateViewCount = async (videoId: number) => {
 };
 
 // TODO: Need a separte method which will not return any data
-export const updateVideo = async (data: UpdateVideo) => {
+export const updateVideoAndReturn = async (data: UpdateVideo) => {
   const [updatedVideo] = await db
     .update(videoSchema)
     .set({
@@ -213,6 +213,37 @@ export const checkUserVideoExistanceById = async (
   );
 
   return result[0].exists;
+};
+
+interface QueryResult {
+  exists: boolean;
+  status: string | null;
+}
+
+export const checkVideoExistanceAndOwnership = async (
+  id: number,
+  userId: number
+): Promise<QueryResult> => {
+  const result = await sql`
+  SELECT EXISTS (
+    SELECT 1 
+    FROM ${videoSchema} 
+    WHERE ${videoSchema.id} = ${id} AND ${videoSchema.status} = 'published'
+  ) as exists,
+  (SELECT ${videoSchema.visibility} 
+   FROM ${videoSchema} 
+   WHERE ${videoSchema.id} = ${id} AND ${videoSchema.ownerId} = ${userId}
+  ) as status
+`;
+
+  const final: postgres.RowList<Record<string, unknown>[]> = await db.execute(
+    result
+  );
+
+  return {
+    exists: final[0].exists as boolean,
+    status: final[0].status as string | null,
+  };
 };
 
 export const getVideoDetails = async (

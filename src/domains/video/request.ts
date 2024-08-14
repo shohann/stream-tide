@@ -30,3 +30,32 @@ export const videoListQuery = z.object({
 });
 
 export type videoListQueryType = z.infer<typeof videoListQuery>["query"];
+
+const visibility = z.enum(["Public", "Private"]);
+
+export const updateVideo = z.object({
+  body: z
+    .object({
+      title: z
+        .string()
+        .min(5, { message: "Title must be at least 5 characters long" })
+        .max(100, { message: "Title must be 100 characters or less" })
+        .optional(),
+      description: z
+        .string()
+        .min(5, { message: "Description must be at least 5 characters long" })
+        .max(100, { message: "Description must be 100 characters or less" })
+        .optional(),
+      visibility: visibility.optional(),
+    })
+    .strict(),
+});
+export type updateVideoBody = z.infer<typeof updateVideo>["body"];
+
+export const updateVideoParams = z.object({
+  params: z.object({
+    videoId: z.string().regex(/^\d+$/),
+  }),
+});
+
+export type updateVideoParamsType = z.infer<typeof updateVideoParams>["params"];

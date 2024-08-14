@@ -19,6 +19,22 @@ export interface CreatedVideo {
   description: string;
 }
 
+export interface UpdateOwnVideoRequestDTO {
+  id: number;
+  userId: number;
+  title?: string;
+  description?: string;
+  visibility?: "Public" | "Private";
+}
+
+export interface UpdateOwnVideoResponseDTO {
+  id: number;
+  title?: string;
+  description?: string;
+  visibility?: "Public" | "Private" | "Unlisted";
+  status?: "pending" | "processed" | "published";
+}
+
 export interface UpdateVideo {
   id: number;
   title?: string;

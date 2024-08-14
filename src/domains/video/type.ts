@@ -1,6 +1,9 @@
-export interface CreateVideoLikeRequestDTO {
-  userId: number;
-  videoId: number;
+import { Pagination } from "../../libraries/util/response";
+
+enum VIDEO_VISIBILITIES {
+  PUBLIC = "Public",
+  PRIVATE = "Private",
+  UNLISTED = "Unlisted",
 }
 
 export interface CreateVideoRequestDTO {
@@ -38,4 +41,80 @@ export interface UpdateVideoFromEvent {
   hlsVideoUrl?: string;
   thumbnailUrl?: string;
   cloudFolderId?: string;
+  visibility?: "Public" | "Private" | "Unlisted";
+}
+
+export interface GetOwnVideoDetails {
+  id: number;
+  title: string;
+  description: string;
+  viewCount: number;
+  hlsVideoUrl?: string | null;
+  visibility: string;
+  status: "pending" | "processed" | "published";
+  ownerId: number;
+  createdAt: Date | null;
+}
+
+// id: videoSchema.id,
+// title: videoSchema.title,
+// description: videoSchema.description,
+// viewCount: videoSchema.viewCount,
+// hlsVideoUrl: videoSchema.hlsVideoUrl,
+// createdAt: videoSchema.createdAt,
+// visibility: videoSchema.visibility,
+// status: videoSchema.status,
+
+export interface GetPublishedVideoDetailsDTO {
+  id: number;
+  title: string;
+  description: string;
+  viewCount: number;
+  hlsVideoUrl: string | null;
+  visibility: string;
+  createdAt: Date | null;
+  owner: {
+    id: number;
+    firstName: string;
+    lastName: string;
+  } | null;
+}
+
+export interface PublishedVideosRequestDTO {
+  page: number;
+  size: number;
+  search?: string | undefined;
+}
+
+export interface PublishedVideoList {
+  id: number;
+  title: string;
+  viewCount: number;
+  thumbnailUrl: string | null;
+  visibility: string;
+  createdAt: Date | null;
+  owner: {
+    id: number;
+    firstName: string;
+    lastName: string;
+  } | null;
+}
+
+export interface PublishedVideoListResponseDTO {
+  data:
+    | {
+        id: number;
+        title: string;
+        viewCount: number;
+        thumbnailUrl: string | null;
+        visibility: string;
+        createdAt: Date | null;
+        owner: {
+          id: number;
+          firstName: string;
+          lastName: string;
+        } | null;
+      }[]
+    | [];
+  pagination?: Pagination;
 }

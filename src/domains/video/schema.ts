@@ -23,9 +23,9 @@ const video = pgTable("video", {
   id: serial("id").primaryKey().notNull(),
   title: varchar("title", { length: 255 }).notNull(),
   description: varchar("description", { length: 255 }).notNull(),
-  viewCount: integer("view_count").default(0),
-  visibility: visibility("visibility").default("Unlisted"),
-  status: status("status").default("pending"),
+  viewCount: integer("view_count").default(0).notNull(),
+  visibility: visibility("visibility").default("Unlisted").notNull(),
+  status: status("status").default("pending").notNull(),
   rawVideoUrl: varchar("raw_video_url", { length: 255 }),
   mp4VideoUrl: varchar("mp4_video_url", { length: 255 }),
   hlsVideoUrl: varchar("hls_video_url", { length: 255 }),
@@ -33,7 +33,6 @@ const video = pgTable("video", {
   cloudFolderId: varchar("cloud_folder_id", { length: 255 }),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
-
   ownerId: integer("owner_id")
     .notNull()
     .references(() => user.id),

@@ -10,7 +10,8 @@ import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
 import fsPromise from "fs/promises";
 import path from "path";
-import cloudinary, { UploadApiOptions } from "cloudinary";
+import { uploadToCloudinary } from "../../libraries/cloudinary/upload-file";
+// import cloudinary, { UploadApiOptions } from "cloudinary";
 import axios from "axios";
 
 const eventEmitter = EventManager.getInstance();
@@ -18,26 +19,26 @@ const eventEmitter = EventManager.getInstance();
 // TODO: After failing a job its still going to the next job
 // Next flag
 
-const uploadToCloudinary = async (
-  filePath: string,
-  folderId: string
-): Promise<string> => {
-  try {
-    const options: UploadApiOptions = {
-      folder: folderId,
-      resource_type:
-        path.extname(filePath).toLowerCase() === ".m3u8" ? "raw" : "auto",
-      use_filename: true,
-      unique_filename: false,
-    };
+// const uploadToCloudinary = async (
+//   filePath: string,
+//   folderId: string
+// ): Promise<string> => {
+//   try {
+//     const options: UploadApiOptions = {
+//       folder: folderId,
+//       resource_type:
+//         path.extname(filePath).toLowerCase() === ".m3u8" ? "raw" : "auto",
+//       use_filename: true,
+//       unique_filename: false,
+//     };
 
-    const result = await cloudinary.v2.uploader.upload(filePath, options);
-    return result.secure_url;
-  } catch (error: any) {
-    console.error("Cloudinary upload error:", error);
-    throw new Error(`Cloudinary upload failed: ${error.message}`);
-  }
-};
+//     const result = await cloudinary.v2.uploader.upload(filePath, options);
+//     return result.secure_url;
+//   } catch (error: any) {
+//     console.error("Cloudinary upload error:", error);
+//     throw new Error(`Cloudinary upload failed: ${error.message}`);
+//   }
+// };
 
 const updateM3U8File = async (
   m3u8Path: string,

@@ -1,5 +1,4 @@
 import { User, SelectUser } from "./schema";
-import { Express } from "express";
 
 export interface loginRequestDTO {
   email: string;
@@ -9,6 +8,7 @@ export interface loginRequestDTO {
 export interface loginResponseDTO {
   id: number;
   accessToken: string;
+  refreshToken: string;
 }
 
 export interface CreateRequestDTO {
@@ -26,6 +26,7 @@ export interface CreateResponseDTO {
   email: string;
   userName: string;
   accessToken: string;
+  refreshToken: string;
 }
 
 export interface UserDetailsResponseDTO {
@@ -80,4 +81,9 @@ export interface UserWithRequiredId {
   role?: "user" | "admin";
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface refreshAccessTokenResponseDTO {
+  accessToken: string;
+  refreshToken: string;
 }

@@ -5,11 +5,11 @@ import { updateVideoFromEvent } from "./service";
 const eventEmitter = EventManager.getInstance();
 
 // TODO: VIDEO_VISIBILITIES is unused
-const VIDEO_VISIBILITIES = {
-  PUBLIC: "Public",
-  PRIVATE: "Private",
-  UNLISTED: "Unlisted",
-};
+enum VIDEO_VISIBILITIES {
+  PUBLIC = "Public",
+  PRIVATE = "Private",
+  UNLISTED = "Unlisted",
+}
 
 enum VIDEO_STATUS {
   PENDING = "pending",
@@ -47,6 +47,7 @@ export const setup = () => {
         await updateVideoFromEvent({
           id: videoId,
           hlsVideoUrl: cloudinaryM3U8Url,
+          visibility: VIDEO_VISIBILITIES.PUBLIC,
           status: VIDEO_STATUS.PUBLISHED,
         });
         return;

@@ -8,9 +8,12 @@ import {
   customHeadersMiddleware,
 } from "./middlewares/cors-middleware";
 import { requestLogger } from "./middlewares/request-logger";
+// import { redisService } from "./services/redis-service";
 import { listenQueueEvent } from "./services/queue-service/worker";
 import { NOTIFY_EVENTS } from "./domains/video/constant";
 import EventManager from "./libraries/util/event-manager";
+
+import logger from "./libraries/log/logger";
 const eventEmitter = EventManager.getInstance();
 
 const setup = async () => {
@@ -48,7 +51,11 @@ async function startWebServer(): Promise<Application> {
 
   const expressApp = createExpressApp();
   const APIAddress = await openConnection(expressApp);
-  console.log(`Server is running on ${APIAddress.address}:${APIAddress.port}`);
+
+  logger.info(
+    `Server using logger is running on ${APIAddress.address}:${APIAddress.port}`
+  );
+  // console.log(`Server is running on ${APIAddress.address}:${APIAddress.port}`);
 
   return expressApp;
 }

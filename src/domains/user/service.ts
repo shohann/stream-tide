@@ -7,10 +7,17 @@ import {
   UserDetailsResponseDTO,
   ProfleUpdateRequestDTO,
   ProfleUpdateResponseDTO,
+  refreshAccessTokenResponseDTO,
 } from "./type";
 import * as repository from "./repository";
 import { UserSelectedFields } from "./type";
-import { generateAccessToken } from "../../libraries/util/jwt";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  generateTokenId,
+  verifyRefreshToken,
+  verifyToken,
+} from "../../libraries/util/jwt";
 import {
   generateHashedPassword,
   compareHashedPassword,
@@ -18,9 +25,23 @@ import {
 import uploadSingleImage, {
   singleFileResult,
 } from "../../libraries/cloudinary/upload-single-file";
+import { redisService } from "../../services/redis-service";
 import fs from "fs/promises";
+import generateVerificationCode from "../../libraries/util/generate-verification-code";
 
 const model = "User";
+
+export const logoutAll = async (userId: number): Promise<void> => {
+  try {
+    const tokens = await redisService.getByPattern(`*${userId.toString()}:*`);
+
+    for (let i = 0; i < tokens.length; i++) {
+      await redisService.delete(tokens[i]);
+    }
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const login = async (
   data: loginRequestDTO
@@ -54,7 +75,26 @@ export const login = async (
       );
     }
 
-    const accessToken = await generateAccessToken({
+    const refreshTokenId = generateTokenId(existingUserWithEmail.id.toString());
+    const refreshExpiresIn = 60 * 60 * 24 * 7; // Should be stored in config // 15 min
+
+    // Generate refresh token
+    const refreshToken = generateRefreshToken({
+      id: existingUserWithEmail.id,
+      email: existingUserWithEmail.email,
+      refreshTokenId: refreshTokenId,
+      role: "user",
+    });
+
+    // Store refresh token in redis
+    await redisService.set(
+      refreshTokenId,
+      existingUserWithEmail.id.toString(),
+      refreshExpiresIn
+    );
+
+    // Generate Access token
+    const accessToken = generateAccessToken({
       id: existingUserWithEmail.id,
       email: existingUserWithEmail.email,
       role: "user",
@@ -63,10 +103,64 @@ export const login = async (
     return {
       id: existingUserWithEmail.id,
       accessToken: accessToken,
+      refreshToken: refreshToken,
     };
   } catch (error) {
     throw error;
   }
+};
+
+export const refreshAccessToken = async (
+  oldRefreshToken: string
+): Promise<refreshAccessTokenResponseDTO> => {
+  const decoded = verifyRefreshToken(oldRefreshToken);
+  const oldRefreshTokenId = decoded.refreshTokenId;
+  const existingUser = await redisService.get(oldRefreshTokenId);
+
+  if (!decoded || !existingUser) {
+    throw new AppError(
+      `${model}: Invalid token`,
+      `${model}: Invalid token`,
+      409
+    );
+  }
+
+  const validUser = await repository.checkUserExistanceById(decoded.id);
+  if (validUser === false) {
+    throw new AppError(
+      `${model}: Invalid token`,
+      `${model}: Invalid token`,
+      409
+    );
+  }
+
+  const newRefreshTokenId = generateTokenId(decoded.id.toString());
+  const refreshExpiresIn = 60 * 60 * 24 * 7; // Should be stored in config // 15 min
+
+  const refreshToken = generateRefreshToken({
+    id: decoded.id,
+    email: decoded.email,
+    role: decoded.role,
+    refreshTokenId: newRefreshTokenId,
+  });
+
+  const accessToken = generateAccessToken({
+    id: decoded.id,
+    email: decoded.email,
+    role: decoded.role,
+  });
+
+  await redisService.set(
+    newRefreshTokenId,
+    decoded.id.toString(),
+    refreshExpiresIn
+  );
+  await redisService.delete(oldRefreshTokenId);
+
+  return {
+    accessToken: accessToken,
+    refreshToken: refreshToken,
+  };
 };
 
 export const register = async (
@@ -104,7 +198,26 @@ export const register = async (
       userName: data.userName,
     });
 
-    const accessToken = await generateAccessToken({
+    const refreshTokenId = generateTokenId(user.id.toString());
+    const refreshExpiresIn = 60 * 60 * 24 * 7; // Should be stored in config // 15 min
+
+    // Generate refresh token
+    const refreshToken = generateRefreshToken({
+      id: user.id,
+      email: user.email,
+      refreshTokenId: refreshTokenId,
+      role: "user",
+    });
+
+    // Store refresh token in redis
+    await redisService.set(
+      refreshTokenId,
+      user.id.toString(),
+      refreshExpiresIn
+    );
+
+    // Generate Access token
+    const accessToken = generateAccessToken({
       id: user.id,
       email: user.email,
       role: "user",
@@ -116,7 +229,8 @@ export const register = async (
       lastName: user.lastName,
       userName: user.userName,
       email: user.email,
-      accessToken,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
     };
   } catch (error: any) {
     console.error(`create(): Failed to create ${model}`, error);

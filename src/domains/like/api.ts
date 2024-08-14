@@ -35,6 +35,63 @@ const routes = () => {
     }
   );
 
+  // Handling already like
+
+  router.get(
+    "/videos/:videosId/like-count",
+    authorize,
+    async (req: Request, res: Response, next: NextFunction) => {
+      const userId = req.user.id;
+      const videoId = parseInt(req.params.videoId);
+
+      res.status(200).send("OK");
+    }
+  );
+
+  router.get(
+    "/videos/:videoId/user-like-status",
+    authorize,
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const userId = req.user.id;
+        const videoId = parseInt(req.params.videoId);
+
+        const status = await service.getLikeStatus({ userId, videoId });
+
+        res.status(200).send(status);
+      } catch (error) {
+        next(error);
+      }
+    }
+  );
+
+  router.get(
+    "/videos/:videoId/video-like-count",
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const videoId = parseInt(req.params.videoId);
+        const likeCount = await service.getLikeCount(videoId);
+
+        res.status(200).send({ likeCount });
+      } catch (error) {
+        next(error);
+      }
+    }
+  );
+
+  router.delete(
+    "/:likeId",
+    authorize,
+    async (req: Request, res: Response, next: NextFunction) => {
+      const likeId = parseInt(req.params.likeId);
+      const userId = req.user.id;
+
+      await service.removeUserLike({ userId, likeId });
+
+      res.status(200).send();
+    }
+  );
+
   return router;
 };
 

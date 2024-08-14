@@ -19,7 +19,7 @@ export const processRawFileToMp4 = async (
 ): Promise<string> => {
   const fileExt = path.extname(filePath);
   const fileNameWithoutExt = path.basename(filePath, fileExt);
-  const outputFileName = `${outputFolder}/${fileNameWithoutExt}.mp4`;
+  const outputFileName = `${outputFolder}/${fileNameWithoutExt}-processed.mp4`;
 
   ffmpeg(filePath)
     .output(outputFileName)

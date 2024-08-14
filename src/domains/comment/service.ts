@@ -1,7 +1,37 @@
 import { AppError } from "../../libraries/error-handling/AppError";
 import * as commentRepository from "./repository";
 import * as videoRepository from "../video/repository";
+import { Comment } from "./schema";
 const model = "Comment";
+
+export const getCommentList = async (videoId: number): Promise<Comment[]> => {
+  try {
+    const comments = await commentRepository.getCommentsByVideoId(videoId);
+    return comments;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getCommentDetails = async (
+  commentId: number
+): Promise<Partial<Comment>> => {
+  try {
+    const commentDetails = await commentRepository.getCommentDetails(commentId);
+
+    if (!commentDetails) {
+      throw new AppError(
+        `${model}: Comment unavailable`,
+        `${model}: Comment unavailable`,
+        404
+      );
+    }
+
+    return commentDetails;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const createComment = async (
   data: CreateCommentRequestDTO
@@ -30,34 +60,51 @@ export const createComment = async (
   }
 };
 
-export const search = async () => {
+export const removeComment = async (commentId: number, userId: number) => {
   try {
-  } catch (error: any) {
-    console.error(`search(): Failed to create ${model}`, error);
-    throw new AppError(`Failed to create ${model}`, error.message);
-  }
-};
+    const validComment = await commentRepository.checkUserCommentById(
+      commentId,
+      userId
+    );
 
-export const getById = async () => {
-  try {
-  } catch (error: any) {
-    console.error(`getById(): Failed to create ${model}`, error);
-    throw new AppError(`Failed to create ${model}`, error.message);
-  }
-};
+    if (validComment === false) {
+      throw new AppError(
+        `${model}: Comment unavailable`,
+        `${model}: Comment unavailable`,
+        404
+      );
+    }
+    // TODO: Unauthorized error
 
-export const updateById = async () => {
-  try {
-  } catch (error: any) {
-    console.error(`updateById(): Failed to create ${model}`, error);
-    throw new AppError(`Failed to create ${model}`, error.message);
-  }
-};
-
-export const deleteById = async () => {
-  try {
+    await commentRepository.removeCommentById(commentId);
   } catch (error: any) {
     console.error(`deleteById(): Failed to create ${model}`, error);
-    throw new AppError(`Failed to create ${model}`, error.message);
+    throw error;
+  }
+};
+
+export const updateComment = async (data: UpdateCommentRequestDTO) => {
+  try {
+    const validComment = await commentRepository.checkUserCommentById(
+      data.commentId,
+      data.userId
+    );
+
+    if (validComment === false) {
+      throw new AppError(
+        `${model}: Comment unavailable`,
+        `${model}: Comment unavailable`,
+        404
+      );
+    }
+    // TODO: Unauthorized error
+
+    await commentRepository.updateCommentById({
+      commentId: data.commentId,
+      content: data.content,
+    });
+  } catch (error: any) {
+    console.error(`updateById(): Failed to create ${model}`, error);
+    throw error;
   }
 };

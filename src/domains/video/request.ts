@@ -14,3 +14,19 @@ export const createVideo = z.object({
 });
 
 export type createVideoBody = z.infer<typeof createVideo>["body"];
+
+export const videoListQuery = z.object({
+  query: z
+    .object({
+      page: z.string().regex(/^\d+$/).optional(),
+      size: z.string().regex(/^\d+$/).optional(),
+      search: z.string().optional(),
+    })
+    .strict()
+    .refine((data) => (data.page && data.size) || (!data.page && !data.size), {
+      message: "Both 'page' and 'size' must be provided together.",
+      path: ["page"], // This will show the error on the 'page' field
+    }),
+});
+
+export type videoListQueryType = z.infer<typeof videoListQuery>["query"];

@@ -10,6 +10,8 @@ import {
   userUpdate,
   userUpdateType,
   userUpdateParamsType,
+  refreshAccessToken,
+  refreshAccessTokenBody,
 } from "./request";
 import validate, {
   validateAndParse,
@@ -51,7 +53,7 @@ const routes = () => {
           password,
         });
 
-        res.status(200).json(newUser);
+        res.status(201).json(newUser);
       } catch (error: any) {
         next(error);
       }
@@ -68,7 +70,6 @@ const routes = () => {
     ) => {
       try {
         const { email, password } = req.body;
-
         const result = await service.login({
           email,
           password,
@@ -81,13 +82,46 @@ const routes = () => {
     }
   );
 
+  router.post(
+    "/refresh",
+    validate(refreshAccessToken),
+    async (
+      req: Request<{}, {}, refreshAccessTokenBody>,
+      res: Response,
+      next: NextFunction
+    ) => {
+      try {
+        const oldRefreshToken = req.body.refreshToken;
+        const tokens = await service.refreshAccessToken(oldRefreshToken);
+
+        res.status(201).send(tokens);
+      } catch (error) {
+        next(error);
+      }
+    }
+  );
+
+  router.delete(
+    "/logout-all",
+    authorize,
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const userId = req.user.id;
+        await service.logoutAll(userId);
+
+        res.status(200).send("Success");
+      } catch (error) {
+        next(error);
+      }
+    }
+  );
+
   router.get(
     "/:userId",
     validate(userDetailsParams),
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const userId = parseInt(req.params.userId, 10);
-
         const userDetails = await service.details(userId);
 
         res.status(200).send(userDetails);

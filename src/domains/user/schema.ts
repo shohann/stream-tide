@@ -5,6 +5,7 @@ import {
   varchar,
   timestamp,
   pgEnum,
+  boolean,
 } from "drizzle-orm/pg-core";
 import video from "../video/schema";
 import like from "../like/schema";
@@ -21,7 +22,8 @@ const user = pgTable("users", {
   password: varchar("password", { length: 255 }).notNull(),
   imagePublicId: varchar("image_public_id", { length: 255 }),
   imageUrl: varchar("image_url", { length: 255 }),
-  role: role("role").default("user"),
+  role: role("role").default("user").notNull(),
+  verificationStatus: boolean("verification_status").default(false).notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

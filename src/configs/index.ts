@@ -1,30 +1,31 @@
-import * as dotenv from 'dotenv';
-import * as fs from 'fs';
-import * as path from 'path';
-import schema, { ConfigSchema } from './config.schema';
-import { z } from 'zod';
+import * as dotenv from "dotenv";
+import * as fs from "fs";
+import * as path from "path";
+import schema, { ConfigSchema } from "./config.schema";
+import { z } from "zod";
 
 class Config {
   private static instance: Config;
   public config: ConfigSchema; // Use the inferred type
 
   private constructor() {
-    console.log('Loading and validating config for the first time...');
+    console.log("Loading and validating config for the first time...");
     this.config = this.loadAndValidateConfig();
     Config.instance = this;
-    console.log('Config loaded and validated', {
+    console.log("Config loaded and validated", {
       NODE_ENV: this.config.NODE_ENV,
       PORT: this.config.PORT,
     });
-    console.log('Config keys: ', Object.keys(this.config));
+    console.log("Config keys: ", Object.keys(this.config));
   }
 
-  private loadAndValidateConfig(): ConfigSchema { // Return type as the inferred type
-    const environment = process.env.NODE_ENV || 'development';
+  private loadAndValidateConfig(): ConfigSchema {
+    // Return type as the inferred type
+    const environment = process.env.NODE_ENV || "development";
 
     // Load environment file
     const envFile = `.env.${environment}`;
-    const envPath = path.join(__dirname, '..', '..', envFile); // Adjusted path
+    const envPath = path.join(__dirname, "..", "..", envFile); // Adjusted path
     if (!fs.existsSync(envPath)) {
       throw new Error(`Environment file not found: ${envPath}`);
     }
@@ -35,11 +36,13 @@ class Config {
     if (!fs.existsSync(configFile)) {
       throw new Error(`Config file not found: ${configFile}`);
     }
-    let config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
+    let config = JSON.parse(fs.readFileSync(configFile, "utf8"));
 
-    const sharedConfigFile = path.join(__dirname, 'config.shared.json');
+    const sharedConfigFile = path.join(__dirname, "config.shared.json");
     if (fs.existsSync(sharedConfigFile)) {
-      const sharedConfig = JSON.parse(fs.readFileSync(sharedConfigFile, 'utf8'));
+      const sharedConfig = JSON.parse(
+        fs.readFileSync(sharedConfigFile, "utf8")
+      );
       config = { ...sharedConfig, ...config };
     }
 
@@ -58,7 +61,9 @@ class Config {
       return validatedConfig; // Return the validated config
     } catch (error: any) {
       if (error instanceof z.ZodError) {
-        const validationErrors = error.errors.map((err) => `${err.path[0]}: ${err.message}`).join(', ');
+        const validationErrors = error.errors
+          .map((err) => `${err.path[0]}: ${err.message}`)
+          .join(", ");
         throw new Error(`Config validation error: ${validationErrors}`);
       }
       throw error;

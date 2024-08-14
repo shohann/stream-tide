@@ -2,12 +2,14 @@ import { object, z } from "zod";
 
 export const userDetailsParams = z.object({
   params: object({
+    // where is 'z'
     userId: z.string().regex(/^\d+$/),
   }),
 });
 
 export const userUpdateParams = z.object({
   params: object({
+    // where is 'z'
     userId: z.string().regex(/^\d+$/),
   }),
 });
@@ -92,3 +94,13 @@ export const userRegister = z.object({
 
 // export type registerUserQuery = z.infer<typeof userRegister>["query"];
 export type registerUserBody = z.infer<typeof userRegister>["body"];
+
+/////
+
+export const refreshAccessToken = z.object({
+  body: object({
+    refreshToken: z.string(),
+  }),
+});
+
+export type refreshAccessTokenBody = z.infer<typeof refreshAccessToken>["body"];

@@ -1,6 +1,7 @@
 import util from "util";
 import { AppError } from "./AppError";
 import { Server } from "http";
+import logger from "../log/logger";
 
 let httpServerRef: Server | undefined;
 
@@ -14,13 +15,13 @@ const errorHandler = {
       await errorHandler.handleError(reason);
     });
     process.on("SIGTERM", async () => {
-      console.error(
+      logger.error(
         "App received SIGTERM event, try to gracefully close the server"
       );
       await terminateHttpServerAndExit();
     });
     process.on("SIGINT", async () => {
-      console.error(
+      logger.error(
         "App received SIGINT event, try to gracefully close the server"
       );
       await terminateHttpServerAndExit();
@@ -29,7 +30,7 @@ const errorHandler = {
   handleError: async (errorToHandle: any): Promise<void> => {
     try {
       const appError = normalizeError(errorToHandle);
-      console.error(appError.message, appError);
+      logger.error(appError.message, appError);
       if (!appError.isTrusted) {
         await terminateHttpServerAndExit();
       }

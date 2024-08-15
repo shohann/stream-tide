@@ -681,3 +681,202 @@
 {"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 13:04:53"}
 {"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 13:09:52"}
 {"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 13:09:54"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 13:12:35"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 13:12:40"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 13:13:17"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 13:15:48"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 13:16:20"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 13:16:20"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 13:16:22"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:43:04"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:46:46"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:46:46"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:46:52"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:46:52"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 15:47:24"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:47:24"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:47:24"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 15:47:34"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:47:34"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:47:34"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 15:48:13"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:48:13"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 15:48:13"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:48:13"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 15:49:11"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:49:11"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 15:49:11"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:49:11"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 15:49:55"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:49:55"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 15:49:55"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:49:55"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 15:50:14"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:50:14"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 15:50:14"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 15:50:14"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:50:14"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 15:50:33"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:50:33"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 15:50:33"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 15:50:33"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 15:50:33"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:50:33"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 15:52:29"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:52:29"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 15:52:29"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 15:52:29"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 15:52:29"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:52:29"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 15:52:55"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:52:55"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 15:52:55"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 15:52:55"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 15:52:55"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:52:55"}
+{"level":"error","message":"App received SIGTERM event, try to gracefully close the server","timestamp":"2024-08-15 15:52:59"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 15:52:59"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:52:59"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 15:52:59"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 15:52:59"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 15:52:59"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:52:59"}
+{"level":"error","message":"App received SIGTERM event, try to gracefully close the server","timestamp":"2024-08-15 15:53:25"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 15:53:26"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:53:26"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 15:53:26"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 15:53:26"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 15:53:26"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:53:26"}
+{"level":"error","message":"App received SIGTERM event, try to gracefully close the server","timestamp":"2024-08-15 15:53:47"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 15:53:47"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:53:47"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 15:53:47"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 15:53:47"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 15:53:47"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:53:47"}
+{"level":"error","message":"App received SIGTERM event, try to gracefully close the server","timestamp":"2024-08-15 15:54:26"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 15:54:27"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:54:27"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 15:54:27"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 15:54:27"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 15:54:27"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:54:27"}
+{"level":"error","message":"App received SIGTERM event, try to gracefully close the server","timestamp":"2024-08-15 15:54:31"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 15:54:31"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:54:31"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 15:54:31"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 15:54:31"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 15:54:31"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:54:31"}
+{"level":"error","message":"App received SIGTERM event, try to gracefully close the server","timestamp":"2024-08-15 15:56:27"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 15:56:27"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:56:27"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 15:56:27"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 15:56:27"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 15:56:27"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:56:27"}
+{"level":"error","message":"App received SIGTERM event, try to gracefully close the server","timestamp":"2024-08-15 15:56:56"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 15:56:57"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:56:57"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 15:56:57"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 15:56:57"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 15:56:57"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:56:57"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2024-08-15 15:56:57"}
+{"level":"error","message":"App received SIGTERM event, try to gracefully close the server","timestamp":"2024-08-15 15:59:34"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 15:59:34"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 15:59:34"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 15:59:34"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 15:59:34"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 15:59:34"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 15:59:34"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2024-08-15 15:59:35"}
+{"level":"error","message":"App received SIGTERM event, try to gracefully close the server","timestamp":"2024-08-15 16:01:06"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 16:01:06"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 16:01:06"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 16:01:06"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 16:01:06"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 16:01:06"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 16:01:06"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2024-08-15 16:01:06"}
+{"level":"error","message":"App received SIGTERM event, try to gracefully close the server","timestamp":"2024-08-15 16:01:21"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 16:01:22"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 16:01:22"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 16:01:22"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 16:01:22"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 16:01:22"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 16:01:22"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2024-08-15 16:01:22"}
+{"level":"error","message":"App received SIGTERM event, try to gracefully close the server","timestamp":"2024-08-15 16:01:52"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 16:01:53"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 16:01:53"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 16:01:53"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 16:01:53"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 16:01:53"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 16:01:53"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2024-08-15 16:01:53"}
+{"level":"error","message":"App received SIGTERM event, try to gracefully close the server","timestamp":"2024-08-15 16:02:07"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"0","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"2","40":"i","41":"m","42":"e","43":")","5":":","6":"0","7":"7","8":" ","9":"G","level":"info","message":"video.uploaded","timestamp":"2024-08-15 16:02:07"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"0","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"2","40":"i","41":"m","42":"e","43":")","5":":","6":"0","7":"7","8":" ","9":"G","level":"info","message":"video.processing","timestamp":"2024-08-15 16:02:07"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"0","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"2","40":"i","41":"m","42":"e","43":")","5":":","6":"0","7":"7","8":" ","9":"G","level":"info","message":"video.processed","timestamp":"2024-08-15 16:02:07"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"0","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"2","40":"i","41":"m","42":"e","43":")","5":":","6":"0","7":"7","8":" ","9":"G","level":"info","message":"video.thumbnail.generateing","timestamp":"2024-08-15 16:02:07"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"0","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"2","40":"i","41":"m","42":"e","43":")","5":":","6":"0","7":"7","8":" ","9":"G","level":"info","message":"video.thumbnail.generated","timestamp":"2024-08-15 16:02:07"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"0","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"2","40":"i","41":"m","42":"e","43":")","5":":","6":"0","7":"7","8":" ","9":"G","level":"info","message":"video.hls-converting","timestamp":"2024-08-15 16:02:07"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"0","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"2","40":"i","41":"m","42":"e","43":")","5":":","6":"0","7":"7","8":" ","9":"G","level":"info","message":"video.hls.converted","timestamp":"2024-08-15 16:02:07"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 16:02:07"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"0","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"2","40":"i","41":"m","42":"e","43":")","5":":","6":"0","7":"7","8":" ","9":"G","level":"info","message":"notify.video.hls.converted","timestamp":"2024-08-15 16:02:07"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 16:02:07"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 16:02:07"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 16:02:07"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 16:02:07"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 16:02:07"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2024-08-15 16:02:07"}
+{"level":"error","message":"App received SIGTERM event, try to gracefully close the server","timestamp":"2024-08-15 16:11:33"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"1","40":"i","41":"m","42":"e","43":")","5":":","6":"3","7":"3","8":" ","9":"G","level":"info","message":"video.uploaded","timestamp":"2024-08-15 16:11:33"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"1","40":"i","41":"m","42":"e","43":")","5":":","6":"3","7":"3","8":" ","9":"G","level":"info","message":"video.processing","timestamp":"2024-08-15 16:11:33"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"1","40":"i","41":"m","42":"e","43":")","5":":","6":"3","7":"3","8":" ","9":"G","level":"info","message":"video.processed","timestamp":"2024-08-15 16:11:33"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"1","40":"i","41":"m","42":"e","43":")","5":":","6":"3","7":"3","8":" ","9":"G","level":"info","message":"video.thumbnail.generateing","timestamp":"2024-08-15 16:11:33"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"1","40":"i","41":"m","42":"e","43":")","5":":","6":"3","7":"3","8":" ","9":"G","level":"info","message":"video.thumbnail.generated","timestamp":"2024-08-15 16:11:33"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"1","40":"i","41":"m","42":"e","43":")","5":":","6":"3","7":"3","8":" ","9":"G","level":"info","message":"video.hls-converting","timestamp":"2024-08-15 16:11:33"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"1","40":"i","41":"m","42":"e","43":")","5":":","6":"3","7":"3","8":" ","9":"G","level":"info","message":"video.hls.converted","timestamp":"2024-08-15 16:11:33"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 16:11:34"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"1","40":"i","41":"m","42":"e","43":")","5":":","6":"3","7":"4","8":" ","9":"G","level":"info","message":"notify.video.hls.converted","timestamp":"2024-08-15 16:11:34"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 16:11:34"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 16:11:34"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 16:11:34"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 16:11:34"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 16:11:34"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2024-08-15 16:11:34"}
+{"level":"error","message":"App received SIGTERM event, try to gracefully close the server","timestamp":"2024-08-15 16:17:21"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"7","40":"i","41":"m","42":"e","43":")","5":":","6":"2","7":"2","8":" ","9":"G","level":"info","message":"video.uploaded","timestamp":"2024-08-15 16:17:22"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"7","40":"i","41":"m","42":"e","43":")","5":":","6":"2","7":"2","8":" ","9":"G","level":"info","message":"video.processing","timestamp":"2024-08-15 16:17:22"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"7","40":"i","41":"m","42":"e","43":")","5":":","6":"2","7":"2","8":" ","9":"G","level":"info","message":"video.processed","timestamp":"2024-08-15 16:17:22"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"7","40":"i","41":"m","42":"e","43":")","5":":","6":"2","7":"2","8":" ","9":"G","level":"info","message":"video.thumbnail.generateing","timestamp":"2024-08-15 16:17:22"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"7","40":"i","41":"m","42":"e","43":")","5":":","6":"2","7":"2","8":" ","9":"G","level":"info","message":"video.thumbnail.generated","timestamp":"2024-08-15 16:17:22"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"7","40":"i","41":"m","42":"e","43":")","5":":","6":"2","7":"2","8":" ","9":"G","level":"info","message":"video.hls-converting","timestamp":"2024-08-15 16:17:22"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"7","40":"i","41":"m","42":"e","43":")","5":":","6":"2","7":"2","8":" ","9":"G","level":"info","message":"video.hls.converted","timestamp":"2024-08-15 16:17:22"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 16:17:22"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"7","40":"i","41":"m","42":"e","43":")","5":":","6":"2","7":"2","8":" ","9":"G","level":"info","message":"notify.video.hls.converted","timestamp":"2024-08-15 16:17:22"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 16:17:22"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 16:17:22"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 16:17:22"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 16:17:22"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 16:17:22"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2024-08-15 16:17:22"}
+{"level":"error","message":"App received SIGTERM event, try to gracefully close the server","timestamp":"2024-08-15 16:18:01"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"8","40":"i","41":"m","42":"e","43":")","5":":","6":"0","7":"1","8":" ","9":"G","level":"info","message":"video.uploaded","timestamp":"2024-08-15 16:18:01"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"8","40":"i","41":"m","42":"e","43":")","5":":","6":"0","7":"1","8":" ","9":"G","level":"info","message":"video.processing","timestamp":"2024-08-15 16:18:01"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"8","40":"i","41":"m","42":"e","43":")","5":":","6":"0","7":"1","8":" ","9":"G","level":"info","message":"video.processed","timestamp":"2024-08-15 16:18:01"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"8","40":"i","41":"m","42":"e","43":")","5":":","6":"0","7":"1","8":" ","9":"G","level":"info","message":"video.thumbnail.generateing","timestamp":"2024-08-15 16:18:01"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"8","40":"i","41":"m","42":"e","43":")","5":":","6":"0","7":"1","8":" ","9":"G","level":"info","message":"video.thumbnail.generated","timestamp":"2024-08-15 16:18:01"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"8","40":"i","41":"m","42":"e","43":")","5":":","6":"0","7":"1","8":" ","9":"G","level":"info","message":"video.hls-converting","timestamp":"2024-08-15 16:18:01"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"8","40":"i","41":"m","42":"e","43":")","5":":","6":"0","7":"1","8":" ","9":"G","level":"info","message":"video.hls.converted","timestamp":"2024-08-15 16:18:01"}
+{"level":"info","message":"Starting web server...","timestamp":"2024-08-15 16:18:01"}
+{"0":"1","1":"6","10":"M","11":"T","12":"+","13":"0","14":"6","15":"0","16":"0","17":" ","18":"(","19":"B","2":":","20":"a","21":"n","22":"g","23":"l","24":"a","25":"d","26":"e","27":"s","28":"h","29":" ","3":"1","30":"S","31":"t","32":"a","33":"n","34":"d","35":"a","36":"r","37":"d","38":" ","39":"T","4":"8","40":"i","41":"m","42":"e","43":")","5":":","6":"0","7":"1","8":" ","9":"G","level":"info","message":"notify.video.hls.converted","timestamp":"2024-08-15 16:18:01"}
+{"level":"info","message":"Express middlewares are set up","timestamp":"2024-08-15 16:18:01"}
+{"level":"info","message":"Defining routes...","timestamp":"2024-08-15 16:18:01"}
+{"level":"info","message":"Routes defined","timestamp":"2024-08-15 16:18:01"}
+{"level":"info","message":"Server is about to listen to port 4000","timestamp":"2024-08-15 16:18:01"}
+{"level":"info","message":"Server using logger is running on :::4000","timestamp":"2024-08-15 16:18:01"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2024-08-15 16:18:01"}

@@ -1,4 +1,5 @@
 import { createClient, RedisClientType } from "redis";
+import logger from "../../libraries/log/logger";
 
 class RedisService {
   private client: RedisClientType;
@@ -8,14 +9,14 @@ class RedisService {
       url: "redis://localhost:6379", // You can add Redis configuration options here
     });
 
-    this.client.connect().catch(console.error);
+    this.client.connect().catch(logger.error);
 
     this.client.on("error", (error) => {
-      console.error("Redis Client Error:", error);
+      logger.error("Redis Client Error:", error);
     });
 
     this.client.on("connect", () => {
-      console.log("Redis Client Connected");
+      logger.info("Redis Client Connected");
     });
   }
 
@@ -23,7 +24,7 @@ class RedisService {
     try {
       return await this.client.get(key);
     } catch (error) {
-      console.error("Redis GET error:", error);
+      logger.error("Redis GET error:", error);
       throw error;
     }
   }
@@ -40,7 +41,7 @@ class RedisService {
         await this.client.set(key, value);
       }
     } catch (error) {
-      console.error("Redis SET error:", error);
+      logger.error("Redis SET error:", error);
       throw error;
     }
   }
@@ -49,7 +50,7 @@ class RedisService {
     try {
       return await this.client.del(key);
     } catch (error) {
-      console.error("Redis DELETE error:", error);
+      logger.error("Redis DELETE error:", error);
       throw error;
     }
   }
@@ -58,7 +59,7 @@ class RedisService {
     try {
       return (await this.client.exists(key)) > 0;
     } catch (error) {
-      console.error("Redis EXISTS error:", error);
+      logger.error("Redis EXISTS error:", error);
       throw error;
     }
   }
@@ -67,7 +68,7 @@ class RedisService {
     try {
       return await this.client.incr(key);
     } catch (error) {
-      console.error("Redis INCREMENT error:", error);
+      logger.error("Redis INCREMENT error:", error);
       throw error;
     }
   }
@@ -76,7 +77,7 @@ class RedisService {
     try {
       return await this.client.decr(key);
     } catch (error) {
-      console.error("Redis DECREMENT error:", error);
+      logger.error("Redis DECREMENT error:", error);
       throw error;
     }
   }
@@ -86,7 +87,7 @@ class RedisService {
       const result = await this.client.expire(key, seconds);
       return Boolean(result);
     } catch (error) {
-      console.error("Redis EXPIRE error:", error);
+      logger.error("Redis EXPIRE error:", error);
       throw error;
     }
   }
@@ -95,7 +96,7 @@ class RedisService {
     try {
       return await this.client.ttl(key);
     } catch (error) {
-      console.error("Redis TTL error:", error);
+      logger.error("Redis TTL error:", error);
       throw error;
     }
   }
@@ -104,7 +105,7 @@ class RedisService {
     try {
       await this.client.flushAll();
     } catch (error) {
-      console.error("Redis FLUSHALL error:", error);
+      logger.error("Redis FLUSHALL error:", error);
       throw error;
     }
   }
@@ -112,7 +113,7 @@ class RedisService {
   async disconnect(): Promise<void> {
     try {
       await this.client.quit();
-      console.log("Redis Client Disconnected");
+      logger.info("Redis Client Disconnected");
     } catch (error) {
       console.error("Redis disconnect error:", error);
       throw error;
@@ -125,7 +126,7 @@ class RedisService {
 
       return result;
     } catch (error) {
-      console.error("Redis disconnect error:", error);
+      logger.error("Redis disconnect error:", error);
       throw error;
     }
   }

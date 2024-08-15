@@ -8,7 +8,6 @@ import {
   customHeadersMiddleware,
 } from "./middlewares/cors-middleware";
 import { requestLogger } from "./middlewares/request-logger";
-// import { redisService } from "./services/redis-service";
 import { listenQueueEvent } from "./services/queue-service/worker";
 import { NOTIFY_EVENTS } from "./domains/video/constant";
 import EventManager from "./libraries/util/event-manager";
@@ -35,17 +34,17 @@ const createExpressApp = (): Application => {
   expressApp.use(express.json());
   expressApp.use(express.urlencoded({ extended: true }));
   expressApp.use("/uploads", express.static("uploads"));
-
   expressApp.use(requestLogger);
 
-  console.log("Express middlewares are set up");
+  logger.info("Express middlewares are set up");
+
   defineRoutes(expressApp);
   defineErrorHandlingMiddleware(expressApp);
   return expressApp;
 };
 
 async function startWebServer(): Promise<Application> {
-  console.log("Starting web server...");
+  logger.info("Starting web server...");
 
   await setup(); // Queue setup
 
@@ -55,7 +54,6 @@ async function startWebServer(): Promise<Application> {
   logger.info(
     `Server using logger is running on ${APIAddress.address}:${APIAddress.port}`
   );
-  // console.log(`Server is running on ${APIAddress.address}:${APIAddress.port}`);
 
   return expressApp;
 }
@@ -75,7 +73,7 @@ async function openConnection(
 ): Promise<{ address: string; port: number }> {
   return new Promise((resolve) => {
     const webServerPort = config.PORT;
-    console.log(`Server is about to listen to port ${webServerPort}`);
+    logger.info(`Server is about to listen to port ${webServerPort}`);
 
     connection = expressApp.listen(webServerPort, () => {
       errorHandler.listenToErrorEvents(connection);

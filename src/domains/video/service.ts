@@ -18,6 +18,7 @@ import {
   uploadToCloudinary,
 } from "../../libraries/cloudinary/upload-file";
 import { calculatePagination, Pagination } from "../../libraries/util/response";
+import logger from "../../libraries/log/logger";
 import fsPromise from "fs/promises";
 
 enum VIDEO_VISIBILITIES {
@@ -46,6 +47,7 @@ export const getPublishedVideos = async (
       pagination,
     };
   } catch (error) {
+    logger.error(`getPublishedVideos(): Failed to fetch ${model}`, error);
     throw error;
   }
 };
@@ -201,14 +203,6 @@ export const createVideo = async (
   }
 };
 
-export const updateVideoById = async () => {
-  try {
-  } catch (error: any) {
-    console.error(`updateById(): Failed to create ${model}`, error);
-    throw error;
-  }
-};
-
 export const deleteVideoById = async (
   id: number,
   userId: number
@@ -252,8 +246,6 @@ export const updateVideoFromEvent = async (data: UpdateVideoFromEvent) => {
       visibility: data.visibility,
     });
   } catch (error) {
-    console.log(error);
-
     throw error;
   }
 };

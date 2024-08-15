@@ -1,4 +1,5 @@
 import { AppError } from "../../libraries/error-handling/AppError";
+import { HTTP_ERRORS } from "../../libraries/error-handling/error-codes";
 import {
   CreateVideoRequestDTO,
   GetOwnVideoDetails,
@@ -26,11 +27,6 @@ enum VIDEO_VISIBILITIES {
 }
 
 const model = "Video";
-
-// Get video details - Urls, view count, total comments, total likes,
-// Search video
-// video duration and resulation
-// Internal server error in production
 
 export const getPublishedVideos = async (
   data: PublishedVideosRequestDTO
@@ -213,29 +209,30 @@ export const updateVideoById = async () => {
   }
 };
 
-// TODO: Check ownership by ueer id
-// User can delete only his videos
-// A user can delete the videos which has been already processed.And user is able to delete private videos also.But here we are fetching the published videos only for deletion
 export const deleteVideoById = async (
   id: number,
   userId: number
 ): Promise<void> => {
   try {
-    const validVideoFolderId = await repository.checkVideoByVideoIdAndUserId(
-      id,
-      userId
-    );
+    const validVideo = await repository.checkOwnVideoByIdAndReturn(id);
 
-    if (!validVideoFolderId) {
+    if (!validVideo || !validVideo.folderId) {
       throw new AppError(
-        `${model}: Video unavailable`,
-        `${model}: Video unavailable`,
-        404
+        HTTP_ERRORS.NotFound.name,
+        `Video unavailable`,
+        HTTP_ERRORS.NotFound.code
       );
     }
 
-    await deleteFolder(validVideoFolderId);
+    if (validVideo.userId !== userId) {
+      throw new AppError(
+        `${model}: You do not have permission to access this resource`,
+        `${model}: You do not have permission to access this resource`,
+        401
+      );
+    }
 
+    await deleteFolder(validVideo.folderId);
     await repository.deleteVideoById(id);
   } catch (error) {
     throw error;
@@ -270,7 +267,7 @@ export const updateOwnVideo = async (
       data.userId
     );
 
-    if (validVideo.exists === false) {
+    if (validVideo.isPublished === false) {
       throw new AppError(
         `${model}: Video unavailable`,
         `${model}: Video unavailable`,
@@ -278,19 +275,11 @@ export const updateOwnVideo = async (
       );
     }
 
-    if (!validVideo.status) {
+    if (!validVideo.isOwner === false) {
       throw new AppError(
         `${model}: You do not have permission to access this resource`,
         `${model}: You do not have permission to access this resource`,
         401
-      );
-    }
-
-    if (data.visibility && validVideo.status === data.visibility) {
-      throw new AppError(
-        `${model}: is already ${data.visibility}`,
-        `${model}: is already ${data.visibility}`,
-        400
       );
     }
 

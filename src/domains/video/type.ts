@@ -1,11 +1,5 @@
 import { Pagination } from "../../libraries/util/response";
 
-enum VIDEO_VISIBILITIES {
-  PUBLIC = "Public",
-  PRIVATE = "Private",
-  UNLISTED = "Unlisted",
-}
-
 export interface CreateVideoRequestDTO {
   ownerId: number;
   title: string;
@@ -71,15 +65,6 @@ export interface GetOwnVideoDetails {
   ownerId: number;
   createdAt: Date | null;
 }
-
-// id: videoSchema.id,
-// title: videoSchema.title,
-// description: videoSchema.description,
-// viewCount: videoSchema.viewCount,
-// hlsVideoUrl: videoSchema.hlsVideoUrl,
-// createdAt: videoSchema.createdAt,
-// visibility: videoSchema.visibility,
-// status: videoSchema.status,
 
 export interface GetPublishedVideoDetailsDTO {
   id: number;

@@ -10,6 +10,7 @@ import {
 import { eq, sql, and, asc } from "drizzle-orm";
 import postgres from "postgres";
 import userSchema from "../user/schema";
+import { boolean } from "drizzle-orm/mysql-core";
 
 enum VIDEO_VISIBILITIES {
   PUBLIC = "Public",
@@ -77,23 +78,30 @@ export const getPublishedVideosCount = async (): Promise<number> => {
   }
 };
 
-export const checkVideoByVideoIdAndUserId = async (
-  videoId: number,
-  userId: number
-): Promise<string | null> => {
-  console.log("Here");
+export const checkOwnVideoByIdAndReturn = async (
+  videoId: number
+): Promise<{ id: number; userId: number; folderId?: string } | null> => {
   try {
     const [result] = await db
       .select({
         id: videoSchema.id,
+        userId: videoSchema.ownerId,
         folderId: videoSchema.cloudFolderId,
       })
       .from(videoSchema)
-      .where(and(eq(videoSchema.id, videoId), eq(videoSchema.ownerId, userId)));
+      .where(
+        and(eq(videoSchema.status, "published"), eq(videoSchema.id, videoId))
+      );
 
-    console.log(result);
-
-    return result?.folderId;
+    if (result) {
+      return {
+        id: result.id,
+        userId: result.userId,
+        folderId: result.folderId ? result.folderId : undefined,
+      };
+    } else {
+      return null;
+    }
   } catch (error) {
     throw error;
   }
@@ -215,25 +223,27 @@ export const checkUserVideoExistanceById = async (
   return result[0].exists;
 };
 
-interface QueryResult {
-  exists: boolean;
-  status: string | null;
+interface VideExistanceAndOwnership {
+  isPublished: boolean;
+  isOwner: boolean;
 }
 
 export const checkVideoExistanceAndOwnership = async (
   id: number,
   userId: number
-): Promise<QueryResult> => {
+): Promise<VideExistanceAndOwnership> => {
   const result = await sql`
-  SELECT EXISTS (
-    SELECT 1 
-    FROM ${videoSchema} 
-    WHERE ${videoSchema.id} = ${id} AND ${videoSchema.status} = 'published'
-  ) as exists,
-  (SELECT ${videoSchema.visibility} 
-   FROM ${videoSchema} 
-   WHERE ${videoSchema.id} = ${id} AND ${videoSchema.ownerId} = ${userId}
-  ) as status
+  SELECT 
+    EXISTS (
+      SELECT 1
+      FROM ${videoSchema}
+      WHERE ${videoSchema.id} = ${id} AND ${videoSchema.status} = 'published'
+    ) as isPublished,
+    EXISTS (
+      SELECT 1
+      FROM ${videoSchema}
+      WHERE ${videoSchema.id} = ${id} AND ${videoSchema.ownerId} = ${userId}
+    ) as isOwner
 `;
 
   const final: postgres.RowList<Record<string, unknown>[]> = await db.execute(
@@ -241,8 +251,8 @@ export const checkVideoExistanceAndOwnership = async (
   );
 
   return {
-    exists: final[0].exists as boolean,
-    status: final[0].status as string | null,
+    isPublished: final[0].isPublished as boolean,
+    isOwner: final[0].isOwner as boolean,
   };
 };
 

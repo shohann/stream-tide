@@ -17,7 +17,7 @@ import {
   deleteFolder,
   uploadToCloudinary,
 } from "../../libraries/cloudinary/upload-file";
-import { calculatePagination, Pagination } from "../../libraries/util/response";
+import { calculatePagination } from "../../libraries/util/response";
 import fsPromise from "fs/promises";
 import { VIDEO_VISIBILITIES } from "./type";
 

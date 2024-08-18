@@ -31,8 +31,8 @@ const video = pgTable("video", {
   hlsVideoUrl: varchar("hls_video_url", { length: 255 }),
   thumbnailUrl: varchar("thumbnail_url", { length: 255 }),
   cloudFolderId: varchar("cloud_folder_id", { length: 255 }),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
   ownerId: integer("owner_id")
     .notNull()
     .references(() => user.id),

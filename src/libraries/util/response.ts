@@ -34,9 +34,9 @@ export default class ApiResponse<T> {
     pagination?: Pagination
   ) {
     this.statusCode = statusCode;
-    this.data = data;
     this.message = message;
     this.success = statusCode < 400;
+    this.data = data;
     this.pagination = pagination;
   }
 }

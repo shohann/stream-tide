@@ -1,3 +1,4 @@
+import { Pagination } from "../../libraries/util/response";
 import { User, SelectUser } from "./schema";
 
 export interface loginRequestDTO {
@@ -35,13 +36,18 @@ export interface UserDetailsResponseDTO {
   lastName: string;
   email: string;
   userName: string;
+  role: string;
   image?: string | null;
   createdAt?: Date | null;
 }
 
-export type CreatedUser = User & { id: number };
+export type CreatedUser = User & { id: number; role: string };
 
-export type UserDetail = User & { id: number; createdAt: Date | null };
+export type UserDetail = User & {
+  id: number;
+  createdAt: Date | null;
+  role: string;
+};
 
 export type UserSelectedFields = {
   [K in keyof SelectUser]: boolean;
@@ -86,4 +92,15 @@ export interface UserWithRequiredId {
 export interface refreshAccessTokenResponseDTO {
   accessToken: string;
   refreshToken: string;
+}
+
+export interface userListRequestDTO {
+  page: number;
+  size: number;
+  search?: string | undefined;
+}
+
+export interface userListResponseDTO {
+  data: Partial<User>[] | [];
+  pagination?: Pagination;
 }

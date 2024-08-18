@@ -12,12 +12,11 @@ import * as service from "./service";
 import validate, { validateAndParse } from "../../middlewares/validateResource";
 import { authorize } from "../../middlewares/auth";
 import ApiResponse from "../../libraries/util/response";
-
-const model = "Video";
+import logger from "../../libraries/log/logger";
 
 const routes = () => {
   const router = express.Router();
-  console.log(`Setting up routes ${model}`);
+  logger.info(`Setting up routes video`);
 
   router.post(
     "/upload",
@@ -46,7 +45,6 @@ const routes = () => {
 
         res.status(201).send("Video has been uploaded successfully");
       } catch (error) {
-        console.error("Error in video processing:", error);
         next(error);
       }
     }
@@ -69,7 +67,7 @@ const routes = () => {
           result.pagination
         );
 
-        res.status(200).json(apiResponse);
+        res.status(apiResponse.statusCode).json(apiResponse);
       } catch (error) {
         next(error);
       }

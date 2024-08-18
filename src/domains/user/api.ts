@@ -18,22 +18,41 @@ import validate, {
   validateParams,
 } from "../../middlewares/validateResource";
 import upload from "../../libraries/util/upload";
-import { authorize } from "../../middlewares/auth";
+import { authorize, checkAdmin } from "../../middlewares/auth";
+import ApiResponse from "../../libraries/util/response";
+import logger from "../../libraries/log/logger";
 
 const model = "User";
 
 const routes = () => {
   const router = express.Router();
-  console.log(`Setting up routes ${model}`);
+  logger.info(`Setting up routes ${model}`);
 
-  router.get("/", async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const userList: any = await service.list();
-      res.status(201).send(userList);
-    } catch (error) {
-      next(error);
+  router.get(
+    "/",
+    authorize,
+    checkAdmin,
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const page = parseInt(req.query.page as string);
+        const size = parseInt(req.query.size as string);
+        const search = req.query.search as string;
+
+        const userList = await service.list({ page, size, search });
+
+        const apiResponse = new ApiResponse(
+          200,
+          userList.data,
+          "User list fetched successfully",
+          userList.pagination
+        );
+
+        res.status(apiResponse.statusCode).json(apiResponse);
+      } catch (error) {
+        next(error);
+      }
     }
-  });
+  );
 
   router.post(
     "/register",
@@ -53,7 +72,13 @@ const routes = () => {
           password,
         });
 
-        res.status(201).json(newUser);
+        const apiResponse = new ApiResponse(
+          200,
+          newUser,
+          "Registration successful"
+        );
+
+        res.status(apiResponse.statusCode).json(newUser);
       } catch (error: any) {
         next(error);
       }
@@ -75,7 +100,9 @@ const routes = () => {
           password,
         });
 
-        res.status(200).send(result);
+        const apiResponse = new ApiResponse(200, result, "Login successful");
+
+        res.status(apiResponse.statusCode).json(apiResponse);
       } catch (error: any) {
         next(error);
       }
@@ -94,7 +121,9 @@ const routes = () => {
         const oldRefreshToken = req.body.refreshToken;
         const tokens = await service.refreshAccessToken(oldRefreshToken);
 
-        res.status(201).send(tokens);
+        const apiResponse = new ApiResponse(200, tokens, "Login successful");
+
+        res.status(apiResponse.statusCode).json(apiResponse);
       } catch (error) {
         next(error);
       }
@@ -109,7 +138,9 @@ const routes = () => {
         const userId = req.user.id;
         await service.logoutAll(userId);
 
-        res.status(200).send("Success");
+        const apiResponse = new ApiResponse(200, null, "Login successful");
+
+        res.status(apiResponse.statusCode).json(apiResponse);
       } catch (error) {
         next(error);
       }
@@ -124,7 +155,13 @@ const routes = () => {
         const userId = parseInt(req.params.userId, 10);
         const userDetails = await service.details(userId);
 
-        res.status(200).send(userDetails);
+        const apiResponse = new ApiResponse(
+          200,
+          userDetails,
+          "Login successful"
+        );
+
+        res.status(apiResponse.statusCode).json(apiResponse);
       } catch (error: any) {
         next(error);
       }
@@ -156,7 +193,13 @@ const routes = () => {
           imageFile: imageFile,
         });
 
-        res.status(201).send(updatedUser);
+        const apiResponse = new ApiResponse(
+          200,
+          updatedUser,
+          "Login successful"
+        );
+
+        res.status(apiResponse.statusCode).json(apiResponse);
       } catch (error) {
         next(error);
       }

@@ -30,7 +30,10 @@ const errorHandler = {
   handleError: async (errorToHandle: any): Promise<void> => {
     try {
       const appError = normalizeError(errorToHandle);
-      logger.error(appError.message, appError);
+
+      logger.error(appError);
+
+      // logger.error(appError.message, appError);
       if (!appError.isTrusted) {
         await terminateHttpServerAndExit();
       }

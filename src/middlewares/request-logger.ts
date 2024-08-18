@@ -1,7 +1,11 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from "express";
+import logger from "../libraries/log/logger";
 
-export const requestLogger = (req: Request, _res: Response, next: NextFunction) => {
-  // Log an info message for each incoming request
-  console.log(`${req.method} ${req.originalUrl}`);
+export const requestLogger = (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+) => {
+  logger.info(`${req.method} ${req.originalUrl}`);
   next();
 };

@@ -3,12 +3,12 @@ import * as service from "./service";
 import validate from "../../middlewares/validateResource";
 import { createLike, createLikeType } from "./request";
 import { authorize } from "../../middlewares/auth";
-
-const model = "Like";
+import ApiResponse from "../../libraries/util/response";
+import logger from "../../libraries/log/logger";
 
 const routes = () => {
   const router = express.Router();
-  console.log(`Setting up routes ${model}`);
+  logger.info(`Setting up routes Like`);
 
   router.post(
     "/",
@@ -28,23 +28,32 @@ const routes = () => {
           videoId,
         });
 
-        res.status(201).send("Success");
+        const apiResponse = new ApiResponse(
+          201,
+          null,
+          "Like created successfully"
+        );
+
+        res.status(apiResponse.statusCode).json(apiResponse);
       } catch (error: any) {
         next(error);
       }
     }
   );
 
-  // Handling already like
-
   router.get(
-    "/videos/:videosId/like-count",
-    authorize,
+    "/videos/:videoId/like-count",
     async (req: Request, res: Response, next: NextFunction) => {
-      const userId = req.user.id;
-      const videoId = parseInt(req.params.videoId);
+      const videoId = parseInt(req.params.videoId as string);
+      const count = await service.getLikeCount(videoId);
 
-      res.status(200).send("OK");
+      const apiResponse = new ApiResponse(
+        200,
+        { count },
+        "Like count fetched successfully"
+      );
+
+      res.status(apiResponse.statusCode).json(apiResponse);
     }
   );
 
@@ -58,7 +67,13 @@ const routes = () => {
 
         const status = await service.getLikeStatus({ userId, videoId });
 
-        res.status(200).send(status);
+        const apiResponse = new ApiResponse(
+          200,
+          status,
+          "Like fetched successfully"
+        );
+
+        res.status(apiResponse.statusCode).json(apiResponse);
       } catch (error) {
         next(error);
       }
@@ -72,7 +87,13 @@ const routes = () => {
         const videoId = parseInt(req.params.videoId);
         const likeCount = await service.getLikeCount(videoId);
 
-        res.status(200).send({ likeCount });
+        const apiResponse = new ApiResponse(
+          200,
+          { likeCount },
+          "Like fetched successfully"
+        );
+
+        res.status(apiResponse.statusCode).json(apiResponse);
       } catch (error) {
         next(error);
       }
@@ -88,7 +109,13 @@ const routes = () => {
 
       await service.removeUserLike({ userId, likeId });
 
-      res.status(200).send();
+      const apiResponse = new ApiResponse(
+        200,
+        null,
+        "Like deleted successfully"
+      );
+
+      res.status(apiResponse.statusCode).json(apiResponse);
     }
   );
 

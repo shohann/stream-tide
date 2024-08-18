@@ -10,12 +10,12 @@ import {
   updateCommentParamsType,
 } from "./request";
 import { authorize } from "../../middlewares/auth";
-
-const model = "Comment";
+import ApiResponse from "../../libraries/util/response";
+import logger from "../../libraries/log/logger";
 
 const routes = () => {
   const router = express.Router();
-  console.log(`Setting up routes ${model}`);
+  logger.info(`Setting up routes comments`);
 
   router.post(
     "/",
@@ -29,27 +29,47 @@ const routes = () => {
       try {
         const userId = req.user.id;
         const { videoId, content } = req.body;
-        await service.createComment({
+
+        const createdComment = await service.createComment({
           userId,
           videoId,
           content,
         });
-        res.status(201).send("Success");
+
+        const apiResponse = new ApiResponse(
+          201,
+          createdComment,
+          "Comment created successfully"
+        );
+
+        res.status(apiResponse.statusCode).json(apiResponse);
       } catch (error: any) {
         next(error);
       }
     }
   );
 
-  // TODO: List api, pagination, search, filtering, sorting, public API
   router.get(
     "/videos/:videoId",
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const videoId = req.params.videoId;
-        const comments = await service.getCommentList(parseInt(videoId));
+        const page = parseInt(req.query.page as string);
+        const size = parseInt(req.query.size as string);
+        const videoId = parseInt(req.params.videoId as string);
 
-        res.status(200).send(comments);
+        const comments = await service.getCommentList({
+          videoId,
+          page,
+          size,
+        });
+
+        const apiResponse = new ApiResponse(
+          200,
+          comments,
+          "Comment fetched successfully"
+        );
+
+        res.status(apiResponse.statusCode).json(apiResponse);
       } catch (error) {
         next(error);
       }
@@ -67,7 +87,13 @@ const routes = () => {
 
         await service.removeComment(parseInt(commentId), userId);
 
-        res.status(200).send("Success");
+        const apiResponse = new ApiResponse(
+          200,
+          null,
+          "Comment deleted successfully"
+        );
+
+        res.status(apiResponse.statusCode).json(apiResponse);
       } catch (error) {
         next(error);
       }
@@ -84,7 +110,13 @@ const routes = () => {
           parseInt(commentId)
         );
 
-        res.status(200).send(commentDetails);
+        const apiResponse = new ApiResponse(
+          200,
+          commentDetails,
+          "Comment deleted successfully"
+        );
+
+        res.status(apiResponse.statusCode).json(apiResponse);
       } catch (error) {
         next(error);
       }
@@ -105,13 +137,19 @@ const routes = () => {
         const commentId = parseInt(req.params.commentId, 10);
         const content = req.body.content;
 
-        await service.updateComment({
+        const updatedComment = await service.updateComment({
           userId,
           commentId,
           content,
         });
 
-        res.status(201).send("Success");
+        const apiResponse = new ApiResponse(
+          200,
+          updatedComment,
+          "Comment updated successfully"
+        );
+
+        res.status(apiResponse.statusCode).json(apiResponse);
       } catch (error) {
         next(error);
       }

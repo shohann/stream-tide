@@ -1,4 +1,10 @@
-import { integer, pgTable, serial, varchar } from "drizzle-orm/pg-core";
+import {
+  integer,
+  pgTable,
+  serial,
+  timestamp,
+  varchar,
+} from "drizzle-orm/pg-core";
 import user from "../user/schema";
 import { relations } from "drizzle-orm";
 import video from "../video/schema";
@@ -13,6 +19,8 @@ const comment = pgTable("comment", {
   videoId: integer("video_id")
     .notNull()
     .references(() => video.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 export const commentRelations = relations(comment, ({ one }) => ({

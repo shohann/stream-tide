@@ -7,8 +7,7 @@ import {
   GetLikeStatusResposneDTO,
   RemoveLikeRequestDTO,
 } from "./type";
-
-const model = "Like";
+import { HTTP_ERRORS } from "../../libraries/error-handling/error-codes";
 
 export const createLike = async (data: CreateLikeRequestDTO): Promise<void> => {
   try {
@@ -18,9 +17,9 @@ export const createLike = async (data: CreateLikeRequestDTO): Promise<void> => {
 
     if (isPublished === false) {
       throw new AppError(
-        `${model}: Video unavailable`,
-        `${model}: Video unavailable`,
-        404
+        HTTP_ERRORS.NotFound.name,
+        `Video unavailable`,
+        HTTP_ERRORS.NotFound.code
       );
     }
 
@@ -28,11 +27,12 @@ export const createLike = async (data: CreateLikeRequestDTO): Promise<void> => {
       data.userId,
       data.videoId
     );
+
     if (isAlreadyLiked === true) {
       throw new AppError(
-        `${model}: Video already liked`,
-        `${model}: Video already liked`,
-        400
+        HTTP_ERRORS.NotFound.name,
+        `Video already liked`,
+        HTTP_ERRORS.NotFound.code
       );
     }
 
@@ -41,7 +41,6 @@ export const createLike = async (data: CreateLikeRequestDTO): Promise<void> => {
       videoId: data.videoId,
     });
   } catch (error: any) {
-    console.error(`create(): Failed to create ${model}`, error);
     throw error;
   }
 };
@@ -84,15 +83,14 @@ export const removeUserLike = async (
 
     if (isValidLike === false) {
       throw new AppError(
-        `${model}: Like unavailable`,
-        `${model}: Like unavailable`,
-        404
+        HTTP_ERRORS.NotFound.name,
+        `Like unavailable`,
+        HTTP_ERRORS.NotFound.code
       );
     }
 
     await likeRepository.removeLikeById(data.likeId);
   } catch (error: any) {
-    console.error(`deleteById(): Failed to create ${model}`, error);
     throw error;
   }
 };

@@ -1,110 +1,150 @@
 import { AppError } from "../../libraries/error-handling/AppError";
+import { HTTP_ERRORS } from "../../libraries/error-handling/error-codes";
 import * as commentRepository from "./repository";
 import * as videoRepository from "../video/repository";
 import { Comment } from "./schema";
-const model = "Comment";
+import {
+  CommentListRequestDTO,
+  CommentListResponseDTO,
+  CreateCommentRequestDTO,
+  CreateCommentResponseDTO,
+  UpdateCommentRequestDTO,
+  UpdateCommentResponseDTO,
+} from "./type";
+import { calculatePagination } from "../../libraries/util/response";
 
-export const getCommentList = async (videoId: number): Promise<Comment[]> => {
-  try {
-    const comments = await commentRepository.getCommentsByVideoId(videoId);
-    return comments;
-  } catch (error) {
-    throw error;
+export const getCommentList = async (
+  data: CommentListRequestDTO
+): Promise<CommentListResponseDTO> => {
+  if (!data.page && !data.size) {
+    data.page = 1;
+    data.size = 10;
   }
+
+  const comments = await commentRepository.getCommentsByVideoId(
+    data.videoId,
+    data.page,
+    data.size
+  );
+  const totalItems = await commentRepository.getCommentsCountByVideoId(
+    data.videoId
+  );
+  const pagination = calculatePagination(data.page, data.size, totalItems);
+
+  return {
+    data: comments,
+    pagination,
+  };
 };
 
 export const getCommentDetails = async (
   commentId: number
 ): Promise<Partial<Comment>> => {
-  try {
-    const commentDetails = await commentRepository.getCommentDetails(commentId);
+  const commentDetails = await commentRepository.getCommentDetails(commentId);
 
-    if (!commentDetails) {
-      throw new AppError(
-        `${model}: Comment unavailable`,
-        `${model}: Comment unavailable`,
-        404
-      );
-    }
-
-    return commentDetails;
-  } catch (error) {
-    throw error;
+  if (!commentDetails) {
+    throw new AppError(
+      HTTP_ERRORS.NotFound.name,
+      `Comment unavailable`,
+      HTTP_ERRORS.NotFound.code
+    );
   }
+
+  return commentDetails;
 };
 
 export const createComment = async (
   data: CreateCommentRequestDTO
-): Promise<void> => {
-  try {
-    const isPublished = await videoRepository.checkPublishedVideoById(
-      data.videoId
+): Promise<CreateCommentResponseDTO> => {
+  const isPublished = await videoRepository.checkPublishedVideoById(
+    data.videoId
+  );
+
+  if (isPublished === false) {
+    throw new AppError(
+      HTTP_ERRORS.NotFound.name,
+      `Comment unavailable`,
+      HTTP_ERRORS.NotFound.code
     );
-
-    if (isPublished === false) {
-      throw new AppError(
-        `${model}: Video unavailable`,
-        `${model}: Video unavailable`,
-        404
-      );
-    }
-
-    await commentRepository.createComment({
-      userId: data.userId,
-      videoId: data.videoId,
-      content: data.content,
-    });
-  } catch (error: any) {
-    console.error(`create(): Failed to create ${model}`, error);
-    throw error;
   }
+
+  const createdComment = await commentRepository.createComment({
+    userId: data.userId,
+    videoId: data.videoId,
+    content: data.content,
+  });
+
+  return {
+    id: createdComment.id,
+    content: createdComment.content,
+    userId: createdComment.userId,
+    videoId: createdComment.videoId,
+    createdAt: createdComment.createdAt,
+  };
 };
 
 export const removeComment = async (commentId: number, userId: number) => {
-  try {
-    const validComment = await commentRepository.checkUserCommentById(
+  const validComment =
+    await commentRepository.checkCommentExistanceAndOwnership(
       commentId,
       userId
     );
 
-    if (validComment === false) {
-      throw new AppError(
-        `${model}: Comment unavailable`,
-        `${model}: Comment unavailable`,
-        404
-      );
-    }
-    // TODO: Unauthorized error
-
-    await commentRepository.removeCommentById(commentId);
-  } catch (error: any) {
-    console.error(`deleteById(): Failed to create ${model}`, error);
-    throw error;
+  if (validComment.isExist === false) {
+    throw new AppError(
+      HTTP_ERRORS.NotFound.name,
+      `Comment unavailable`,
+      HTTP_ERRORS.NotFound.code
+    );
   }
+
+  if (validComment.isOwner === false) {
+    throw new AppError(
+      HTTP_ERRORS.Unauthorized.name,
+      `You are not allowed to update this commemnt`,
+      HTTP_ERRORS.Unauthorized.code
+    );
+  }
+
+  await commentRepository.removeCommentById(commentId);
 };
 
-export const updateComment = async (data: UpdateCommentRequestDTO) => {
-  try {
-    const validComment = await commentRepository.checkUserCommentById(
+export const updateComment = async (
+  data: UpdateCommentRequestDTO
+): Promise<UpdateCommentResponseDTO> => {
+  const validComment =
+    await commentRepository.checkCommentExistanceAndOwnership(
       data.commentId,
       data.userId
     );
 
-    if (validComment === false) {
-      throw new AppError(
-        `${model}: Comment unavailable`,
-        `${model}: Comment unavailable`,
-        404
-      );
-    }
-    // TODO: Unauthorized error
-
-    await commentRepository.updateCommentById({
-      commentId: data.commentId,
-      content: data.content,
-    });
-  } catch (error: any) {
-    console.error(`updateById(): Failed to create ${model}`, error);
-    throw error;
+  if (validComment.isExist === false) {
+    throw new AppError(
+      HTTP_ERRORS.NotFound.name,
+      `Comment unavailable`,
+      HTTP_ERRORS.NotFound.code
+    );
   }
+
+  if (validComment.isOwner === false) {
+    throw new AppError(
+      HTTP_ERRORS.Unauthorized.name,
+      `You are not allowed to update this commemnt`,
+      HTTP_ERRORS.Unauthorized.code
+    );
+  }
+
+  const updatedComment = await commentRepository.updateCommentById({
+    commentId: data.commentId,
+    content: data.content,
+  });
+
+  return {
+    id: updatedComment.id,
+    content: updatedComment.content,
+    userId: updatedComment.userId,
+    videoId: updatedComment.videoId,
+    createdAt: updatedComment.createdAt,
+    updatedAt: updatedComment.updatedAt,
+  };
 };

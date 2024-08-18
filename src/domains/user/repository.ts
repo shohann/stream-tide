@@ -66,13 +66,27 @@ const getUserSelectedFields = (select?: Partial<UserSelectedFields>) => {
 };
 
 export const getUsers = async (
-  select?: Partial<UserSelectedFields>
+  select?: Partial<UserSelectedFields>,
+  page: number = 1,
+  size: number = 10
 ): Promise<ListedUser[]> => {
   const selectedFields = getUserSelectedFields(select);
 
-  const userList = await db.select(selectedFields).from(userSchema);
+  const userList = await db
+    .select(selectedFields)
+    .from(userSchema)
+    .limit(size) // the number of rows to return
+    .offset((page - 1) * size); // the number of rows to skip
 
   return userList;
+};
+
+export const getUserListCount = async (): Promise<number> => {
+  const [{ count }] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(userSchema);
+
+  return Number(count);
 };
 
 export const getUserDetails = async (
@@ -86,7 +100,6 @@ export const getUserDetails = async (
   return details[0];
 };
 
-// Selection field is required here
 export const getUserDetailsByEmail = async (
   email: string
 ): Promise<UserDetail | null> => {
@@ -119,14 +132,11 @@ export const checkUserExistanceByEmail = async (email: string) => {
 };
 
 export const checkUserExistanceByUseName = async (userName: string) => {
-  try {
-    const isUserExist =
-      await sql`select exists (select 1 from ${userSchema} where ${userSchema.userName} = ${userName})`;
-    const result: postgres.RowList<Record<string, unknown>[]> =
-      await db.execute(isUserExist);
+  const isUserExist =
+    await sql`select exists (select 1 from ${userSchema} where ${userSchema.userName} = ${userName})`;
+  const result: postgres.RowList<Record<string, unknown>[]> = await db.execute(
+    isUserExist
+  );
 
-    return result[0].exists;
-  } catch (error) {
-    throw error;
-  }
+  return result[0].exists;
 };

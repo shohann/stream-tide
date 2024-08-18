@@ -35,7 +35,7 @@ export const generateAccessToken = (data: TokenPayload): string => {
       { id: data.id, email: data.email, role: data.role },
       jwtSecret,
       {
-        expiresIn: "1150m",
+        expiresIn: "1150m", // TODO: Need to change
       }
     );
     return authToken;

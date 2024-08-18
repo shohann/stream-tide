@@ -9,6 +9,7 @@ const schema = z.object({
   JWT_SECRET: z.string().min(1),
   ACCESS_TOKEN_SECRET: z.string().min(1),
   REFRESH_TOKEN_SECRET: z.string().min(1),
+  REFRESH_EXPIRES_IN: z.number().min(1),
   CLOUDINARY_NAME: z.string().min(1),
   API_KEY: z.string().min(1),
   API_SECRET: z.string().min(1),

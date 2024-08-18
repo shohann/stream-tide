@@ -1,5 +1,11 @@
 import { Pagination } from "../../libraries/util/response";
 
+export enum VIDEO_VISIBILITIES {
+  PUBLIC = "Public",
+  PRIVATE = "Private",
+  UNLISTED = "Unlisted",
+}
+
 export interface CreateVideoRequestDTO {
   ownerId: number;
   title: string;

@@ -23,15 +23,15 @@ class Config {
     // Return type as the inferred type
     const environment = process.env.NODE_ENV || "development";
 
-    console.log(environment);
-
     // Load environment file
     const envFile = `.env.${environment}`;
     const envPath = path.join(__dirname, "..", "..", envFile); // Adjusted path
     if (!fs.existsSync(envPath)) {
+      console.log("env pai nai");
       throw new Error(`Environment file not found: ${envPath}`);
     }
     dotenv.config({ path: envPath });
+    console.log(envPath);
 
     // Load config file based on environment
     const configFile = path.join(__dirname, `config.${environment}.json`);

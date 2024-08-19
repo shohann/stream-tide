@@ -14,7 +14,7 @@ class Config {
     Config.instance = this;
     console.log("Config loaded and validated", {
       NODE_ENV: this.config.NODE_ENV,
-      PORT: this.config.PORT,
+      // PORT: this.config.PORT,
     });
     console.log("Config keys: ", Object.keys(this.config));
   }

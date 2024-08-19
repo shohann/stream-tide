@@ -5,6 +5,7 @@ const schema = z.object({
     .enum(["development", "production", "test"])
     .default("development"),
   DB_URL: z.string().min(1),
+  REDIS_URL: z.string().min(1),
   JWT_EXPIRATION: z.string().min(1),
   JWT_SECRET: z.string().min(1),
   ACCESS_TOKEN_SECRET: z.string().min(1),

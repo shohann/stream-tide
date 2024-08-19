@@ -1,6 +1,8 @@
 {
-    "NODE_ENV": "development",
-    "MONGODB_URI": "mongodb://localhost:27017/mydatabase",
-    "PORT": 4000
+    "NODE_ENV": "production",
+    "PORT": 4000,
+    "SALT": 10,
+    "JWT_EXPIRATION": "30d",
+    "REFRESH_EXPIRES_IN": 604800 
 }
-  
+

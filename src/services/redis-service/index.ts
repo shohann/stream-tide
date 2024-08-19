@@ -1,12 +1,13 @@
 import { createClient, RedisClientType } from "redis";
 import logger from "../../libraries/log/logger";
+import configs from "../../configs";
 
 class RedisService {
   private client: RedisClientType;
 
   constructor() {
     this.client = createClient({
-      url: "redis://localhost:6379", // You can add Redis configuration options here
+      url: configs.REDIS_URL,
     });
 
     this.client.connect().catch(logger.error);

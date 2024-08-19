@@ -147,10 +147,9 @@ export const createVideo = async (
   const cloudFolderId = uuidv4();
   const rawVideoPath = data.videoFile.path;
 
-  console.log(rawVideoPath);
-
   const rawVideoURL = await uploadToCloudinary(rawVideoPath, cloudFolderId);
-  // await fsPromise.access(rawVideoPath);
+  console.log(rawVideoPath);
+  await fsPromise.unlink(rawVideoPath);
 
   const createdVideo = await repository.createVideo({
     ownerId: data.ownerId,
@@ -165,8 +164,6 @@ export const createVideo = async (
     videoId: createdVideo.id,
     rawVideoURL,
   });
-
-  await fsPromise.unlink(rawVideoPath);
 };
 
 export const deleteVideoById = async (

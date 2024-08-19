@@ -4,6 +4,7 @@ import { addQueueItem } from "../../services/queue-service/queue";
 import { VIDEO_QUEUE_EVENTS as QUEUE_EVENTS } from "./constant";
 import { uploadToCloudinary } from "../../libraries/cloudinary/upload-file";
 import fsPromise from "fs/promises";
+import logger from "../../libraries/log/logger";
 
 const configureFFMPEG = async () => {
   ffmpeg.setFfmpegPath(`/usr/bin/ffmpeg`);
@@ -12,44 +13,55 @@ const configureFFMPEG = async () => {
 
 configureFFMPEG();
 
-export const processRawFileToMp4 = async (
+export const processRawFileToMp4 = (
   filePath: string,
   outputFolder: string,
   jobData: any
 ): Promise<string> => {
-  const fileExt = path.extname(filePath);
-  const fileNameWithoutExt = path.basename(filePath, fileExt);
-  const outputFileName = `${outputFolder}/${fileNameWithoutExt}-processed.mp4`;
+  return new Promise((resolve, reject) => {
+    const fileExt = path.extname(filePath);
+    const fileNameWithoutExt = path.basename(filePath, fileExt);
+    const outputFileName = `${outputFolder}/${fileNameWithoutExt}-processed.mp4`;
 
-  ffmpeg(filePath)
-    .output(outputFileName)
-    .on("start", (commandLine: string) => {
-      console.log("Spawned Ffmpeg with command: " + commandLine);
-    })
-    .on("progress", (progress: any) => {
-      if (parseInt(progress.percent) % 20 === 0) {
-        console.log("Processing: " + progress.percent + "% done");
-      }
-    })
-    .on("end", async () => {
-      console.log("Finished processing", outputFileName);
-      const hlsId = jobData.hlsId;
-      const processedCloudURL = await uploadToCloudinary(outputFileName, hlsId);
+    ffmpeg(filePath)
+      .output(outputFileName)
+      .on("start", (commandLine: string) => {
+        logger.info("Spawned Ffmpeg with command: " + commandLine);
+      })
+      .on("progress", (progress: any) => {
+        if (parseInt(progress.percent) % 20 === 0) {
+          logger.info("Processing: " + progress.percent + "% done");
+        }
+      })
+      .on("end", async () => {
+        try {
+          logger.info("Finished processing", outputFileName);
+          const hlsId = jobData.hlsId;
+          const processedCloudURL = await uploadToCloudinary(
+            outputFileName,
+            hlsId
+          );
 
-      await fsPromise.unlink(outputFileName);
-      await addQueueItem(QUEUE_EVENTS.VIDEO_PROCESSED, {
-        ...jobData,
-        completed: true,
-        processedCloudURL,
-      });
-    })
-    .on("error", (err: Error) => {
-      console.log("An error occurred: " + err.message);
-    })
-    .run();
+          await fsPromise.unlink(filePath);
+          await fsPromise.unlink(outputFileName);
 
-  const processedFilePath = outputFileName;
-  return processedFilePath;
+          await addQueueItem(QUEUE_EVENTS.VIDEO_PROCESSED, {
+            ...jobData,
+            completed: true,
+            processedCloudURL,
+          });
+
+          resolve(outputFileName);
+        } catch (error) {
+          reject(error);
+        }
+      })
+      .on("error", (err: Error) => {
+        logger.info("An error occurred: " + err.message);
+        reject(err);
+      })
+      .run();
+  });
 };
 
 export const generateThumbnail = (
@@ -73,24 +85,26 @@ export const generateThumbnail = (
 
         uploadToCloudinary(outputFileName, hlsId)
           .then((url) => {
-            console.log("File uploaded successfully. URL:", url);
-            return fsPromise.unlink(outputFileName).then(() => {
-              addQueueItem(QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATED, {
-                ...jobData,
-                thumbnailCloudURL: url, // Use the cloud URL here
-                completed: true,
+            logger.info("File uploaded successfully. URL:", url);
+            return fsPromise
+              .unlink(outputFileName)
+              .then(() => fsPromise.unlink(filePath))
+              .then(() => {
+                addQueueItem(QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATED, {
+                  ...jobData,
+                  thumbnailCloudURL: url,
+                  completed: true,
+                });
+                resolve(url);
               });
-
-              resolve(url); // Resolve with the cloud URL
-            });
           })
           .catch((error) => {
-            console.error("Error uploading file:", error);
+            logger.error("Error uploading file:", error);
             reject(error);
           });
       })
       .on("error", (err: Error) => {
-        console.log("An error occurred: " + err.message);
+        logger.error("An error occurred: " + err.message);
         reject(err);
       });
   });
@@ -116,26 +130,26 @@ export const processMp4ToHls = (
         `${outputFolder}/${fileNameWithoutExt}_%03d.ts`,
       ])
       .on("start", (commandLine: string) => {
-        console.log("Spawned Ffmpeg with command: " + commandLine);
+        logger.info("Spawned Ffmpeg with command: " + commandLine);
       })
       .on("progress", (progress: any) => {
         if (parseInt(progress.percent) % 20 === 0) {
-          console.log("Processing: " + progress.percent + "% done");
+          logger.info("Processing: " + progress.percent + "% done");
         }
       })
       .on("end", async () => {
-        console.log("Finished processing", outputFileName);
+        logger.info("Finished processing", outputFileName);
         resolve(outputFileName);
       })
       .on("error", (err: Error) => {
-        console.log("An error occurred: " + err.message);
+        logger.info("An error occurred: " + err.message);
         reject(err);
       })
       .run();
   });
 };
 
-export const getVideoDurationAndResolution = async (
+export const getVideoDurationAndResolution = (
   filePath: string
 ): Promise<{
   videoDuration: number;

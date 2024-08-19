@@ -11,8 +11,11 @@ import { requestLogger } from "./middlewares/request-logger";
 import { listenQueueEvent } from "./services/queue-service/worker";
 import { NOTIFY_EVENTS } from "./domains/video/constant";
 import EventManager from "./libraries/util/event-manager";
-
+import fs from "fs";
+import path from "path";
 import logger from "./libraries/log/logger";
+
+const uploadDir = path.join(__dirname, "../uploads");
 const eventEmitter = EventManager.getInstance();
 
 const setup = async () => {
@@ -38,6 +41,7 @@ const createExpressApp = (): Application => {
 
   logger.info("Express middlewares are set up");
 
+  createUploadDirs(uploadDir);
   defineRoutes(expressApp);
   defineErrorHandlingMiddleware(expressApp);
   return expressApp;
@@ -102,4 +106,16 @@ function defineErrorHandlingMiddleware(expressApp: Application): void {
   );
 }
 
-export { createExpressApp, startWebServer, stopWebServer };
+function createUploadDirs(baseDir: string): void {
+  const requiredDirs = ["hls", "processed", "thumbnails", "videos"];
+
+  requiredDirs.forEach((dir) => {
+    const dirPath = path.join(baseDir, dir);
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+      logger.info(`Created directory: ${dirPath}`);
+    }
+  });
+}
+
+export { createExpressApp, startWebServer, stopWebServer, createUploadDirs };

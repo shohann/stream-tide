@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-//  this is the validation schema
-
 const schema = z.object({
   NODE_ENV: z
     .enum(["development", "production", "test"])

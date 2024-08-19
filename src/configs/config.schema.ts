@@ -18,8 +18,8 @@ const schema = z.object({
   SALT: z.number().min(1),
   RATE: z.number().min(0),
   PORT: z
-    .number()
-    .min(4000)
+    .string()
+    .regex(/^\d+$/, { message: "PORT must be a string of digits" })
     .transform((val) => Number(val)),
   ENCRYPTION_KEY: z
     .string()

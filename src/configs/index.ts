@@ -55,6 +55,8 @@ class Config {
       }
     }
 
+    console.log(finalConfig);
+
     // Validate the config using the Zod schema
     try {
       const validatedConfig = schema.parse(finalConfig);

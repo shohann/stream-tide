@@ -17,7 +17,7 @@ const schema = z.object({
   EMAIL_API_KEY: z.string().min(1),
   SALT: z.number().min(1),
   RATE: z.number().min(0),
-  PORT: z.number(),
+  PORT: z.number().min(4000),
   ENCRYPTION_KEY: z
     .string()
     .regex(/^\d+$/, { message: "ENCRYPTION_KEY must be a string of digits" })

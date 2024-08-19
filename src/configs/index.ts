@@ -23,6 +23,8 @@ class Config {
     // Return type as the inferred type
     const environment = process.env.NODE_ENV || "development";
 
+    console.log(environment);
+
     // Load environment file
     const envFile = `.env.${environment}`;
     const envPath = path.join(__dirname, "..", "..", envFile); // Adjusted path

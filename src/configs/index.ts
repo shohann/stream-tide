@@ -52,11 +52,12 @@ class Config {
       if (process.env.hasOwnProperty(key)) {
         finalConfig[key] = process.env[key]; // Prioritize environment variables
       } else if (config.hasOwnProperty(key)) {
+        console.log(config[key]);
         finalConfig[key] = config[key]; // Fallback to config file value
       }
     }
 
-    console.log(finalConfig);
+    // console.log(finalConfig);
 
     // Validate the config using the Zod schema
     try {

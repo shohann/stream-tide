@@ -1,6 +1,6 @@
 {
     "NODE_ENV": "production",
- 
+    "PORT": 1000,
     "SALT": 10,
     "JWT_EXPIRATION": "30d",
     "REFRESH_EXPIRES_IN": 604800 

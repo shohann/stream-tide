@@ -76,8 +76,8 @@ async function openConnection(
   expressApp: Application
 ): Promise<{ address: string; port: number }> {
   return new Promise((resolve) => {
-    // const webServerPort = config.PORT;
-    const webServerPort = 4000;
+    const webServerPort = config.PORT;
+    // const webServerPort = 4000;
     logger.info(`Server is about to listen to port ${webServerPort}`);
 
     connection = expressApp.listen(webServerPort, () => {

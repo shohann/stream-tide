@@ -37,7 +37,6 @@ class Config {
       throw new Error(`Config file not found: ${configFile}`);
     }
     let config = JSON.parse(fs.readFileSync(configFile, "utf8"));
-    console.log(config);
 
     const sharedConfigFile = path.join(__dirname, "config.shared.json");
     if (fs.existsSync(sharedConfigFile)) {
@@ -51,8 +50,9 @@ class Config {
     for (const key of Object.keys(schema.shape)) {
       if (process.env.hasOwnProperty(key)) {
         finalConfig[key] = process.env[key]; // Prioritize environment variables
+        console.log(`${key}: ${process.env[key]}`);
       } else if (config.hasOwnProperty(key)) {
-        console.log(config[key]);
+        console.log(`${key}: ${config[key]}`);
         finalConfig[key] = config[key]; // Fallback to config file value
       }
     }

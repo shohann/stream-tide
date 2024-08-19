@@ -27,11 +27,9 @@ class Config {
     const envFile = `.env.${environment}`;
     const envPath = path.join(__dirname, "..", "..", envFile); // Adjusted path
     if (!fs.existsSync(envPath)) {
-      console.log("env pai nai");
       throw new Error(`Environment file not found: ${envPath}`);
     }
     dotenv.config({ path: envPath });
-    console.log(envPath);
 
     // Load config file based on environment
     const configFile = path.join(__dirname, `config.${environment}.json`);
@@ -39,6 +37,7 @@ class Config {
       throw new Error(`Config file not found: ${configFile}`);
     }
     let config = JSON.parse(fs.readFileSync(configFile, "utf8"));
+    console.log(config);
 
     const sharedConfigFile = path.join(__dirname, "config.shared.json");
     if (fs.existsSync(sharedConfigFile)) {

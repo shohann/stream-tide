@@ -52,7 +52,7 @@ class Config {
         finalConfig[key] = process.env[key]; // Prioritize environment variables
         console.log(`${key}: ${process.env[key]}`);
       } else if (config.hasOwnProperty(key)) {
-        console.log(`${key}: ${config[key]}`);
+        console.log(`FILE: ${key}: ${config[key]}`);
         finalConfig[key] = config[key]; // Fallback to config file value
       }
     }

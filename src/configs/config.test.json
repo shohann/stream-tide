@@ -1,6 +1,5 @@
 {
     "NODE_ENV": "test",
-    "PORT": 4000,
     "SALT": 10,
     "JWT_EXPIRATION": "30d"
 }

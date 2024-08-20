@@ -1,5 +1,4 @@
 {
-    "NODE_ENV": "development",
     "SALT": 10,
     "JWT_EXPIRATION": "30d",
     "REFRESH_EXPIRES_IN": 604800 

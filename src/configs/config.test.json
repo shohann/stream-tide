@@ -1,5 +1,4 @@
 {
-    "NODE_ENV": "test",
     "SALT": 10,
     "JWT_EXPIRATION": "30d"
 }

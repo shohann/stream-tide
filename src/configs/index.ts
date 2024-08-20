@@ -25,6 +25,7 @@ class Config {
 
     const envFile = `.env`;
     const envPath = path.join(__dirname, "..", "..", envFile); // Adjusted path
+    console.log(envPath);
     if (!fs.existsSync(envPath)) {
       throw new Error(`Environment file not found: ${envPath}`);
     }

@@ -23,7 +23,7 @@ class Config {
   private loadAndValidateConfig(): ConfigSchema {
     const environment = process.env.NODE_ENV || "development";
 
-    const envFile = `.env.${environment}`;
+    const envFile = `.env`;
     const envPath = path.join(__dirname, "..", "..", envFile); // Adjusted path
     if (!fs.existsSync(envPath)) {
       throw new Error(`Environment file not found: ${envPath}`);

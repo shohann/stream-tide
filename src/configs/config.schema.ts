@@ -16,7 +16,7 @@ const schema = z.object({
   API_SECRET: z.string().min(1),
   EMAIL_API_KEY: z.string().min(1),
   SALT: z.number().min(1),
-  RATE: z.number().min(0),
+  // RATE: z.number().min(0),
   PORT: z
     .string()
     .regex(/^\d+$/, { message: "PORT must be a string of digits" })

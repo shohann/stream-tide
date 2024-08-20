@@ -46,9 +46,7 @@ class Config {
 
     console.log("====================");
     const files = fs.readdirSync(envPath);
-    files.forEach((file) => {
-      console.log(file);
-    });
+    console.log(files);
 
     console.log("====================");
 

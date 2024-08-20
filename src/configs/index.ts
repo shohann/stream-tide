@@ -45,8 +45,6 @@ class Config {
     const envPath = path.join(rootDir, ".env");
 
     console.log("====================");
-    const files = fs.readdirSync(envPath);
-    console.log(files);
 
     console.log("====================");
 

@@ -33,28 +33,7 @@ class Config {
   }
 
   private loadAndValidateConfig(): ConfigSchema {
-    // const environment = process.env.NODE_ENV || "development";
-
-    // const envFile = `.env`;
-    // console.log("====================");
-    // // console.log(process.env.DB_URL);
-    // console.log(checkEnvFileExists());
-    // console.log("====================");
-
-    const rootDir = path.join(__dirname, "..", "..");
-    const envPath = path.join(rootDir, ".env");
-
-    console.log("====================");
-    const envPath2 = path.resolve(process.cwd(), ".env");
-    console.log(envPath2);
-    console.log(fs.existsSync(envPath2));
-    console.log("====================");
-
-    // console.log(fs.existsSync(envPath));
-    if (!fs.existsSync(envPath2)) {
-      throw new Error(`Environment file not found: ${envPath2}`);
-    }
-    dotenv.config({ path: envPath });
+    dotenv.config();
 
     // Load config file
     const configFile = path.join(__dirname, "config.json");

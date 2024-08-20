@@ -50,8 +50,8 @@ class Config {
     console.log("====================");
 
     // console.log(fs.existsSync(envPath));
-    if (!fs.existsSync(envPath)) {
-      throw new Error(`Environment file not found: ${envPath}`);
+    if (!fs.existsSync(envPath2)) {
+      throw new Error(`Environment file not found: ${envPath2}`);
     }
     dotenv.config({ path: envPath });
 

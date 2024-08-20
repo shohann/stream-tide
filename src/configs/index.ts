@@ -3,20 +3,21 @@ import * as fs from "fs";
 import * as path from "path";
 import schema, { ConfigSchema } from "./config.schema";
 import { z } from "zod";
+import logger from "../libraries/log/logger";
 
 class Config {
   private static instance: Config;
   public config: ConfigSchema; // Use the inferred type
 
   private constructor() {
-    console.log("Loading and validating config for the first time...");
+    logger.info("Loading and validating config for the first time...");
     this.config = this.loadAndValidateConfig();
     Config.instance = this;
-    console.log("Config loaded and validated", {
+    logger.info("Config loaded and validated", {
       NODE_ENV: this.config.NODE_ENV,
-      // PORT: this.config.PORT,
+      PORT: this.config.PORT,
     });
-    console.log("Config keys: ", Object.keys(this.config));
+    logger.info("Config keys: ", Object.keys(this.config));
   }
 
   private loadAndValidateConfig(): ConfigSchema {
@@ -50,14 +51,10 @@ class Config {
     for (const key of Object.keys(schema.shape)) {
       if (process.env.hasOwnProperty(key)) {
         finalConfig[key] = process.env[key]; // Prioritize environment variables
-        console.log(`${key}: ${process.env[key]}`);
       } else if (config.hasOwnProperty(key)) {
-        console.log(`FILE: ${key}: ${config[key]}`);
         finalConfig[key] = config[key]; // Fallback to config file value
       }
     }
-
-    // console.log(finalConfig);
 
     // Validate the config using the Zod schema
     try {

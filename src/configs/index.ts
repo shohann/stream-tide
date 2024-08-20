@@ -45,7 +45,8 @@ class Config {
     const envPath = path.join(rootDir, ".env");
 
     console.log("====================");
-
+    const envPath2 = path.resolve(process.cwd(), ".env");
+    console.log(envPath2);
     console.log("====================");
 
     // console.log(fs.existsSync(envPath));

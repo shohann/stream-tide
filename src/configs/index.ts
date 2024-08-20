@@ -68,7 +68,6 @@ class Config {
   }
 }
 
-// Export the singleton instance's config
 export default Config.getInstance().config;
 
 /// BAD

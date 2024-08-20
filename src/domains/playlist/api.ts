@@ -1,20 +1,19 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, { Request, Response, NextFunction } from "express";
+import logger from "../../libraries/log/logger";
 
-const model =  'Playlist';
+const routes = () => {
+  const router = express.Router();
+  logger.info(`Setting up routes playlist`);
 
-const  routes = () => {
-    const router = express.Router();
-    console.log(`Setting up routes ${model}`);
+  router.get("/", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      res.send("OK");
+    } catch (error: any) {
+      next(error);
+    }
+  });
 
-    router.get('/', async(req: Request, res: Response, next: NextFunction) => {
-        try {
-            res.send("OK")
-        } catch (error: any) {
-            next(error)
-        }
-    });
-
-    return router;
+  return router;
 };
 
 export default routes;

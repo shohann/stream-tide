@@ -104,10 +104,8 @@ class Config {
   }
 
   private loadAndValidateConfig(): ConfigSchema {
-    // Return type as the inferred type
     const environment = process.env.NODE_ENV || "development";
 
-    // Load environment file
     const envFile = `.env.${environment}`;
     const envPath = path.join(__dirname, "..", "..", envFile); // Adjusted path
     if (!fs.existsSync(envPath)) {
@@ -131,7 +129,6 @@ class Config {
       }
     }
 
-    // Validate the config using the Zod schema
     try {
       const validatedConfig = schema.parse(finalConfig);
       return validatedConfig; // Return the validated config

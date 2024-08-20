@@ -5,6 +5,18 @@ import schema, { ConfigSchema } from "./config.schema";
 import { z } from "zod";
 import logger from "../libraries/log/logger";
 
+function checkEnvFileExists(): boolean {
+  const rootDir = path.join(__dirname, "..", "..");
+  const envFilePath = path.join(rootDir, ".env");
+  console.log(envFilePath);
+
+  if (!fs.existsSync(envFilePath)) {
+    throw new Error(`Environment file not found: ${envFilePath}`);
+  }
+
+  return fs.existsSync(envFilePath);
+}
+
 class Config {
   private static instance: Config;
   public config: ConfigSchema; // Use the inferred type
@@ -21,14 +33,17 @@ class Config {
   }
 
   private loadAndValidateConfig(): ConfigSchema {
-    const environment = process.env.NODE_ENV || "development";
+    // const environment = process.env.NODE_ENV || "development";
 
-    const envFile = `.env`;
-    console.log("====================");
-    console.log(process.env.DB_URL);
-    console.log("====================");
-    const envPath = path.join(__dirname, "..", "..", envFile); // Adjusted path
-    console.log(`ENV: ${envPath}`);
+    // const envFile = `.env`;
+    // console.log("====================");
+    // // console.log(process.env.DB_URL);
+    // console.log(checkEnvFileExists());
+    // console.log("====================");
+
+    const rootDir = path.join(__dirname, "..", "..");
+    const envPath = path.join(rootDir, ".env");
+    console.log(envPath);
     if (!fs.existsSync(envPath)) {
       throw new Error(`Environment file not found: ${envPath}`);
     }

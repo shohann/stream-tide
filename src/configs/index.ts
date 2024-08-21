@@ -5,17 +5,7 @@ import schema, { ConfigSchema } from "./config.schema";
 import { z } from "zod";
 import logger from "../libraries/log/logger";
 
-function checkEnvFileExists(): boolean {
-  const rootDir = path.join(__dirname, "..", "..");
-  const envFilePath = path.join(rootDir, ".env");
-  console.log(envFilePath);
-
-  if (!fs.existsSync(envFilePath)) {
-    throw new Error(`Environment file not found: ${envFilePath}`);
-  }
-
-  return fs.existsSync(envFilePath);
-}
+dotenv.config();
 
 class Config {
   private static instance: Config;
@@ -33,8 +23,6 @@ class Config {
   }
 
   private loadAndValidateConfig(): ConfigSchema {
-    dotenv.config();
-
     // Load config file
     const configFile = path.join(__dirname, "config.json");
     if (!fs.existsSync(configFile)) {

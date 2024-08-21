@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./dist/start.js",
+    "start": "NODE_ENV=production ./dist/start.js",
     "test": "vitest",
     "build": "npx tsc -p .",
     "dev": "ts-node-dev --respawn --transpile-only ./src/start.ts",

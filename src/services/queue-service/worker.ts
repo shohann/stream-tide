@@ -7,10 +7,7 @@ import { parseUrl } from "../../libraries/util/parse-url";
 import { getConnectionConfig } from "./queue-connection-config";
 import logger from "../../libraries/log/logger";
 
-console.log("=============WORKER================");
 const redisConfig = parseUrl(configs.REDIS_URL);
-console.log(redisConfig);
-console.log("=============WORKER================");
 
 export const listenQueueEvent = (queueName: string) => {
   const connection = getConnectionConfig(redisConfig);

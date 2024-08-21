@@ -10,6 +10,8 @@ type RedisConnectionConfig = {
   };
 };
 
+console.log(`PROCESS: ${process.env.NODE_ENV}`);
+
 export const getConnectionConfig = (
   redisConfig: UrlConfig
 ): RedisConnectionConfig => {

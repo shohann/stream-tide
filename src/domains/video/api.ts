@@ -31,8 +31,6 @@ const routes = () => {
       const { title, description } = req.body;
       const userId = req.user.id;
 
-      console.log(userId);
-
       try {
         if (!req.file) {
           return next(new Error("Video file required")); // Need fix error

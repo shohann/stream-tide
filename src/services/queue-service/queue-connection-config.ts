@@ -10,8 +10,6 @@ type RedisConnectionConfig = {
   };
 };
 
-console.log(`PROCESS: ${process.env.NODE_ENV}`);
-
 export const getConnectionConfig = (
   redisConfig: UrlConfig
 ): RedisConnectionConfig => {
@@ -21,7 +19,7 @@ export const getConnectionConfig = (
       port: parseInt(redisConfig.port),
       username: redisConfig.username,
       password: redisConfig.password,
-      tls: { rejectUnauthorized: true },
+      // tls: { rejectUnauthorized: true },
     };
   } else {
     return {

@@ -8,6 +8,10 @@ import { getConnectionConfig } from "./queue-connection-config";
 const eventEmitter = EventManager.getInstance();
 const redisConfig = parseUrl(configs.REDIS_URL);
 
+console.log("=============QUEUE================");
+console.log(redisConfig);
+console.log("=============QUEUE================");
+
 const queues = Object.values(QUEUE_EVENTS).map((queueName: string) => {
   const connection = getConnectionConfig(redisConfig);
 

@@ -22,6 +22,8 @@ export const authorize = async (
 
     const token = getToken(authorizationHeader);
     const decode = verifyToken(token);
+
+    console.log(decode);
     req.user = decode;
 
     next();

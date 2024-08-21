@@ -24,6 +24,7 @@ class Config {
 
   private loadAndValidateConfig(): ConfigSchema {
     // Load config file
+    dotenv.config();
     const configFile = path.join(__dirname, "config.json");
     if (!fs.existsSync(configFile)) {
       throw new Error(`Config file not found: ${configFile}`);

@@ -38,6 +38,13 @@ export const generateAccessToken = (data: TokenPayload): string => {
         expiresIn: "1150m", // TODO: Need to change
       }
     );
+
+    console.log("===================");
+
+    console.log(authToken);
+
+    console.log("===================");
+
     return authToken;
   } catch (error) {
     throw new Error((error as Error).message);
@@ -66,9 +73,15 @@ export const generateRefreshToken = (data: RefreshTokenPayload): string => {
 
 export const verifyToken = (token: string): TokenPayload => {
   try {
+    console.log("===================");
+    console.log(token);
+    console.log("===================");
     const decode = jwt.verify(token, jwtSecret) as TokenPayload;
+
+    // console.log(decode);
     return decode;
   } catch (error) {
+    console.log("________________");
     throw new Error((error as Error).message);
   }
 };

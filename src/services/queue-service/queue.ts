@@ -19,7 +19,9 @@ const queues = Object.values(QUEUE_EVENTS).map((queueName: string) => {
 
 export const addQueueItem = async (queueName: string, item: any) => {
   const queue = queues.find((q) => q.name === queueName);
-  console.log(`QUEUE: ${queue?.name}`);
+  console.log(`QUEUE_NAME: ${queue?.name}`);
+  console.log(`QUEUE_OBJ: ${queue?.queueObj}`);
+  console.log(item);
   if (!queue) {
     throw new Error(`Queue ${queueName} not found`);
   }

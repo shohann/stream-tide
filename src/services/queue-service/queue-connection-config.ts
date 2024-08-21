@@ -19,7 +19,7 @@ export const getConnectionConfig = (
       port: parseInt(redisConfig.port),
       username: redisConfig.username,
       password: redisConfig.password,
-      // tls: { rejectUnauthorized: true },
+      tls: { rejectUnauthorized: false },
     };
   } else {
     return {

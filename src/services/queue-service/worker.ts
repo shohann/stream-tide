@@ -9,6 +9,7 @@ import logger from "../../libraries/log/logger";
 
 console.log("=============WORKER================");
 const redisConfig = parseUrl(configs.REDIS_URL);
+console.log(redisConfig);
 console.log("=============WORKER================");
 
 export const listenQueueEvent = (queueName: string) => {

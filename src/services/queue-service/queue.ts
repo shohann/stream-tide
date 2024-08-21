@@ -8,8 +8,6 @@ import { getConnectionConfig } from "./queue-connection-config";
 const eventEmitter = EventManager.getInstance();
 const redisConfig = parseUrl(configs.REDIS_URL);
 
-console.log(redisConfig);
-
 const queues = Object.values(QUEUE_EVENTS).map((queueName: string) => {
   const connection = getConnectionConfig(redisConfig);
 
@@ -21,7 +19,7 @@ const queues = Object.values(QUEUE_EVENTS).map((queueName: string) => {
 
 export const addQueueItem = async (queueName: string, item: any) => {
   const queue = queues.find((q) => q.name === queueName);
-  console.log(`QUEUE: ${queue}`);
+  console.log(`QUEUE: ${queue?.queueObj}`);
   if (!queue) {
     throw new Error(`Queue ${queueName} not found`);
   }

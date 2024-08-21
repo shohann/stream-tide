@@ -31,6 +31,8 @@ const routes = () => {
       const { title, description } = req.body;
       const userId = req.user.id;
 
+      console.log(userId);
+
       try {
         if (!req.file) {
           return next(new Error("Video file required")); // Need fix error
@@ -45,6 +47,7 @@ const routes = () => {
 
         res.status(201).send("Video has been uploaded successfully");
       } catch (error) {
+        console.log(error);
         next(error);
       }
     }

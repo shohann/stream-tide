@@ -20,6 +20,10 @@ A robust video streaming API that empowers users to upload, manage, and share vi
 
 <img src="./docs/architecture.png" width="600" background-color="black"/>
 
+## API Documentation
+
+Explore the Stream Tide API using [Swagger UI](https://stream-tide-production.up.railway.app/docs).
+
 ## Installation and Setup
 
 ### Prerequisites

@@ -18,6 +18,8 @@ A robust video streaming API that empowers users to upload, manage, and share vi
 
 <img src="./docs/queue.png" width="600" background-color="black"/>
 
+<img src="./docs/architecture.png" width="600" background-color="black"/>
+
 ## Installation and Setup
 
 ### Prerequisites
@@ -66,13 +68,13 @@ Ensure you have the following installed:
 
 - 🖥️ **Backend**: Node.js, Express.js
 - 📘 **Language**: TypeScript
-- 🗄️ **Database**: MongoDB
+- 🗄️ **Database**: PostgreSQL
 - 🚀 **Caching**: Redis
 - 🔐 **Authentication**: JSON Web Tokens (JWT)
 - 🎬 **Video Processing**: FFmpeg
 - ☁️ **Cloud Storage**: Cloudinary
 - 📚 **API Documentation**: Swagger
-- 🧪 **Testing**: Jest
+- 🧪 **Testing**: Vitest
 - 🐳 **Containerization**: Docker
 - 📊 **Job Queue**: BullMQ
 - 🔗 **ORM**: Drizzle ORM

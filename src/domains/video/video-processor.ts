@@ -1,3 +1,4 @@
+import ffmpegStatic from "ffmpeg-static";
 import ffmpeg from "fluent-ffmpeg";
 import path from "path";
 import { addQueueItem } from "../../services/queue-service/queue";
@@ -6,12 +7,14 @@ import { uploadToCloudinary } from "../../libraries/cloudinary/upload-file";
 import fsPromise from "fs/promises";
 import logger from "../../libraries/log/logger";
 
-const configureFFMPEG = async () => {
-  ffmpeg.setFfmpegPath(`/usr/bin/ffmpeg`);
-  ffmpeg.setFfprobePath(`/usr/bin/ffprobe`);
-};
+ffmpeg.setFfmpegPath(ffmpegStatic as string);
 
-configureFFMPEG();
+// const configureFFMPEG = async () => {
+//   ffmpeg.setFfmpegPath(`/usr/bin/ffmpeg`);
+//   ffmpeg.setFfprobePath(`/usr/bin/ffprobe`);
+// };
+
+// configureFFMPEG();
 
 export const processRawFileToMp4 = (
   filePath: string,

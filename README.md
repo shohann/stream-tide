@@ -14,6 +14,10 @@ A robust video streaming API that empowers users to upload, manage, and share vi
 - 🔄 **Video Transcoding:** Utilizes FFmpeg for efficient video transcoding, ensuring compatibility across devices
 - 📡 **Video Streaming:** Employs HLS (HTTP Live Streaming) for smooth and reliable video delivery
 
+## Architecture Diagram
+
+<img src="./docs/queue.png" width="600" background-color="black"/>
+
 ## Installation and Setup
 
 ### Prerequisites
@@ -61,6 +65,7 @@ Ensure you have the following installed:
 ## Technologies and Tools
 
 - 🖥️ **Backend**: Node.js, Express.js
+- 📘 **Language**: TypeScript
 - 🗄️ **Database**: MongoDB
 - 🚀 **Caching**: Redis
 - 🔐 **Authentication**: JSON Web Tokens (JWT)
@@ -70,4 +75,6 @@ Ensure you have the following installed:
 - 🧪 **Testing**: Jest
 - 🐳 **Containerization**: Docker
 - 📊 **Job Queue**: BullMQ
+- 🔗 **ORM**: Drizzle ORM
+- 🔔 **Real-time Notifications**: Socket.io
 <!-- CI/CD: GitHub Actions -->

@@ -57,3 +57,17 @@ Ensure you have the following installed:
    ```bash
    npm start
    ```
+
+## Technologies and Tools
+
+- 🖥️ **Backend**: Node.js, Express.js
+- 🗄️ **Database**: MongoDB
+- 🚀 **Caching**: Redis
+- 🔐 **Authentication**: JSON Web Tokens (JWT)
+- 🎬 **Video Processing**: FFmpeg
+- ☁️ **Cloud Storage**: Cloudinary
+- 📚 **API Documentation**: Swagger
+- 🧪 **Testing**: Jest
+- 🐳 **Containerization**: Docker
+- 📊 **Job Queue**: BullMQ
+<!-- CI/CD: GitHub Actions -->

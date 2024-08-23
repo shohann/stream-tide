@@ -9,7 +9,7 @@
     "build": "npx tsc -p .",
     "dev": "ts-node-dev --respawn --transpile-only ./src/start.ts",
     "queue:dev": "ts-node-dev --respawn --transpile-only ./src/services/queue-service/queue-initializer.ts",
-    "queue:prod": "node ./dist/services/queue-service/queue-initializer.js",
+    "queue:prod": "NODE_ENV=production node ./dist/services/queue-service/queue-initializer.js",
     "create-domain": "zx scripts/dev/domain-generator.mjs",
     "db:generate": "drizzle-kit migrate",
     "db:push:prod": "NODE_ENV=production npx drizzle-kit push",

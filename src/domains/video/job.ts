@@ -127,6 +127,8 @@ const hlsConvertedHandler = async (job: Job) => {
     completed: true,
     next: NOTIFY_EVENTS.NOTIFY_VIDEO_HLS_CONVERTED,
   });
+
+  console.log("WORKED");
 };
 
 const notifyVideoHlsConvertedHandler = async (job: Job) => {

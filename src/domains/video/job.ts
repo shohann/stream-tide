@@ -39,6 +39,7 @@ const processingHandler = async (job: Job) => {
 
 const processedHandler = async (job: Job) => {
   logger.info("processed handler!", job.data.path);
+  console.log("Processed Hanlder a ");
   await addQueueItem(QUEUE_EVENTS.VIDEO_THUMBNAIL_GENERATING, {
     ...job.data,
     completed: true,

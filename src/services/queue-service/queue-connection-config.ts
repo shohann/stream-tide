@@ -13,7 +13,7 @@ type RedisConnectionConfig = {
 export const getConnectionConfig = (
   redisConfig: UrlConfig
 ): RedisConnectionConfig => {
-  console.log(process.env.NODE_ENV);
+  // console.log(process.env.NODE_ENV);
 
   if (process.env.NODE_ENV === "production") {
     return {

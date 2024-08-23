@@ -12,7 +12,7 @@ const redisConfig = parseUrl(configs.REDIS_URL);
 export const listenQueueEvent = (queueName: string) => {
   const connection = getConnectionConfig(redisConfig);
 
-  console.log(connection);
+  // console.log(connection);
 
   const queueEvents = new QueueEvents(queueName, { connection });
 

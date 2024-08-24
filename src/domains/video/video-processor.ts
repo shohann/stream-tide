@@ -9,8 +9,6 @@ import logger from "../../libraries/log/logger";
 
 ffmpeg.setFfmpegPath(ffmpegStatic as string);
 
-console.log(ffmpegStatic);
-
 // const configureFFMPEG = async () => {
 //   ffmpeg.setFfmpegPath(`/usr/bin/ffmpeg`);
 //   ffmpeg.setFfprobePath(`/usr/bin/ffprobe`);

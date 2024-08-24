@@ -24,8 +24,6 @@ export const addQueueItem = async (queueName: string, item: any) => {
     throw new Error(`Queue ${queueName} not found`);
   }
 
-  console.log("Called");
-
   eventEmitter.emit(`${queueName}`, item);
   await queue.queueObj.add(queueName, item, {
     removeOnComplete: true,

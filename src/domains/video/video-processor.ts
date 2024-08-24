@@ -47,6 +47,8 @@ export const processRawFileToMp4 = (
             hlsId
           );
 
+          console.log(processedCloudURL);
+
           await fsPromise.unlink(filePath);
           await fsPromise.unlink(outputFileName);
 

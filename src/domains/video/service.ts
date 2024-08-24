@@ -148,7 +148,6 @@ export const createVideo = async (
   const rawVideoPath = data.videoFile.path;
 
   const rawVideoURL = await uploadToCloudinary(rawVideoPath, cloudFolderId);
-  console.log(rawVideoPath);
   await fsPromise.unlink(rawVideoPath);
 
   const createdVideo = await repository.createVideo({

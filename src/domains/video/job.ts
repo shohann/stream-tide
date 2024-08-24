@@ -19,7 +19,6 @@ const eventEmitter = EventManager.getInstance();
 const uploadedHandler = async (job: Job) => {
   logger.info("uploaded handler!", job.data.path);
 
-  console.log("uploaded handle");
   await addQueueItem(QUEUE_EVENTS.VIDEO_PROCESSING, {
     ...job.data,
     completed: true,
@@ -28,7 +27,7 @@ const uploadedHandler = async (job: Job) => {
 
 const processingHandler = async (job: Job) => {
   logger.info("processing handler!", job.data.path);
-  console.log("processing handler");
+
   const rawLocalPath = await downloadFileFromCloudinary(
     job.data.rawVideoURL,
     "./uploads/videos"
@@ -130,8 +129,6 @@ const hlsConvertedHandler = async (job: Job) => {
     completed: true,
     next: NOTIFY_EVENTS.NOTIFY_VIDEO_HLS_CONVERTED,
   });
-
-  console.log("WORKED");
 };
 
 const notifyVideoHlsConvertedHandler = async (job: Job) => {

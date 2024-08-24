@@ -47,8 +47,6 @@ export const processRawFileToMp4 = (
             hlsId
           );
 
-          console.log(processedCloudURL);
-
           await fsPromise.unlink(filePath);
           await fsPromise.unlink(outputFileName);
 
@@ -64,7 +62,6 @@ export const processRawFileToMp4 = (
         }
       })
       .on("error", (err: Error) => {
-        console.log(err);
         logger.info("An error occurred: " + err.message);
         reject(err);
       })

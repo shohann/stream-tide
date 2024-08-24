@@ -64,6 +64,7 @@ export const processRawFileToMp4 = (
         }
       })
       .on("error", (err: Error) => {
+        console.log(err.message);
         logger.info("An error occurred: " + err.message);
         reject(err);
       })

@@ -13,6 +13,8 @@ import validate, { validateAndParse } from "../../middlewares/validateResource";
 import { authorize } from "../../middlewares/auth";
 import ApiResponse from "../../libraries/util/response";
 import logger from "../../libraries/log/logger";
+import { AppError } from "../../libraries/error-handling/AppError";
+import { HTTP_ERRORS } from "../../libraries/error-handling/error-codes";
 
 const routes = () => {
   const router = express.Router();
@@ -33,7 +35,11 @@ const routes = () => {
 
       try {
         if (!req.file) {
-          return next(new Error("Video file required")); // Need fix error
+          throw new AppError(
+            HTTP_ERRORS.NotFound.name,
+            `Video unavailable`,
+            HTTP_ERRORS.NotFound.code
+          );
         }
 
         await service.createVideo({
@@ -43,9 +49,14 @@ const routes = () => {
           videoFile: req.file,
         });
 
-        res.status(201).send("Video has been uploaded successfully");
+        const apiResponse = new ApiResponse(
+          201,
+          null,
+          "Video uploaded successfully"
+        );
+
+        res.status(apiResponse.statusCode).json(apiResponse);
       } catch (error) {
-        console.log(error);
         next(error);
       }
     }
@@ -55,10 +66,11 @@ const routes = () => {
     "/published",
     validate(videoListQuery),
     async (req: Request, res: Response, next: NextFunction) => {
+      const page = parseInt(req.query.page as string);
+      const size = parseInt(req.query.size as string);
+      const search = req.query.search as string;
+
       try {
-        const page = parseInt(req.query.page as string);
-        const size = parseInt(req.query.size as string);
-        const search = req.query.search as string;
         const result = await service.getPublishedVideos({ page, size, search });
 
         const apiResponse = new ApiResponse(
@@ -78,8 +90,9 @@ const routes = () => {
   router.get(
     "/published/:videoId",
     async (req: Request, res: Response, next: NextFunction) => {
+      const videoId = req.params.videoId;
+
       try {
-        const videoId = req.params.videoId;
         const result = await service.getPublishedVideoDetails(
           parseInt(videoId)
         );
@@ -106,13 +119,13 @@ const routes = () => {
       res: Response,
       next: NextFunction
     ) => {
-      try {
-        const userId = req.user.id;
-        const videoId = parseInt(req.params.videoId);
-        const title = req.body.title;
-        const description = req.body.description;
-        const visibility = req.body.visibility;
+      const userId = req.user.id;
+      const videoId = parseInt(req.params.videoId);
+      const title = req.body.title;
+      const description = req.body.description;
+      const visibility = req.body.visibility;
 
+      try {
         await service.updateOwnVideo({
           id: videoId,
           userId,
@@ -121,7 +134,13 @@ const routes = () => {
           visibility,
         });
 
-        res.status(201).send("Success");
+        const apiResponse = new ApiResponse(
+          200,
+          null,
+          "Video updated successfully"
+        );
+
+        res.status(200).json(apiResponse);
       } catch (error) {
         next(error);
       }
@@ -137,9 +156,15 @@ const routes = () => {
 
       try {
         const details = await service.getVideoDatails(videoId, userId);
-        res.status(200).send(details);
+
+        const apiResponse = new ApiResponse(
+          200,
+          details,
+          "Video updated successfully"
+        );
+
+        res.status(200).json(apiResponse);
       } catch (error) {
-        console.error("Error in video deleting:", error);
         next(error);
       }
     }
@@ -149,14 +174,20 @@ const routes = () => {
     "/:videoId",
     authorize,
     async (req: Request, res: Response, next: NextFunction) => {
+      const videoId = parseInt(req.params.videoId);
+      const userId = req.user.id;
+
       try {
-        const videoId = parseInt(req.params.videoId);
-        const userId = req.user.id;
         await service.deleteVideoById(videoId, userId);
 
-        res.status(200).send("Success");
+        const apiResponse = new ApiResponse(
+          200,
+          null,
+          "Video deleted successfully"
+        );
+
+        res.status(200).json(apiResponse);
       } catch (error) {
-        console.error("Error in video deleting:", error);
         next(error);
       }
     }
@@ -166,12 +197,19 @@ const routes = () => {
     "/:videoId/make-private",
     authorize,
     async (req: Request, res: Response, next: NextFunction) => {
+      const userId = req.user.id;
+      const videoId = parseInt(req.params.videoId as string);
+
       try {
-        const userId = req.user.id;
-        const videoId = parseInt(req.params.videoId as string);
         await service.makeVideoPrivate(userId, videoId);
 
-        res.status(201).send("Success");
+        const apiResponse = new ApiResponse(
+          200,
+          null,
+          "Video updated successfully"
+        );
+
+        res.status(200).json(apiResponse);
       } catch (error) {
         next(error);
       }
@@ -182,12 +220,19 @@ const routes = () => {
     "/:videoId/make-public",
     authorize,
     async (req: Request, res: Response, next: NextFunction) => {
+      const userId = req.user.id;
+      const videoId = parseInt(req.params.videoId as string);
+
       try {
-        const userId = req.user.id;
-        const videoId = parseInt(req.params.videoId as string);
         await service.makeVideoPublic(userId, videoId);
 
-        res.status(201).send("Success");
+        const apiResponse = new ApiResponse(
+          200,
+          null,
+          "Video updated successfully"
+        );
+
+        res.status(200).json(apiResponse);
       } catch (error) {
         next(error);
       }

@@ -1,20 +1,3 @@
-// import multer from "multer";
-// import path from "path";
-// import { v4 as uuidv4 } from "uuid";
-
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, "./uploads/videos");
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, file.fieldname + "-" + uuidv4() + path.extname(file.originalname));
-//   },
-// });
-
-// const upload = multer({ storage: storage });
-
-// export default upload;
-
 import multer from "multer";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
@@ -28,10 +11,9 @@ const storage = multer.diskStorage({
   },
 });
 
-// Define the file size limit in bytes (3 MB = 3 * 1024 * 1024 bytes)
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 3 * 1024 * 1024 }, // 3 MB file size limit
+  limits: { fileSize: 3 * 1024 * 1024 },
 });
 
 export default upload;

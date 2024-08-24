@@ -138,7 +138,7 @@ const routes = () => {
         const userId = req.user.id;
         await service.logoutAll(userId);
 
-        const apiResponse = new ApiResponse(200, null, "Login successful");
+        const apiResponse = new ApiResponse(200, null, "Logout successful");
 
         res.status(apiResponse.statusCode).json(apiResponse);
       } catch (error) {
@@ -196,7 +196,7 @@ const routes = () => {
         const apiResponse = new ApiResponse(
           200,
           updatedUser,
-          "Login successful"
+          "Update successful"
         );
 
         res.status(apiResponse.statusCode).json(apiResponse);

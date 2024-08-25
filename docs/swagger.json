@@ -1,17 +1,10 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.1.0",
   "info": {
     "title": "stream-tide",
     "description": "",
     "version": "1.0.0"
   },
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ],
-
-
   "tags": [
     {
       "name": "Video"
@@ -2276,7 +2269,7 @@
   "components": {
     "schemas": {},
     "securitySchemes": {
-      "bearerAuth": {
+      "bearer": {
         "type": "http",
         "scheme": "bearer"
       }

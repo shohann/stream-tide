@@ -2271,12 +2271,13 @@
       }
     }
   },
-  "components": {
+"components": {
     "schemas": {},
     "securitySchemes": {
-      "bearer": {
-        "type": "https",
-        "scheme": "bearer"
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   },

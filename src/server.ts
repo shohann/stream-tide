@@ -1,6 +1,6 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import config from "./configs";
-import { Server } from "http";
+import { Server, createServer } from "http";
 import defineRoutes from "./app";
 import { errorHandler } from "./libraries/error-handling";
 import {
@@ -14,20 +14,30 @@ import EventManager from "./libraries/util/event-manager";
 import fs from "fs";
 import path from "path";
 import logger from "./libraries/log/logger";
+import { setupSocketEvents, sendNotification } from "./services/socketService";
+import { Server as SocketServer } from "socket.io";
 
 const uploadDir = path.join(__dirname, "../uploads");
 const eventEmitter = EventManager.getInstance();
+
+let connection: Server;
+let ioInstance: SocketServer;
 
 const setup = async () => {
   listenQueueEvent(NOTIFY_EVENTS.NOTIFY_VIDEO_HLS_CONVERTED);
 
   eventEmitter.on(NOTIFY_EVENTS.NOTIFY_VIDEO_HLS_CONVERTED, (data: any) => {
     console.log("NOTIFY_EVENTS.NOTIFY_VIDEO_HLS_CONVERTED Event handler", data);
-    // io.emit("hello", data);
+
+    const userId = data.userId.toString();
+
+    sendNotification(
+      ioInstance,
+      userId,
+      `Your video has been successfully transcoded`
+    );
   });
 };
-
-let connection: Server;
 
 const createExpressApp = (): Application => {
   const expressApp: Application = express();
@@ -38,19 +48,20 @@ const createExpressApp = (): Application => {
   expressApp.use(express.urlencoded({ extended: true }));
   expressApp.use("/uploads", express.static("uploads"));
   expressApp.use(requestLogger);
-
   logger.info("Express middlewares are set up");
 
   createUploadDirs(uploadDir);
   defineRoutes(expressApp);
   defineErrorHandlingMiddleware(expressApp);
+
   return expressApp;
 };
 
 async function startWebServer(): Promise<Application> {
   logger.info("Starting web server...");
 
-  await setup(); // Queue setup
+  // Queue setup
+  await setup();
 
   const expressApp = createExpressApp();
   const APIAddress = await openConnection(expressApp);
@@ -72,17 +83,38 @@ async function stopWebServer(): Promise<void> {
   });
 }
 
+function addSocketWithExpressApp(expressApp: Application): {
+  io: SocketServer;
+  server: Server;
+} {
+  const server = createServer(expressApp);
+  const io = new SocketServer(server, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"],
+    },
+  });
+  setupSocketEvents(io);
+
+  return {
+    io: io,
+    server: server,
+  };
+}
+
 async function openConnection(
   expressApp: Application
 ): Promise<{ address: string; port: number }> {
   return new Promise((resolve) => {
     const webServerPort = config.PORT;
-    // const webServerPort = 4000;
     logger.info(`Server is about to listen to port ${webServerPort}`);
 
-    connection = expressApp.listen(webServerPort, () => {
+    const { io, server } = addSocketWithExpressApp(expressApp);
+    ioInstance = io;
+
+    connection = server.listen(webServerPort, () => {
       errorHandler.listenToErrorEvents(connection);
-      resolve(connection.address() as { address: string; port: number });
+      resolve(server.address() as { address: string; port: number });
     });
   });
 }
@@ -99,7 +131,7 @@ function defineErrorHandlingMiddleware(expressApp: Application): void {
       }
 
       await errorHandler.handleError(error);
-      // res.status(error?.HTTPStatus || 500).end();
+
       res.status(error?.HTTPStatus || 500).json({
         message: error?.message ? error?.message : "Internal Server Error",
       });

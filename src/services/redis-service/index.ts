@@ -135,6 +135,33 @@ class RedisService {
   isReady(): boolean {
     return this.client.isReady;
   }
+
+  async sadd(key: string, ...members: string[]): Promise<number> {
+    try {
+      return await this.client.sAdd(key, members);
+    } catch (error) {
+      logger.error("Redis SADD error:", error);
+      throw error;
+    }
+  }
+
+  async srem(key: string, ...members: string[]): Promise<number> {
+    try {
+      return await this.client.sRem(key, members);
+    } catch (error) {
+      logger.error("Redis SREM error:", error);
+      throw error;
+    }
+  }
+
+  async smembers(key: string): Promise<string[]> {
+    try {
+      return await this.client.sMembers(key);
+    } catch (error) {
+      logger.error("Redis SMEMBERS error:", error);
+      throw error;
+    }
+  }
 }
 
 export const redisService = new RedisService();

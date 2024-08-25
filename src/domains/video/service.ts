@@ -159,6 +159,7 @@ export const createVideo = async (
   });
 
   await addQueueItem(QUEUE_EVENTS.VIDEO_UPLOADED, {
+    userId: data.ownerId, // added later
     hlsId: cloudFolderId,
     videoId: createdVideo.id,
     rawVideoURL,

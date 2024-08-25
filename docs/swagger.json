@@ -10,6 +10,8 @@
       "bearerAuth": []
     }
   ],
+
+
   "tags": [
     {
       "name": "Video"
@@ -2274,7 +2276,7 @@
 "components": {
     "schemas": {},
     "securitySchemes": {
-      "bearerAuth": {
+      "bearer": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"

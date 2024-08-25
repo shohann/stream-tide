@@ -34,8 +34,6 @@ function setupSocketEvents(io: SocketServer) {
     });
 
     socket.on("disconnect", async () => {
-      console.log("sjdshdu");
-
       try {
         const userId = await redisService.get(`socket:${socket.id}`);
         if (userId) {
@@ -79,8 +77,6 @@ async function sendNotification(
 ): Promise<void> {
   try {
     const socketIds = await redisService.smembers(`user:${userId}:sockets`);
-
-    console.log(socketIds);
 
     if (socketIds.length > 0) {
       socketIds.forEach((socketId) => {
